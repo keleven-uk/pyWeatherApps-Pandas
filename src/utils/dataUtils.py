@@ -23,6 +23,8 @@ import glob
 
 from src.console import console
 
+import src.projectPaths as pp
+
 ######################################################################################## loadExplorer() ######
 def loadExplorer(logger):
     """  Load program working directory into file explorer.
@@ -42,6 +44,8 @@ def logPrint(logger, verbose, message, style):
 
     if verbose:
         if style == "warning":
+            console.log(f"{message}", style="danger")
+        elif style == "danger":
             console.log(f"{message}", style="warning")
         else:
             console.log(f"{message}", style="info")
@@ -61,6 +65,26 @@ def listFiles(targetFiles, verbose):
 
     return(dataFiles)
 
+########################################################################################### checkPaths() #########
+def checkPaths(logger, verbose):
+    """  Checks the data directories exist, if not create them.
+    """
+    logPrint(logger, verbose, "Checking Paths", "info")
+
+    dataPath = pp.DATA_PATH
+    logPath  = pp.LOGGER_PATH
+
+    if dataPath.exists():
+        logPrint(logger, verbose, f"{dataPath} exists", "info")
+    else:
+        logPrint(logger, verbose, f"{dataPath} doesn't exists, will create", "warning")
+        dataPath.mkdir(parents=True)
+
+    if logPath.exists():
+        logPrint(logger, verbose, f"{logPath} exists", "info")
+    else:
+        logPrint(logger, verbose, f"{logPath} doesn't exists, will create", "warning")
+        logPath.mkdir(parents=True)
 
 
 

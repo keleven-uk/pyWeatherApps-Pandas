@@ -8,19 +8,19 @@ So, rewriting the project in Pandas - it looks simpler.
 
 To install dependencies pip -r requirements.txt
 
-usage: main.py [-h] [-l] [-v] [-e]
+usage: main.py [-h] [-l] [-v] [-e] [-c] [-cD] [-b]
 
 Builds a main data store out of individual weather data spreadsheets.
 
-    positional arguments:
-      infile
+options:
+  -h, --help          show this help message and exit
+  -l, --license       Print the Software License.
+  -v, --version       Print the version of the application.
+  -e, --explorer      Load program working directory into file explorer.
+  -c, --check         Check database integrity.
+  -cD, --checkDelete  Check database integrity and delete unwanted.
+  -b, --build         Build the data - consolidate the spreadsheets.
 
-    options:
-      -h, --help            show this help message and exit
-      -l, --license         Print the Software License.
-      -v, --version         Print the version of the application.
-      -e, --explorer        Load program working directory into file explorer.
-
-     Kevin Scott (C) 20245:: pyWeatherApp V2025.1
+ Kevin Scott (C) 2023 - 2024 :: pyWeatherApp V2025.2
 
 For changes see history.txt

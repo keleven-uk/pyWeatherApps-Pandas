@@ -48,13 +48,15 @@ def parseArgs(Config, logger):
         formatter_class=argparse.RawTextHelpFormatter,
         description=textwrap.dedent("""\
         Builds a main data store out of individual weather data spreadsheets.
-        The data store can be either an Excel spreadsheet or a SQLite3 database.
-        The type of data store is specified in config.toml."""),
-        epilog=f" Kevin Scott (C) 2023 - 2024 :: {Config.NAME} V{Config.VERSION}")
+        """),
+        epilog=f" Kevin Scott (C) 2025 :: {Config.NAME} V{Config.VERSION}")
 
-    parser.add_argument("-l",  "--license",    action="store_true", help="Print the Software License.")
-    parser.add_argument("-v",  "--version",    action="store_true", help="Print the version of the application.")
-    parser.add_argument("-e",  "--explorer",   action="store_true", help="Load program working directory into file explorer.")
+    parser.add_argument("-l",  "--license",     action="store_true", help="Print the Software License.")
+    parser.add_argument("-v",  "--version",     action="store_true", help="Print the version of the application.")
+    parser.add_argument("-e",  "--explorer",    action="store_true", help="Load program working directory into file explorer.")
+    parser.add_argument("-c", "--check",        action="store_true", help="Check database integrity.")
+    parser.add_argument("-cD", "--checkDelete", action="store_true", help="Check database integrity and delete unwanted.")
+    parser.add_argument("-b",  "--build",       action="store_true", help="Build the data - consolidate the spreadsheets.")
 
     args = parser.parse_args()
 
@@ -78,7 +80,13 @@ def parseArgs(Config, logger):
         print("Goodbye.")
         sys.exit(0)
 
+    checkDB = 0
+    if args.check:
+        checkDB = 1                    # Run data integrity check in test mode on library.
+    elif args.checkDelete:
+        checkDB = 2                    # Run data integrity check in delete mode on library.
 
+    return args.build, checkDB
 
 
 

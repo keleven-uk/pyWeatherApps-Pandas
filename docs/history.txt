@@ -27,4 +27,9 @@ V2025.1     [11 January 2025]
 
     Basic framework completed.
     Most of the original project deleted.
-    The app now scan the data directory for new files and produces a list of these to be processed.
+    The app now scan the data directory for new files and produces a list of those to be processed.
+
+V2025.2     [13 January 2025]
+
+    Completed the work on the data file retrieval system.
+    The data files are added to the store and then a check is made for files to be processed.

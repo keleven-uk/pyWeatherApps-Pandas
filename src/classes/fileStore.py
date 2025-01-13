@@ -27,7 +27,6 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import os
 import pickle
 
 import src.timer as timer
@@ -35,26 +34,24 @@ import src.Exceptions as myExceptions
 
 
 class FileStore():
-    """  A simple class that wraps the library dictionary.
+    """  A simple class that wraps the file store dictionary.
 
          usage:
-         songLibrary = myLibrary.Library(name, format)
-            name = name of datebase
-            format = format used to save database = either pickle or json.
+         self.fStore = fs.FileStore(path)
+            path = path to location of the filestore
 
-         to add an item              - songLibrary.addItem(key, musicFile, musicDuration) - Data specific.
-         to retrieve an item         - songFile, songDuration, songDuplicate = songLibrary.getItem(key) - Data specific.
-         to test for key             - if songLibrary.hasKey(key):
-         to return number of items   - l = songLibrary.noOfItems()
-         to test database integrity  - songLibrary.check("test") - Data specific.
-         to prune database           - songLibrary.check("delete")
-         to load items               - songLibrary.load()
-         to save items               - songLibrary.save()
+         to add an item              - self.fStore.addItem(key) - Data specific.
+         to retrieve an item         - filedata = self.fStore.getItem(key) - Data specific.
+         to test for key             - if self.fStore.hasKey(key):
+         to return number of items   - l = self.fStore.noOfItems()
+         to test database integrity  - self.fStore.check("test") - Data specific.
+         to prune database           - self.fStore.check("delete")
+         to load items               - self.fStore.load()
+         to save items               - self.fStore.save()
+         to return a list of keys    = self.fStore.storeFiles()
 
          TODO - possibly needs error checking [some done, some to go].
     """
-
-    #__slots__ = ["library", "timer", "filename", "format", "__overWrite"]
 
     def __init__(self, dataPath):
         self.dataPath    = dataPath
@@ -70,35 +67,37 @@ class FileStore():
         """
         dataFiles = self.dataPath.rglob("*.xlsx")
         newFiles  = 0
-        filePaths = []
 
         for file in dataFiles:
             if not self.hasKey(file):
-                self.addItem(file, False)
+                self.addItem(file)
                 newFiles += 1
-                filePaths.append(file)
 
-        return (newFiles, filePaths)
+        return newFiles
     #---------------------------------------------------------------------------------------------- hasKey(self, key) -----------------------
     def hasKey(self, key):
         """  Returns true if the key exist in the fileStore.
         """
         return key in self.fileStore
-    #---------------------------------------------------------------------------------------------- addItem(self, key, item1 -----------------
-    def addItem(self, key, item1):
+    #---------------------------------------------------------------------------------------------- addItem(self, key, item1) -----------------
+    def addItem(self, key):
         """  Adds to the fileStore, the key is a path.
              item1 is set to False, this indicates is has been added but not processed.
+             item2 is set to the month of the file.
+             item3 is set to the year of the file.
         """
-        self.fileStore[key] = [item1]
-
+        month = key.parts[8]
+        year  = key.parts[7]
+        self.fileStore[key] = [False, month, year]
+    #---------------------------------------------------------------------------------------------- getItem(self, key) -----------------
     def getItem(self, key):
-        """  Returns items at position key from the library.
+        """  Returns items at position key from the fileStore.
         """
         if self.hasKey(key):
-            return self.library[key]
+            return self.fileStore[key]
         else:
             raise myExceptions.LibraryError
-
+    #---------------------------------------------------------------------------------------------- getItem(self, key) -----------------
     def delItem(self, key):
         """  Deletes item at position key from the library.
         """
@@ -106,7 +105,12 @@ class FileStore():
             del self.library[key]
         except (KeyError):
             raise myExceptions.LibraryError from None
-
+    #---------------------------------------------------------------------------------------------- storeFiles(self) -----------------
+    def storeFiles(self):
+        """  Returns a list of the fileStore keys i.e. a list of the files in the store.
+        """
+        return self.fileStore.keys()
+    #---------------------------------------------------------------------------------------------- noOfItems(self) -----------------
     @property
     def noOfItems(self):
         """  Return the number of entries in the fileStore
@@ -114,16 +118,15 @@ class FileStore():
         if not self.fileStore:
             self.load()
         return len(self.fileStore)
-
     #---------------------------------------------------------------------------------------------- save(self) -----------------------
     def save(self):
-        """  Save the fileStore in pickle format.
+        """  Save the fileStore in pickle format - pickle format.
         """
         with open(self.fileName, "wb") as pickle_file:
             pickle.dump(self.fileStore, pickle_file)
     #---------------------------------------------------------------------------------------------- __load(self) -----------------------
     def __load(self):
-        """  Loads the fileStore from disc.
+        """  Loads the fileStore from disc - pickle format.
         """
         try:
             with open(self.fileName, "rb") as pickle_file:
@@ -131,14 +134,7 @@ class FileStore():
         except FileNotFoundError:
             print(f"ERROR :: Cannot find library file. {self.fileName}.  Will use an empty library")
             self.fileStore = {}
-
-
-
-    def clear(self):
-        """  Clears the library.
-        """
-        self.library.clear()
-
+    #-------------------------------------------------------------------------------- check(self, mode, logger=None) -----------------------
     def check(self, mode, logger=None):
         """  Runs a database data integrity check.
 
@@ -151,44 +147,43 @@ class FileStore():
         if logger:
             logger.info("-" * 100)
 
-        self.displayMessage(f"Running database integrity check on {self.filename} in {mode} mode", logger)
-        self.displayMessage(f"Loading {self.filename}", logger)
+        self.displayMessage(f"Running database integrity check on {self.fileName} in {mode} mode", logger)
+        self.displayMessage(f"Loading {self.fileName}", logger)
 
-        if not self.library:
+        if not self.fileStore:
             try:
                 self.load()
             except FileNotFoundError:
                 raise myExceptions.LibraryError from None
 
-        no_songs = self.noOfItems
-        self.displayMessage(f"Song Library has {no_songs} songs", logger)
+        no_files = self.noOfItems
+        self.displayMessage(f"Song Library has {no_files} files", logger)
 
-        for song in self.library.copy():  # iterate over a copy, gets around the error dictionary changed size during iteration
-            path, duration, ignore = self.getItem(song)
-            if not os.path.isfile(path):
+        for filePath in self.fileStore.copy():  # iterate over a copy, gets around the error dictionary changed size during iteration
+            path, month, year = self.getItem(filePath)
+            if not filePath.exists():
                 if mode == "delete":
-                    self.delItem(song)
-                    print(f"Deleting {path}")
+                    self.delItem(filePath)
+                    print(f"Deleting {filePath}")
                     removed += 1
                 else:
                     missing += 1
-                    print(f"Song does not exist {path}")
+                    print(f"File does not exist {filePath}")
 
         timeStop = self.timer.Stop      #  Stop timer.
 
         if removed:
-            self.displayMessage(f"Saving {self.filename}", logger)
+            self.displayMessage(f"Saving {self.fileName}", logger)
             self.save()
             self.displayMessage(f"Completed  :: {timeStop} and removed {removed} entries from database.", logger)
             no_songs = self.noOfItems
-            self.displayMessage(f"Song Library has now {no_songs} songs", logger)
+            self.displayMessage(f"File Store has now {no_songs} files", logger)
         else:
             if missing:
-                self.displayMessage(f"Completed  :: {timeStop} and found {missing} missing songs.", logger)
+                self.displayMessage(f"Completed  :: {timeStop} and found {missing} missing files.", logger)
             else:
                 self.displayMessage(f"Completed  :: {timeStop} and database looks good.", logger)
-
-    # -------------
+    #--------------------------------------------------------------------------- displayMessage(self, message, logger=None) -----------------------
     def displayMessage(self, message, logger=None):
         """   Display the message to screen and pass to logger if required.
               If a logger is passed in, then use it - else ignore.

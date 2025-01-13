@@ -35,9 +35,9 @@ from rich.prompt  import Confirm
 
 #  Bold only seems to work, not underline or blink etc.
 custom_theme = Theme({
-    "info": "dim cyan",
+    "info"   : "dim cyan",
     "warning": "magenta",
-    "danger": "bold red underline"
+    "danger" : "bold red underline"
 })
 
 Table = Table(title=" Weather Records for")
