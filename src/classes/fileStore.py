@@ -30,6 +30,7 @@
 import pickle
 
 import src.timer as timer
+import src.projectPaths as pp
 import src.Exceptions as myExceptions
 
 
@@ -53,9 +54,8 @@ class FileStore():
          TODO - possibly needs error checking [some done, some to go].
     """
 
-    def __init__(self, dataPath):
-        self.dataPath    = dataPath
-        self.fileName    = dataPath / "fileStore.pickle"
+    def __init__(self):
+        self.fileName    = pp.DATA_PATH / "fileStore.pickle"
         self.timer       = timer.Timer()                #  A timer class.
 
         self.__load()
@@ -65,7 +65,7 @@ class FileStore():
         """  Produce a list of weather data files in the data directory.
              Returns the number of the new files and a list of their file paths.
         """
-        dataFiles = self.dataPath.rglob("*.xlsx")
+        dataFiles = pp.DATA_PATH.rglob("*.xlsx")
         newFiles  = 0
 
         for file in dataFiles:
@@ -95,6 +95,14 @@ class FileStore():
         """
         if self.hasKey(key):
             return self.fileStore[key]
+        else:
+            raise myExceptions.LibraryError
+    #---------------------------------------------------------------------------------------------- getItem(self, key) -----------------
+    def setProcessed(self, key):
+        """  Mark item as processed.
+        """
+        if self.hasKey(key):
+            self.fileStore[key][0] = True
         else:
             raise myExceptions.LibraryError
     #---------------------------------------------------------------------------------------------- getItem(self, key) -----------------
@@ -157,7 +165,7 @@ class FileStore():
                 raise myExceptions.LibraryError from None
 
         no_files = self.noOfItems
-        self.displayMessage(f"Song Library has {no_files} files", logger)
+        self.displayMessage(f"File Store has {no_files} files", logger)
 
         for filePath in self.fileStore.copy():  # iterate over a copy, gets around the error dictionary changed size during iteration
             path, month, year = self.getItem(filePath)

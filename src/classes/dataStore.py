@@ -38,10 +38,11 @@ class dataStore():
     """
 
     def __init__(self, logger):
-        self.fStore = fs.FileStore(pp.DATA_PATH)            #  Create the file store.
-        self.logger = logger
+        self.fStore    = fs.FileStore()            #  Create the file store.
+        self.logger    = logger
+        self.storeName = pp.DATA_PATH / "dataStore.pickle"
 
-
+        self.__load()
     #-------------------------------------------------------------------------------- buildData(self) ---------------------------
     def buildData(self):
         """  Calls the fileStore to scan for any new data file.
@@ -54,12 +55,17 @@ class dataStore():
         else:
             utils.logPrint(self.logger, True, " No new data files found.", "info")
 
-        self.fStore.save()
-
         newData = self.__anyNewData()
         if newData > 0:
             utils.logPrint(self.logger, True, f" There are {newData} new data files to process", "info")
             self.__processData()
+        else:
+            utils.logPrint(self.logger, True, " No files to Process.", "info")
+
+        utils.logPrint(self.logger, True, " Saving the file store.", "info")
+        self.fStore.save()
+        utils.logPrint(self.logger, True, " Saving the data store.", "info")
+        self.dfData.to_pickle(self.storeName)
     #-------------------------------------------------------------------------------- checkData(self, checkDB) ------------------
     def checkData(self, checkDB):
         """  Preforms an integrity check on the fileStore.
@@ -91,8 +97,8 @@ class dataStore():
         currentMonth = ""
         CurrentYear  = ""
 
-        for file in self.fStore.storeFiles():
-            fileData = self.fStore.getItem(file)
+        for fileName in self.fStore.storeFiles():
+            fileData = self.fStore.getItem(fileName)
             if not fileData[0]:
                 month = fileData[1]
                 year  = fileData[2]
@@ -103,8 +109,23 @@ class dataStore():
                     currentMonth = month
                     utils.logPrint(self.logger, True, f" Processing new data files for {currentMonth} {CurrentYear}", "info")
 
+                data = pd.read_excel(fileName, skiprows=[0], index_col=0, na_values=[0.0], names=pp.columnHeaders)
 
+                data_numeric = data.apply(pd.to_numeric, errors = "coerce")                     #  This forces all entries to be of type float,
+                                                                                                #  all errors will be set to NaN.
+                isAllNumeric = not data_numeric.isnull().values.any()                           #  Check if not now all numeric.
+                if isAllNumeric:
+                    print(f"Not all numeric {fileName}")
 
+                self.dfData = self.dfData._append(data_numeric)
+
+                self.fStore.setProcessed(fileName)                                              #  Mark files as processed.
+    #-------------------------------------------------------------------------------- __processData(self, fileList) ------------
+    def __load(self):
+        try:
+            self.dfData = pd.read_pickle(self.storeName)                #  Load data store, if it exists.
+        except FileNotFoundError:
+            self.dfData = pd.DataFrame()                                #  Create the data Pandas Dataframe.
 
 
 

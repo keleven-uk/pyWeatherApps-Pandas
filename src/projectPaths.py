@@ -42,8 +42,6 @@ MAIN_PATH        = pathlib.Path(__file__).parent.parent
 #  Some of the paths needs to be the working directory.
 #  Except the log files, these will be somewhere like C:\Users\kevin\AppData\Local\Keleven\pyKlock\Logs
 
-
-
 if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
     CONFIG_PATH   = USER_DATA_DIR / "config.toml"
     LOGGER_PATH   = USER_LOG_DIR  / "pyWeatherApp.log"
@@ -63,3 +61,7 @@ else:
     HELP_PATH     = MAIN_PATH / "help"
     DATA_PATH     = MAIN_PATH / "data"
 
+columnHeaders = ["Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity",
+                 "Indoor Temperature", "Indoor Humidity", "Solar", "UVI", "Rain Rate", "Rain Daily",
+                 "Rain Event", "Rain Hourly", "Rain Weekly", "Rain Monthly", "Rain Yearly",
+                 "Wind Speed", "Wind Gust", "Wind Direction", "Pressure Relative", "Pressure Absolute"]

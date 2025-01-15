@@ -23,13 +23,23 @@ The project was originally written in SQL, this has got complex to my simple min
 So, rewriting the project in Pandas - it looks simpler [we shall soon see].
 
 
+V2025.3     [15 January 2025]
+
+    Completed the work on the data processing system.
+    The weather data is held in a excel spreadsheet, each one is loaded into a Pandas dataFrame.
+    All the data is held in one dataFrame at the moment.
+    When each file is processed is marked as thus in the File Store.
+
+
+V2025.2     [13 January 2025]
+
+    Completed the work on the data file retrieval system.
+    The data files are added to the File Store and then a check is made for files to be processed.
+
+
 V2025.1     [11 January 2025]
 
     Basic framework completed.
     Most of the original project deleted.
     The app now scan the data directory for new files and produces a list of those to be processed.
 
-V2025.2     [13 January 2025]
-
-    Completed the work on the data file retrieval system.
-    The data files are added to the store and then a check is made for files to be processed.
