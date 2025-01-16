@@ -18,6 +18,10 @@
 ###############################################################################################################
 
 import pandas as pd
+import calendar
+
+from datetime import datetime
+
 import src.projectPaths as pp
 import src.classes.allTimeRecords as atr
 
@@ -33,12 +37,18 @@ class Reports():
         rep = atr.AllTimeRecords()
 
         for column in pp.columnHeaders:
-            self.reportValues[f"{column}_max"] = (self.dfData[column].max(), self.dfData[column].idxmax())
-            self.reportValues[f"{column}_min"] = (self.dfData[column].min(), self.dfData[column].idxmin())
+
+            if column in ["Rain Yearly"]:
+                continue
+
+            maxDate = self.__convertDate(self.dfData[column].idxmax(), column)
+            minDate = self.__convertDate(self.dfData[column].idxmin(), column)
+            self.reportValues[f"{column}_max"] = (self.dfData[column].max(), maxDate)
+            self.reportValues[f"{column}_min"] = (self.dfData[column].min(), minDate)
 
         rep.show(self.reportValues)
 
-    #-------------------------------------------------------------------------------- __load(self) ------------
+    #-------------------------------------------------------------------------------- __load(self) ---------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.
         """
@@ -46,3 +56,20 @@ class Reports():
             self.dfData = pd.read_pickle(self.DataStoreName)            #  Load data store, if it exists.
         except FileNotFoundError:
             self.dfData = pd.DataFrame()                                #  Create the data Pandas Dataframe.
+    #-------------------------------------------------------------------------------- __convertDate(self, strDate) ------------
+    def __convertDate(self, strDate, column):
+        dateFormat = "%Y-%m-%d %H:%M"
+        dateObj    = datetime.strptime(strDate, dateFormat)
+
+        match column:
+            case "Rain Monthly":
+                month = dateObj.month
+                year  = dateObj.year
+                newDate = f"{calendar.month_name[month]} {year}"
+            case "Rain Weekly":
+                newDate = dateObj.strftime("%d-%m-%Y")
+            case _:
+                newDate = dateObj.strftime("%d-%m-%Y, %H:%M")
+
+        return newDate
+

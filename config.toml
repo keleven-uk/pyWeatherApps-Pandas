@@ -1,11 +1,15 @@
-#   Configure files for pyWeatherApps.py
+#   Configure files for pyWeather.py
 #
 #   true and false are lower case
 #
 #   <2025> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2025.4"
+myVERSION = "2025.5"
 myNAME    = "pyWeatherApp"
+
+[DATA]
+year     = "2025"
+month    = "January"
 
 

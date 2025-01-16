@@ -27,6 +27,12 @@ NB : The program is run from the command line and display it's results there.
 
 V2025.4     [16 January 2025]
 
+    Format values correctly and add imperial equivalents to report, if appropriate.
+    Formatted the date to a more UK format.
+
+
+V2025.4     [16 January 2025]
+
     Completed the first of the reports - All Time Records.
         This displays a table of the maximum and minimum values of all time.
 

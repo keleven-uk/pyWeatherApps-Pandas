@@ -70,6 +70,16 @@ class Config():
         """
         return self.config["INFO"]["myVERSION"]
 
+    @property
+    def MONTH(self):
+        month = self.config["DATA"]["month"]
+        return f"{month}"
+
+    @property
+    def YEAR(self):
+        data_dir = self.config["DATA"]["year"]
+        return f"{data_dir}"
+
 
     def _writeDefaultConfig(self):
         """ Write a default configure file.
@@ -77,9 +87,11 @@ class Config():
         """
         config = dict()
 
-        config["INFO"]    = {"myVERSION" : "2025.1",
-                             "myNAME"    : "pyWeatherApp"}
+        config["INFO"]    = {"myVERSION" : "2025.5",
+                             "myNAME"    : "pyWeather"}
 
+        config["DATA"]    = {"month"     : "January",
+                             "year"      : "2025"}
 
         st_toml = toml.dumps(config)
 

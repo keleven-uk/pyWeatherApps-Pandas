@@ -70,22 +70,21 @@ class Records:
             amount   = data[0]
 
             #  Format values correctly and add imperial equivalents, if appropriate.
-            #  Also correct spelling mistakes.
             match category:
                 case category if "Temperature" in category:
-                    value  = f"{amount:.2f}C"
+                    value  = f"{amount:.2f}\N{DEGREE SIGN}C"
                 case category if "Dew Point" in category:
-                    value  = f"{amount}C"
+                    value  = f"{amount}\N{DEGREE SIGN}C"
                 case category if "Feels Like" in category:
-                    value  = f"{amount}C"
+                    value  = f"{amount}\N{DEGREE SIGN}C"
                 case category if category.startswith("Rain"):
-                    value  = f"{amount}mm ({amount*0.0393701:.2f}in)"
+                    value  = f"{amount:4.0f}mm ({amount*0.0393701:4.2f}in)"
                 case category if category.startswith("Wind"):
-                    value  = f"{amount}km/h ({amount*0.6213715277778:.2f}mph)"
+                    value  = f"{amount} km/h ({amount*0.6213715277778:.2f}mph)"
                 case category if category.startswith("Solar"):
-                    value  = f"{amount}Klux"
-                case category if category.startswith("Pressue"):
-                    value  = f"{amount}hPa"
+                    value  = f"{amount} Klux"
+                case category if category.startswith("Pressure"):
+                    value  = f"{amount:4.0f} hPa"
                 case category if "Humidity" in category:
                     value  = f"{amount}%"
                 case _:
@@ -94,7 +93,7 @@ class Records:
             #  Add horizontal lines to the table to split the categories
             match category:
                 case "DayTimeTemperature_min" | "Outdoor Humidity_min" | "Indoor Humidity_min"| "UVI_max" |\
-                     "Rain Yearly_max" | "Wind Gust_max":
+                     "Rain Monthly_max" | "Wind Gust_max":
                     Table.add_row(f"{category}", f"{date}", f"{value}", end_section=True)
                 case _:
                     Table.add_row(f"{category}", f"{date}", f"{value}")
