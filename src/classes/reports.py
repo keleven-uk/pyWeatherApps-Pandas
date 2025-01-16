@@ -1,7 +1,5 @@
 ###############################################################################################################
-#    history.txt   Copyright (C) <2025>  <Kevin Scott>                                                        #
-#                                                                                                             #
-#    History file for pyWeatherApps                                                                           #
+#    reports.py   Copyright (C) <2025>  <Kevin Scott>                                                         #
 #                                                                                                             #
 #                                                                                                             #
 ###############################################################################################################
@@ -19,35 +17,32 @@
 #                                                                                                             #
 ###############################################################################################################
 
-The project was originally written in SQL, this has got complex to my simple mind.
-So, rewriting the project in Pandas - it looks simpler [we shall soon see].
+import pandas as pd
+import src.projectPaths as pp
+import src.classes.allTimeRecords as atr
 
-NB : The program is run from the command line and display it's results there.
+class Reports():
 
+    def __init__(self):
+        self.DataStoreName = pp.DATA_PATH / "dataStore.pickle"
+        self.reportValues  = {}
+        self.__load()
 
-V2025.4     [16 January 2025]
+    def allTimeReport(self):
 
-    Completed the first of the reports - All Time Records.
-        This displays a table of the maximum and minimum values of all time.
+        rep = atr.AllTimeRecords()
 
+        for column in pp.columnHeaders:
+            self.reportValues[f"{column}_max"] = (self.dfData[column].max(), self.dfData[column].idxmax())
+            self.reportValues[f"{column}_min"] = (self.dfData[column].min(), self.dfData[column].idxmin())
 
-V2025.3     [15 January 2025]
+        rep.show(self.reportValues)
 
-    Completed the work on the data processing system.
-    The weather data is held in a excel spreadsheet, each one is loaded into a Pandas dataFrame.
-    All the data is held in one dataFrame at the moment.
-    When each file is processed is marked as thus in the File Store.
-
-
-V2025.2     [13 January 2025]
-
-    Completed the work on the data file retrieval system.
-    The data files are added to the File Store and then a check is made for files to be processed.
-
-
-V2025.1     [11 January 2025]
-
-    Basic framework completed.
-    Most of the original project deleted.
-    The app now scan the data directory for new files and produces a list of those to be processed.
-
+    #-------------------------------------------------------------------------------- __load(self) ------------
+    def __load(self):
+        """  Attempt to load the data store, if not create a new empty one.
+        """
+        try:
+            self.dfData = pd.read_pickle(self.DataStoreName)            #  Load data store, if it exists.
+        except FileNotFoundError:
+            self.dfData = pd.DataFrame()                                #  Create the data Pandas Dataframe.

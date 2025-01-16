@@ -34,6 +34,7 @@ import src.license as License
 import src.projectPaths as pp
 
 import src.classes.dataStore as ds
+import src.classes.reports as rep
 
 import src.utils.dataUtils as utils
 
@@ -49,7 +50,7 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    build, checkDB = args.parseArgs(Config, logger)
+    build, checkDB,  Areport = args.parseArgs(Config, logger)
 
     utils.logPrint(logger, False, "-" * 100, "info")
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
@@ -58,11 +59,14 @@ if __name__ == "__main__":
     timer.Start()
 
     dataStore = ds.dataStore(logger)
+    reports   = rep.Reports()
 
     if checkDB:
         dataStore.checkData(checkDB)
     elif build:
         dataStore.buildData()
+    elif Areport:
+        reports.allTimeReport()
     else:
         utils.logPrint(logger, True, f"No arguments, please run {Config.NAME} -h", "danger")
 

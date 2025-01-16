@@ -1,10 +1,10 @@
 ###############################################################################################################
-#    history.txt   Copyright (C) <2025>  <Kevin Scott>                                                        #
+#    allTimeRecords.py    Copyright (C) <2025>  <Kevin Scott>                                                 #
 #                                                                                                             #
-#    History file for pyWeatherApps                                                                           #
-#                                                                                                             #
+#    A class to hold the all time weather records.                                                            #
 #                                                                                                             #
 ###############################################################################################################
+#    Copyright (C) <2023>  <Kevin Scott>                                                                      #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -19,35 +19,31 @@
 #                                                                                                             #
 ###############################################################################################################
 
-The project was originally written in SQL, this has got complex to my simple mind.
-So, rewriting the project in Pandas - it looks simpler [we shall soon see].
-
-NB : The program is run from the command line and display it's results there.
+from src.classes.records import Records
 
 
-V2025.4     [16 January 2025]
+class AllTimeRecords(Records):
+    """  A class to display the all time weather records.
 
-    Completed the first of the reports - All Time Records.
-        This displays a table of the maximum and minimum values of all time.
+         All values should be numeric when passed in.
 
+         Inherits from src.classes.records
+    """
 
-V2025.3     [15 January 2025]
-
-    Completed the work on the data processing system.
-    The weather data is held in a excel spreadsheet, each one is loaded into a Pandas dataFrame.
-    All the data is held in one dataFrame at the moment.
-    When each file is processed is marked as thus in the File Store.
-
-
-V2025.2     [13 January 2025]
-
-    Completed the work on the data file retrieval system.
-    The data files are added to the File Store and then a check is made for files to be processed.
+    def __init__(self):
+        """  Set up class.
+        """
+        super().__init__()
 
 
-V2025.1     [11 January 2025]
+    def show(self, reportValues, month=0, year=0):
+        """  Prints to screen the contains of the records in a pretty table.
 
-    Basic framework completed.
-    Most of the original project deleted.
-    The app now scan the data directory for new files and produces a list of those to be processed.
+             Overrides the same method in the parent class.
 
+             reportValues - should hold a directory containing the data to display.
+                The key should be the column header and data the value, date.
+
+             Supplies the custom title.
+        """
+        super().show(" All Time Weather Records", reportValues)

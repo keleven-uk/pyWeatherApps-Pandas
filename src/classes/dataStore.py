@@ -120,8 +120,10 @@ class dataStore():
                 self.dfData = self.dfData._append(data_numeric)
 
                 self.fStore.setProcessed(fileName)                                              #  Mark files as processed.
-    #-------------------------------------------------------------------------------- __processData(self, fileList) ------------
+    #-------------------------------------------------------------------------------- __load(self) ------------
     def __load(self):
+        """  Attempt to load the data store, if not create a new empty one.
+        """
         try:
             self.dfData = pd.read_pickle(self.storeName)                #  Load data store, if it exists.
         except FileNotFoundError:
