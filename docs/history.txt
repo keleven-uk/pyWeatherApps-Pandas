@@ -25,7 +25,14 @@ So, rewriting the project in Pandas - it looks simpler [we shall soon see].
 NB : The program is run from the command line and display it's results there.
 
 
-V2025.4     [16 January 2025]
+V2025.6     [16 January 2025]
+
+    Added another command line argument --Zap.
+        This clears both file and data stores [deletes the pickle files].
+        This allows the file and data store to be re-built from scratch.
+
+
+V2025.5     [16 January 2025]
 
     Format values correctly and add imperial equivalents to report, if appropriate.
     Formatted the date to a more UK format.

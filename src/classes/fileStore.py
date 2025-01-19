@@ -32,7 +32,7 @@ import pickle
 import src.timer as timer
 import src.projectPaths as pp
 import src.Exceptions as myExceptions
-
+import src.utils.dataUtils as utils
 
 class FileStore():
     """  A simple class that wraps the file store dictionary.
@@ -54,9 +54,10 @@ class FileStore():
          TODO - possibly needs error checking [some done, some to go].
     """
 
-    def __init__(self):
-        self.fileName    = pp.DATA_PATH / "fileStore.pickle"
-        self.timer       = timer.Timer()                #  A timer class.
+    def __init__(self, logger):
+        self.fileName = pp.DATA_PATH / "fileStore.pickle"
+        self.logger   = logger
+        self.timer    = timer.Timer()                #  A timer class.
 
         self.__load()
 
@@ -140,7 +141,7 @@ class FileStore():
             with open(self.fileName, "rb") as pickle_file:
                 self.fileStore = pickle.load(pickle_file)
         except FileNotFoundError:
-            print(f"ERROR :: Cannot find library file. {self.fileName}.  Will use an empty library")
+            utils.logPrint(self.logger, True, f"ERROR :: Cannot find library file. {self.fileName}.  Will use an empty library", "info")
             self.fileStore = {}
     #-------------------------------------------------------------------------------- check(self, mode, logger=None) -----------------------
     def check(self, mode, logger=None):
@@ -155,8 +156,8 @@ class FileStore():
         if logger:
             logger.info("-" * 100)
 
-        self.displayMessage(f"Running database integrity check on {self.fileName} in {mode} mode", logger)
-        self.displayMessage(f"Loading {self.fileName}", logger)
+        utils.logPrint(self.logger, True, f"Running database integrity check on {self.fileName} in {mode} mode", "info")
+        utils.logPrint(self.logger, True, f"Loading {self.fileName}", "info")
 
         if not self.fileStore:
             try:
@@ -165,7 +166,7 @@ class FileStore():
                 raise myExceptions.LibraryError from None
 
         no_files = self.noOfItems
-        self.displayMessage(f"File Store has {no_files} files", logger)
+        utils.logPrint(self.logger, True, f"File Store has {no_files} files", "info")
 
         for filePath in self.fileStore.copy():  # iterate over a copy, gets around the error dictionary changed size during iteration
             path, month, year = self.getItem(filePath)
@@ -181,24 +182,24 @@ class FileStore():
         timeStop = self.timer.Stop      #  Stop timer.
 
         if removed:
-            self.displayMessage(f"Saving {self.fileName}", logger)
+            utils.logPrint(self.logger, True, f"Saving {self.fileName}", "info")
             self.save()
-            self.displayMessage(f"Completed  :: {timeStop} and removed {removed} entries from database.", logger)
+            utils.logPrint(self.logger, True, f"Completed  :: {timeStop} and removed {removed} entries from database.", "info")
             no_songs = self.noOfItems
-            self.displayMessage(f"File Store has now {no_songs} files", logger)
+            utils.logPrint(self.logger, True, f"File Store has now {no_songs} files", "info")
         else:
             if missing:
-                self.displayMessage(f"Completed  :: {timeStop} and found {missing} missing files.", logger)
+                utils.logPrint(self.logger, True, f"Completed  :: {timeStop} and found {missing} missing files.", "info")
             else:
-                self.displayMessage(f"Completed  :: {timeStop} and database looks good.", logger)
-    #--------------------------------------------------------------------------- displayMessage(self, message, logger=None) -----------------------
-    def displayMessage(self, message, logger=None):
-        """   Display the message to screen and pass to logger if required.
-              If a logger is passed in, then use it - else ignore.
-        """
-        print(message)
-        if logger:
-            logger.info(message)
+                utils.logPrint(self.logger, True, f"Completed  :: {timeStop} and database looks good.", "info")
+    #-------------------------------------------------------------------------------- zap(self) ------------
+    def zap(self):
+            utils.logPrint(self.logger, True, f" Deleting File Store {self.fileName}", "info")
+
+            try:
+                self.fileName.unlink()
+            except FileNotFoundError:
+                utils.logPrint(self.logger, True, f" Error deleting {self.fileName}", "warning")
 
 
 

@@ -8,11 +8,17 @@ So, rewriting the project in Pandas - it looks simpler.
 
 To install dependencies pip -r requirements.txt
 
-`usage: main.py [-h] [-l] [-v] [-e] [-c] [-cD] [-b] [-A]`
+```
+┌────────────────────────────────── pyWeatherApp 2025.6 ──────────────────────────────────┐
+│ This program comes with ABSOLUTELY NO WARRANTY; for details type `pyWeatherApp -l'.     │
+│ This is free software, and you are welcome to redistribute it under certain conditions. │
+└──────────────────────────── Copyright (C) 2025  Kevin Scott ────────────────────────────┘
 
-`Builds a main data store out of individual weather data spreadsheets.`
+usage: main.py [-h] [-l] [-v] [-e] [-c] [-cD] [-b] [-A] [-Z]
 
-`options:
+Builds a main data store out of individual weather data spreadsheets.
+
+options:
   -h, --help          show this help message and exit
   -l, --license       Print the Software License.
   -v, --version       Print the version of the application.
@@ -20,8 +26,10 @@ To install dependencies pip -r requirements.txt
   -c, --check         Check database integrity.
   -cD, --checkDelete  Check database integrity and delete unwanted.
   -b, --build         Build the data - consolidate the spreadsheets.
-  -A, --Areport       Report on the data - finds the all time highs and lows.`
+  -A, --Areport       Report on the data - finds the all time highs and lows.
+  -Z, --Zap           Delete [Zap] both data and file stores.
 
-` Kevin Scott (C) 2025 :: pyWeatherApp V2025.4`
+ Kevin Scott (C) 2025 :: pyWeatherApp V2025.6
+```
 
 For changes see history.txt

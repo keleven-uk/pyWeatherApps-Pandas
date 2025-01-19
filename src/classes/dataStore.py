@@ -17,10 +17,11 @@
 #                                                                                                             #
 ###############################################################################################################
 
+import pymsgbox
+
 import pandas as pd
 import src.projectPaths as pp
 import src.classes.fileStore as fs
-
 import src.utils.dataUtils as utils
 
 
@@ -38,8 +39,8 @@ class dataStore():
     """
 
     def __init__(self, logger):
-        self.fStore    = fs.FileStore()            #  Create the file store.
         self.logger    = logger
+        self.fStore    = fs.FileStore(self.logger)            #  Create the file store.
         self.storeName = pp.DATA_PATH / "dataStore.pickle"
 
         self.__load()
@@ -128,6 +129,20 @@ class dataStore():
             self.dfData = pd.read_pickle(self.storeName)                #  Load data store, if it exists.
         except FileNotFoundError:
             self.dfData = pd.DataFrame()                                #  Create the data Pandas Dataframe.
+    #-------------------------------------------------------------------------------- zap(self) ------------
+    def zap(self):
+        responce = pymsgbox.confirm(text="""Are you sure you want to clear the Data and File stores \
+                                            You will need to build again.""", title="Warning", buttons=["OK", "Cancel"])
+        print(responce)
+        if responce == "OK":
+            utils.logPrint(self.logger, True, f" Deleting Data Store : {self.storeName}", "info")
+
+            try:
+                self.storeName.unlink()
+            except FileNotFoundError:
+                utils.logPrint(self.logger, True, f" Error deleting {self.storeName}", "warning")
+
+            self.fStore.zap()
 
 
 

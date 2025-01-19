@@ -5,7 +5,7 @@
 #   <2025> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2025.5"
+myVERSION = "2025.6"
 myNAME    = "pyWeatherApp"
 
 [DATA]
