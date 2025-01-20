@@ -29,7 +29,7 @@ options:
   -A, --Areport       Report on the data - finds the all time highs and lows.
   -Z, --Zap           Delete [Zap] both data and file stores.
 
- Kevin Scott (C) 2025 :: pyWeatherApp V2025.6
+ Kevin Scott (C) 2025 :: pyWeatherApp V2025.7
 ```
 
 For changes see history.txt

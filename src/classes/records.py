@@ -66,8 +66,8 @@ class Records:
 
             data     = reportValues[key]
             category = key
-            date     = data[1]
-            amount   = data[0]
+            date     = data[0]
+            amount   = data[1]
 
             #  Format values correctly and add imperial equivalents, if appropriate.
             match category:

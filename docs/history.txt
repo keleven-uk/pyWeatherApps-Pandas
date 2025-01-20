@@ -25,6 +25,15 @@ So, rewriting the project in Pandas - it looks simpler [we shall soon see].
 NB : The program is run from the command line and display it's results there.
 
 
+V2025.7     [20 January 2025]
+
+    There was problem with the index, which was the date.
+    It was held as a string, but needed to be a datetime - for grouping by month and year.
+    Converting to datetime proved troublesome being an index - to me anyways.
+    So, I made a numerical index and made date a regular column after conversion.
+    This throw out the all time report - so, fixed this.
+
+
 V2025.6     [16 January 2025]
 
     Added another command line argument --Zap.

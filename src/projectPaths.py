@@ -61,7 +61,8 @@ else:
     HELP_PATH     = MAIN_PATH / "help"
     DATA_PATH     = MAIN_PATH / "data"
 
-columnHeaders = ["Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity",
+#  Column headers for the Pandas dataframe.
+columnHeaders = ["Date", "Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity",
                  "Indoor Temperature", "Indoor Humidity", "Solar", "UVI", "Rain Rate", "Rain Daily",
                  "Rain Event", "Rain Hourly", "Rain Weekly", "Rain Monthly", "Rain Yearly",
                  "Wind Speed", "Wind Gust", "Wind Direction", "Pressure Relative", "Pressure Absolute"]

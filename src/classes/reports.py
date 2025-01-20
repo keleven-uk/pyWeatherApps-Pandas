@@ -36,18 +36,25 @@ class Reports():
 
         rep = atr.AllTimeRecords()
 
-        for column in pp.columnHeaders:
+        #  We ignore the first header "date", this is not numeric and will be sorted with later.
+        for column in pp.columnHeaders[1:]:
 
             if column in ["Rain Yearly"]:
                 continue
 
-            maxDate = self.__convertDate(self.dfData[column].idxmax(), column)
-            minDate = self.__convertDate(self.dfData[column].idxmin(), column)
-            self.reportValues[f"{column}_max"] = (self.dfData[column].max(), maxDate)
-            self.reportValues[f"{column}_min"] = (self.dfData[column].min(), minDate)
+            maxPos  = self.dfData[column].idxmax()
+            minPos  = self.dfData[column].idxmin()
+            maxDate = self.dfData["Date"].iloc[maxPos]
+            minDate = self.dfData["Date"].iloc[minPos]
+            maxDate = self.__convertDate(maxDate, column)
+            minDate = self.__convertDate(minDate, column)
+            self.reportValues[f"{column}_max"] = (maxDate, self.dfData[column].max())
+            self.reportValues[f"{column}_min"] = (minDate, self.dfData[column].min())
 
         rep.show(self.reportValues)
-
+    #-------------------------------------------------------------------------------- yearReport() ---------------------------
+    def yearReport(self):
+        pass
     #-------------------------------------------------------------------------------- __load(self) ---------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.
@@ -58,18 +65,22 @@ class Reports():
             self.dfData = pd.DataFrame()                                #  Create the data Pandas Dataframe.
     #-------------------------------------------------------------------------------- __convertDate(self, strDate) ------------
     def __convertDate(self, strDate, column):
-        dateFormat = "%Y-%m-%d %H:%M"
-        dateObj    = datetime.strptime(strDate, dateFormat)
+        """  Convert the date from Y-M-d to d-m-y.
+             The input data is from Pandas dateTime - convert to string for processing.
+             Strips out the day and time and returns the month name for Rain Monthly.
+             Strips out the time for Rain Weekly.
+             Returns a string.
+        """
+        newDate = strDate.strftime("%d-%m-%Y, %H:%M")
 
         match column:
             case "Rain Monthly":
-                month = dateObj.month
-                year  = dateObj.year
+                newDate = strDate.strftime("%d-%m-%Y, %H:%M")
+                month = int(newDate[3:5])
+                year  = int(newDate[6:10])
                 newDate = f"{calendar.month_name[month]} {year}"
             case "Rain Weekly":
-                newDate = dateObj.strftime("%d-%m-%Y")
-            case _:
-                newDate = dateObj.strftime("%d-%m-%Y, %H:%M")
+                newDate = newDate[0:10]
 
         return newDate
 

@@ -63,6 +63,9 @@ class dataStore():
         else:
             utils.logPrint(self.logger, True, " No files to Process.", "info")
 
+        #  Re-index the dataFrame, if not all the sperate files produces their own index.
+        self.dfData = self.dfData.reset_index(drop=True)
+
         utils.logPrint(self.logger, True, " Saving the file store.", "info")
         self.fStore.save()
         utils.logPrint(self.logger, True, " Saving the data store.", "info")
@@ -110,15 +113,17 @@ class dataStore():
                     currentMonth = month
                     utils.logPrint(self.logger, True, f" Processing new data files for {currentMonth} {CurrentYear}", "info")
 
-                data = pd.read_excel(fileName, skiprows=[0], index_col=0, na_values=[0.0], names=pp.columnHeaders)
+                data = pd.read_excel(fileName, skiprows=[0], na_values=[0.0], names=pp.columnHeaders)
 
-                data_numeric = data.apply(pd.to_numeric, errors = "coerce")                     #  This forces all entries to be of type float,
-                                                                                                #  all errors will be set to NaN.
-                isAllNumeric = not data_numeric.isnull().values.any()                           #  Check if not now all numeric.
-                if isAllNumeric:
-                    print(f"Not all numeric {fileName}")
+                #  This forces all entries to be of type float, all errors will be set to NaN.
+                #  We ignore the first header "date", this is not numeric and will be sorted with later.
+                data[pp.columnHeaders[1:]] = data[pp.columnHeaders[1:]].apply(pd.to_numeric, errors = "coerce")
 
-                self.dfData = self.dfData._append(data_numeric)
+                # Overwriting date column after changing the Data to be of the format datetime from string.
+                data["Date"] = pd.to_datetime(data["Date"])
+
+                #  Add the new cleaned dataframe to the main dataframe.
+                self.dfData = self.dfData._append(data)
 
                 self.fStore.setProcessed(fileName)                                              #  Mark files as processed.
     #-------------------------------------------------------------------------------- __load(self) ------------
