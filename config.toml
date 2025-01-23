@@ -5,11 +5,12 @@
 #   <2025> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2025.7"
+myVERSION = "2025.8"
 myNAME    = "pyWeatherApp"
 
 [DATA]
-year     = "2025"
-month    = "January"
+reportYears = ["2023", "2024", "2025"]
+year        = "2025"
+month       = "January"
 
 

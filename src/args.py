@@ -57,9 +57,11 @@ def parseArgs(Config, logger):
     parser.add_argument("-c",  "--check",       action="store_true", help="Check database integrity.")
     parser.add_argument("-cD", "--checkDelete", action="store_true", help="Check database integrity and delete unwanted.")
     parser.add_argument("-b",  "--build",       action="store_true", help="Build the data - consolidate the spreadsheets.")
-    parser.add_argument("-Y",  "--Yreport",     action="store_true",  help="Report on the data - finds the yearly highs and lows.")
-    parser.add_argument("-A",  "--Areport",     action="store_true",  help="Report on the data - finds the all time highs and lows.")
-    parser.add_argument("-Z",  "--Zap",         action="store_true",  help="Delete [Zap] both data and file stores.")
+    parser.add_argument("-M",  "--Mreport",     action="store_true", help="Report on the data - finds the monthly highs and lows.")
+    parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data - finds the yearly highs and lows.")
+    parser.add_argument("-A",  "--Areport",     action="store_true", help="Report on the data - finds the all time highs and lows.")
+    parser.add_argument("-y",  "--year",        action="store",      help="Year of data files.")
+    parser.add_argument("-Z",  "--Zap",         action="store_true", help="Delete [Zap] both data and file stores.")
 
     args = parser.parse_args()
 
@@ -89,7 +91,16 @@ def parseArgs(Config, logger):
     elif args.checkDelete:
         checkDB = 2                    # Run data integrity check in delete mode on library.
 
-    return args.build, checkDB, args.Areport, args.Yreport, args.Zap
+    if args.year:
+        if args.year not in Config.REPORT_YEARS:
+            utils.logPrint(logger, True, f"ERROR :: {args.year} is not a valid year {Config.REPORT_YEARS}", "danger")
+            utils.logPrint(logger, False, "-" * 100, "info")
+            print("Goodbye.")
+            sys.exit(3)
+    else:                           #  If not year supplied, return config year.
+        args.year = Config.YEAR
+
+    return args.build, checkDB, args.Areport, args.Yreport, args.Mreport, args.year, args.Zap
 
 
 

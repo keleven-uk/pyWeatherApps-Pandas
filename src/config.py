@@ -71,6 +71,11 @@ class Config():
         return self.config["INFO"]["myVERSION"]
 
     @property
+    def REPORT_YEARS(self):
+        reportYears = self.config["DATA"]["reportYears"]
+        return f"{reportYears}"
+
+    @property
     def MONTH(self):
         month = self.config["DATA"]["month"]
         return f"{month}"
@@ -87,11 +92,13 @@ class Config():
         """
         config = dict()
 
-        config["INFO"]    = {"myVERSION" : "2025.5",
+        config["INFO"]    = {
+                             "myVERSION" : "2025.8",
                              "myNAME"    : "pyWeather"}
 
-        config["DATA"]    = {"month"     : "January",
-                             "year"      : "2025"}
+        config["DATA"]    = {"reportYears" : ["2023", "2024", "2025"],
+                             "month"       : "January",
+                             "year"        : "2025"}
 
         st_toml = toml.dumps(config)
 

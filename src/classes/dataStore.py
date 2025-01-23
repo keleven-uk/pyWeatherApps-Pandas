@@ -63,13 +63,20 @@ class dataStore():
         else:
             utils.logPrint(self.logger, True, " No files to Process.", "info")
 
+        #  re-sort the dataFrame in date order.
+        utils.logPrint(self.logger, True, " Sorting the file data.", "info")
+        self.dfData.sort_values(by="Date", ascending=True, inplace=True)
+
         #  Re-index the dataFrame, if not all the sperate files produces their own index.
-        self.dfData = self.dfData.reset_index(drop=True)
+        #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
+        utils.logPrint(self.logger, True, " Re-indexing the data store.", "info")
+        self.dfData.reset_index(drop=True, inplace=True)
 
         utils.logPrint(self.logger, True, " Saving the file store.", "info")
         self.fStore.save()
         utils.logPrint(self.logger, True, " Saving the data store.", "info")
         self.dfData.to_pickle(self.storeName)
+        #self.dfData.to_csv("data.csv")
     #-------------------------------------------------------------------------------- checkData(self, checkDB) ------------------
     def checkData(self, checkDB):
         """  Preforms an integrity check on the fileStore.

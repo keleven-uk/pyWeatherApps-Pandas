@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    build, checkDB, Areport, Yreport, Zap = args.parseArgs(Config, logger)
+    build, checkDB, Areport, Yreport, Mreport, reportYear, Zap = args.parseArgs(Config, logger)
 
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
 
@@ -66,8 +66,10 @@ if __name__ == "__main__":
         dataStore.buildData()
     elif Areport:
         reports.allTimeReport()
-    elif Yreport:
+    elif Mreport:
         reports.yearReport()
+    elif Yreport:
+        reports.yearReport(reportYear)
     elif Zap:
         dataStore.zap()
     else:

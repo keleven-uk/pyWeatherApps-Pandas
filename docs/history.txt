@@ -25,6 +25,16 @@ So, rewriting the project in Pandas - it looks simpler [we shall soon see].
 NB : The program is run from the command line and display it's results there.
 
 
+V2025.8     [23 January 2025]
+
+    Completed the second of the reports - yearly Records.
+        This displays a table of the maximum and minimum values fir a given year.
+        The year can be supplied from the command line or none given, taken from the config file.
+    Also, added a list of valid years to the config, nay given year is checked against this.
+
+    Corrected a bug in the dataFrame, it needs to be re-sorted by date after each new data add.
+
+
 V2025.7     [20 January 2025]
 
     There was problem with the index, which was the date.
