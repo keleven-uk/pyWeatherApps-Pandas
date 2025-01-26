@@ -42,7 +42,7 @@ class Records:
         """  Set up class.
         """
 
-    def show(self, title, reportValues, monthlyReport=False):
+    def show(self, title, reportValues):
         """  Prints to screen the contains of the records in a pretty table.
 
              reportValues - should hold a directory containing the data to display.
@@ -50,8 +50,6 @@ class Records:
 
              The title of the table needs to be passed in.
         """
-        print()
-
         Table.title = title
 
         Table.add_column("Category", justify="right", style="cyan", no_wrap=True)

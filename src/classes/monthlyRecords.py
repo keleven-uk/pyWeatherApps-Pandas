@@ -1,7 +1,7 @@
 ###############################################################################################################
-#    allTimeRecords.py    Copyright (C) <2025>  <Kevin Scott>                                                 #
+#    Records.py    Copyright (C) <2023>  <Kevin Scott>                                                 #
 #                                                                                                             #
-#    A class to hold the all time weather records.                                                            #
+#    A class to hold the monthly records.                                                                     #
 #                                                                                                             #
 ###############################################################################################################
 #    Copyright (C) <2023>  <Kevin Scott>                                                                      #
@@ -22,8 +22,8 @@
 from src.classes.records import Records
 
 
-class AllTimeRecords(Records):
-    """  A class to display the all time weather records.
+class monthlyRecords(Records):
+    """  A class to hold the monthly weather records.
 
          All values should be numeric when passed in.
 
@@ -36,14 +36,11 @@ class AllTimeRecords(Records):
         super().__init__()
 
 
-    def show(self, reportValues):
+    def show(self, reportValues, month, year):
         """  Prints to screen the contains of the records in a pretty table.
 
              Overrides the same method in the parent class.
 
-             reportValues - should hold a directory containing the data to display.
-                The key should be the column header and data the value, date.
-
              Supplies the custom title.
         """
-        super().show(" All Time Weather Records", reportValues)
+        super().show(f" Weather Records for {month} {year}", reportValues)

@@ -21,6 +21,7 @@ import pandas as pd
 import calendar
 
 import src.projectPaths as pp
+import src.classes.monthlyRecords as mr
 import src.classes.yearlyRecords as yr
 import src.classes.allTimeRecords as atr
 
@@ -61,6 +62,7 @@ class Reports():
         """  Process the data and extract the record values for a given year.
         """
         reportYear = int(reportYear)
+
         rep = yr.yearlyRecords()
 
         for column in pp.columnHeaders[1:]:
@@ -82,6 +84,44 @@ class Reports():
             self.reportValues[f"{column}_min"] = (minDate, minVal)
 
         rep.show(self.reportValues, year=reportYear)
+
+    #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------
+    def monthReport(self, reportYear, reportMonth):
+        """  Process the data and extract the record values for a given month and year.
+
+             I had problems trying to extract the data between two dates.
+             So, opted the easy option.  First I create a new dataFrame for the given year and
+             then extract the required month from that.
+        """
+        reportYear  = int(reportYear)
+        searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
+
+        rep = mr.monthlyRecords()
+
+        for column in pp.columnHeaders[1:]:
+
+            if column in ["Rain Yearly"]:
+                continue
+
+            dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
+            #  Re-index the dataFrame, if not all the sperate files produces their own index.
+            #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
+            dfYear.reset_index(drop=True, inplace=True)
+
+            maxVal  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].max()[True]
+            maxPos  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].idxmax()[True]
+            maxDate = dfYear["Date"].iloc[maxPos]
+            maxDate = self.__convertDate(maxDate, column)
+
+            minVal  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].min()[True]
+            minPos  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].idxmin()[True]
+            minDate = dfYear["Date"].iloc[minPos]
+            minDate = self.__convertDate(minDate, column)
+
+            self.reportValues[f"{column}_max"] = (maxDate, maxVal)
+            self.reportValues[f"{column}_min"] = (minDate, minVal)
+
+        rep.show(self.reportValues, month=reportMonth, year=reportYear)
 #-------------------------------------------------------------------------------- __load(self) ----------------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.

@@ -32,6 +32,7 @@
 import sys
 import textwrap
 import argparse
+import calendar
 
 import src.license as License
 import src.utils.dataUtils as utils
@@ -61,6 +62,7 @@ def parseArgs(Config, logger):
     parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data - finds the yearly highs and lows.")
     parser.add_argument("-A",  "--Areport",     action="store_true", help="Report on the data - finds the all time highs and lows.")
     parser.add_argument("-y",  "--year",        action="store",      help="Year of data files.")
+    parser.add_argument("-m",  "--month",       action="store",      help="Month of data files.")
     parser.add_argument("-Z",  "--Zap",         action="store_true", help="Delete [Zap] both data and file stores.")
 
     args = parser.parse_args()
@@ -93,14 +95,34 @@ def parseArgs(Config, logger):
 
     if args.year:
         if args.year not in Config.REPORT_YEARS:
-            utils.logPrint(logger, True, f"ERROR :: {args.year} is not a valid year {Config.REPORT_YEARS}", "danger")
+            utils.logPrint(logger, True, f"ERROR :: {args.year} is not a valid year {Config.REPORT_YEARS}.", "danger")
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
     else:                           #  If not year supplied, return config year.
         args.year = Config.YEAR
 
-    return args.build, checkDB, args.Areport, args.Yreport, args.Mreport, args.year, args.Zap
+    if args.month:
+        month = args.month.capitalize()
+        if month not in calendar.month_name[1:]:
+            utils.logPrint(logger, True, f"ERROR :: {args.month} is not a valid month.", "danger")
+            utils.logPrint(logger, False, "-" * 100, "info")
+            print("Goodbye.")
+            sys.exit(3)
+    else:                           #  If not month supplied, return config year.
+        month = Config.MONTH
+
+    #  The weather data starts in July 2023, so ignore if earlier month is given.
+    #  Not user if should be here or else where - but stops me looking for errors that ain't there.'
+    if args.year and args.month:
+        if args.year == "2023" and args.month in ["January", "February", "March", "April", "May", "June"]:
+            utils.logPrint(logger, True, "ERROR :: Data for 2023 starts in July.", "danger")
+            utils.logPrint(logger, False, "-" * 100, "info")
+            print("Goodbye.")
+            sys.exit(3)
+
+
+    return args.build, checkDB, args.Areport, args.Yreport, args.Mreport, args.year, month, args.Zap
 
 
 
