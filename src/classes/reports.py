@@ -53,8 +53,9 @@ class Reports():
             minDate = self.dfData["Date"].iloc[minPos]
             minDate = self.__convertDate(minDate, column)
 
-            self.reportValues[f"{column}_max"] = (maxDate, maxVal)
-            self.reportValues[f"{column}_min"] = (minDate, minVal)
+            meanVal  = self.dfData[column].mean()
+
+            self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
         rep.show(self.reportValues)
     #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------
@@ -80,8 +81,9 @@ class Reports():
             minDate = self.dfData["Date"].iloc[minPos]
             minDate = self.__convertDate(minDate, column)
 
-            self.reportValues[f"{column}_max"] = (maxDate, maxVal)
-            self.reportValues[f"{column}_min"] = (minDate, minVal)
+            meanVal  = self.dfData.groupby(self.dfData["Date"].dt.year==reportYear)[column].mean()[True]
+
+            self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
         rep.show(self.reportValues, year=reportYear)
 
@@ -118,8 +120,9 @@ class Reports():
             minDate = dfYear["Date"].iloc[minPos]
             minDate = self.__convertDate(minDate, column)
 
-            self.reportValues[f"{column}_max"] = (maxDate, maxVal)
-            self.reportValues[f"{column}_min"] = (minDate, minVal)
+            meanVal  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].mean()[True]
+
+            self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
         rep.show(self.reportValues, month=reportMonth, year=reportYear)
 #-------------------------------------------------------------------------------- __load(self) ----------------------------------

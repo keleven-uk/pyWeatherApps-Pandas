@@ -4,7 +4,7 @@
 #    A class to hold records, this then subclassed to monthly, yearly and all time.                           #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                               #
+#    Copyright (C) <2025>  <Kevin Scott>                                                                      #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -41,7 +41,7 @@ class Records:
     def __init__(self):
         """  Set up class.
         """
-
+    #-------------------------------------------------------------------------------- show(self, title, reportValues) ---------------------------
     def show(self, title, reportValues):
         """  Prints to screen the contains of the records in a pretty table.
 
@@ -54,50 +54,72 @@ class Records:
 
         Table.add_column("Category", justify="right", style="cyan", no_wrap=True)
         Table.add_column("Date", style="magenta")
-        Table.add_column("Value", justify="left", style="green")
+        Table.add_column("Max Value", justify="left", style="green")
+        Table.add_column("Date", style="magenta")
+        Table.add_column("Min Value", justify="left", style="green")
+        Table.add_column("Mean Value", justify="left", style="green")
 
         for key in reportValues:
-            #   Ignore values we don't want to see.'
-            if key in ["Solar_min", "UVI_min", "Rain Rate_min", "Rain Daily_min", "Rain Event_min", "Rain Hourly_min", "Rain Weekly_min",
-                       "Rain Monthly_min", "Rain Yearly_min", "Wind Speed_min", "Wind Gust_min", "Wind Direction_max", "Wind Direction_min"]:
+
+            data      = reportValues[key]
+            category  = key
+
+            if category in ["Wind Direction"]:
                 continue
 
-            data     = reportValues[key]
-            category = key
-            date     = data[0]
-            amount   = data[1]
+            maxDate   = data[0]
+            maxAmount = self.formatDate(category, data[1])
 
-            #  Format values correctly and add imperial equivalents, if appropriate.
-            match category:
-                case category if "Temperature" in category:
-                    value  = f"{amount:.2f}\N{DEGREE SIGN}C"
-                case category if "Dew Point" in category:
-                    value  = f"{amount}\N{DEGREE SIGN}C"
-                case category if "Feels Like" in category:
-                    value  = f"{amount}\N{DEGREE SIGN}C"
-                case category if category.startswith("Rain"):
-                    value  = f"{amount:4.0f}mm ({amount*0.0393701:4.2f}in)"
-                case category if category.startswith("Wind"):
-                    value  = f"{amount} km/h ({amount*0.6213715277778:.2f}mph)"
-                case category if category.startswith("Solar"):
-                    value  = f"{amount} Klux"
-                case category if category.startswith("Pressure"):
-                    value  = f"{amount:4.0f} hPa"
-                case category if "Humidity" in category:
-                    value  = f"{amount}%"
-                case _:
-                    value = amount
+            if category in ["Solar", "UVI", "Rain Rate", "Rain Daily", "Rain Event", "Rain Hourly", "Rain Weekly", "Rain Monthly",
+                            "Rain Yearly", "Wind Speed", "Wind Gust"]:
+                minDate    = ""
+                minAmount  = ""
+                meanAmount = ""
+            else:
+                minDate    = data[2]
+                minAmount  = self.formatDate(category, data[3])
+                meanAmount = self.formatDate(category, data[4])
 
             #  Add horizontal lines to the table to split the categories
             match category:
-                case "DayTimeTemperature_min" | "Outdoor Humidity_min" | "Indoor Humidity_min"| "UVI_max" |\
-                     "Rain Monthly_max" | "Wind Gust_max":
-                    Table.add_row(f"{category}", f"{date}", f"{value}", end_section=True)
+                case "DayTimeTemperature" | "Outdoor Humidity" | "Indoor Humidity"| "UVI", "Rain Monthly" | "Wind Gust":
+                    Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}", end_section=True)
                 case _:
-                    Table.add_row(f"{category}", f"{date}", f"{value}")
+                    Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}")
 
         console.print(Table)
+    #-------------------------------------------------------------------------------- formatDate(self, category, amount) ---------------------------
+    def formatDate(self, category, amount):
+        """  Format values correctly and add imperial equivalents, if appropriate.
+        """
+        match category:
+            case category if "Temperature" in category:
+                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
+            case category if "Outdoor" in category:
+                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
+            case category if "Indoor" in category:
+                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
+            case category if "Solar" in category:
+                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
+            # case category if "UVI" in category:
+            #     value  = f"{amount:.2f}\N{DEGREE SIGN}C"
+            case category if "Dew Point" in category:
+                value  = f"{amount}\N{DEGREE SIGN}C"
+            case category if "Feels Like" in category:
+                value  = f"{amount}\N{DEGREE SIGN}C"
+            case category if category.startswith("Rain"):
+                value  = f"{amount:4.0f}mm ({amount*0.0393701:4.2f}in)"
+            case category if category.startswith("Wind"):
+                value  = f"{amount:.2f} km/h ({amount*0.6213715277778:.2f}mph)"
+            case category if category.startswith("Solar"):
+                value  = f"{amount} Klux"
+            case category if category.startswith("Pressure"):
+                value  = f"{amount:4.0f} hPa"
+            case category if "Humidity" in category:
+                value  = f"{amount}%"
+            case _:
+                value = amount
 
-
+        return value
 
 

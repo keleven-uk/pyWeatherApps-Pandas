@@ -25,6 +25,13 @@ So, rewriting the project in Pandas - it looks simpler [we shall soon see].
 NB : The program is run from the command line and display it's results there.
 
 
+V2025.10     [27 January 2025]
+
+    Added the mean value for certain columns to all three reports.
+    Added a check for a future month of the current year - no data yet.
+    Added a check for year is 2023 and month is before July - when data starts.
+
+
 V2025.9     [26 January 2025]
 
     Completed the third of the reports - monthly Records.
@@ -39,7 +46,7 @@ V2025.8     [23 January 2025]
     Completed the second of the reports - yearly Records.
         This displays a table of the maximum and minimum values for a given year.
         The year can be supplied from the command line or if none given then taken from the config file.
-    Also, added a list of valid years to the config, nay given year is checked against this.
+    Also, added a list of valid years to the config, any given year is checked against this.
 
     Corrected a bug in the dataFrame, it needs to be re-sorted by date after each new data add.
 

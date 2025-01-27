@@ -1,5 +1,5 @@
 #############################################################################################################################
-#    args   Copyright (C) <202025>  <Kevin Scott>                                                                           #
+#    args   Copyright (C) <2025>  <Kevin Scott>                                                                             #
 #                                                                                                                           #
 #    Parse the command line arguments.                                     .                                                #
 #                                                                                                                           #
@@ -33,6 +33,8 @@ import sys
 import textwrap
 import argparse
 import calendar
+
+from datetime import date
 
 import src.license as License
 import src.utils.dataUtils as utils
@@ -109,6 +111,15 @@ def parseArgs(Config, logger):
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
+        searchMonth  = list(calendar.month_name).index(month)  #  Converts the month to a number for searching.
+        currentMonth = date.today().month
+        currentYear  = date.today().year
+        if searchMonth > currentMonth and args.year == currentYear:
+            utils.logPrint(logger, True, f"ERROR :: No data for {args.year} {month} yet.", "danger")
+            utils.logPrint(logger, False, "-" * 100, "info")
+            print("Goodbye.")
+            sys.exit(3)
+
     else:                           #  If not month supplied, return config year.
         month = Config.MONTH
 

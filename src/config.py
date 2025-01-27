@@ -93,7 +93,7 @@ class Config():
         config = dict()
 
         config["INFO"]    = {
-                             "myVERSION" : "2025.9",
+                             "myVERSION" : "2025.10",
                              "myNAME"    : "pyWeather"}
 
         config["DATA"]    = {"reportYears" : ["2023", "2024", "2025"],

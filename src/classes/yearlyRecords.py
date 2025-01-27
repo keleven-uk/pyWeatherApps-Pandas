@@ -1,10 +1,10 @@
 ###############################################################################################################
-#    allTimeRecords.py    Copyright (C) <2023>  <Kevin Scott>                                                 #
+#    allTimeRecords.py    Copyright (C) <2025>  <Kevin Scott>                                                 #
 #                                                                                                             #
 #    A class to hold the all time weather records.                                                            #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023>  <Kevin Scott>                                                                      #
+#    Copyright (C) <2025>  <Kevin Scott>                                                                      #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -43,4 +43,7 @@ class yearlyRecords(Records):
 
              Supplies the custom title.
         """
-        super().show(f" Weather Records for {year}", reportValues)
+        if year == 2023:
+            super().show(f" Weather Records for {year} ** only from July **", reportValues)
+        else:
+            super().show(f" Weather Records for {year}", reportValues)
