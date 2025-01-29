@@ -78,6 +78,11 @@ class dataStore():
         self.dfData.to_pickle(self.storeName)
         #self.dfData.to_csv("data.csv")
     #-------------------------------------------------------------------------------- checkData(self, checkDB) ------------------
+    def info(self):
+        """  Print our info about the data store [Pandas dataFrame]
+        """
+        self.dfData.info(verbose=True)
+    #-------------------------------------------------------------------------------- checkData(self, checkDB) ------------------
     def checkData(self, checkDB):
         """  Preforms an integrity check on the fileStore.
         """

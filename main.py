@@ -24,6 +24,9 @@
 #                                                                                                             #
 ###############################################################################################################
 
+
+#  Data = 3 July 2023 - 22 October 2024 and 4 November - current.
+#  The break is for a faulty temperature sensor.
 import sys
 
 import src.args as args
@@ -50,7 +53,7 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    build, checkDB, Areport, Yreport, Mreport, reportYear, reportMonth, Zap = args.parseArgs(Config, logger)
+    build, info, checkDB, Areport, Yreport, Mreport, reportYear, reportMonth, Zap = args.parseArgs(Config, logger)
 
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
 
@@ -62,6 +65,8 @@ if __name__ == "__main__":
 
     if checkDB:
         dataStore.checkData(checkDB)
+    elif info:
+        dataStore.info()
     elif build:
         dataStore.buildData()
     elif Areport:

@@ -29,7 +29,7 @@ import sys
 import pathlib
 import platformdirs as pp
 
-appname = "pyWeatherApp"
+appname   = "pyWeather"  #  Should be the same as in config.toml.
 appauthor = "Keleven"
 
 USER_DATA_DIR    = pathlib.Path(pp.user_data_dir(appname, appauthor))
@@ -44,7 +44,7 @@ MAIN_PATH        = pathlib.Path(__file__).parent.parent
 
 if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
     CONFIG_PATH   = USER_DATA_DIR / "config.toml"
-    LOGGER_PATH   = USER_LOG_DIR  / "pyWeatherApp.log"
+    LOGGER_PATH   = USER_LOG_DIR  / f"{appname}.log"
     VERSION_PATH  = "version.toml"
     HISTORY_PATH  = "History.txt"
     LICENSE_PATH  = "LICENSE.txt"
@@ -53,7 +53,7 @@ if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
     DATA_PATH     = USER_DATA_DIR / "data"
 else:
     CONFIG_PATH   = MAIN_PATH / "config.toml"
-    LOGGER_PATH   = MAIN_PATH / "logs/pyWeatherApp.log"
+    LOGGER_PATH   = MAIN_PATH / f"logs/{appname}.log"
     VERSION_PATH  = MAIN_PATH / "docs/version.toml"
     HISTORY_PATH  = MAIN_PATH / "docs/History.txt"
     LICENSE_PATH  = MAIN_PATH / "LICENSE.txt"

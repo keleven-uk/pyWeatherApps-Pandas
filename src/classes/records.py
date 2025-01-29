@@ -74,10 +74,14 @@ class Records:
                             "Rain Yearly", "Wind Speed", "Wind Gust"]:
                 minDate    = ""
                 minAmount  = ""
-                meanAmount = ""
             else:
                 minDate    = data[2]
                 minAmount  = self.formatDate(category, data[3])
+
+            if category in ["Solar", "UVI", "Rain Rate", "Rain Daily", "Rain Event", "Rain Hourly",
+                            "Rain Yearly", "Wind Speed", "Wind Gust"]:
+                meanAmount = ""
+            else:
                 meanAmount = self.formatDate(category, data[4])
 
             #  Add horizontal lines to the table to split the categories

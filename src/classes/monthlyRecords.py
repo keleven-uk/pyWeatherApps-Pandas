@@ -43,4 +43,6 @@ class monthlyRecords(Records):
 
              Supplies the custom title.
         """
-        super().show(f" Weather Records for {month} {year}", reportValues)
+        title = f" Weather Records for {month} {year}"
+        super().show(title, reportValues)
+

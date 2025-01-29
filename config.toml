@@ -6,7 +6,7 @@
 
 [INFO]
 myVERSION = "2025.10"
-myNAME    = "pyWeatherApp"
+myNAME    = "pyWeather"
 
 [DATA]
 reportYears = ["2023", "2024", "2025"]

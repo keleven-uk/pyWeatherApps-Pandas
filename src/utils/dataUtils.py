@@ -72,7 +72,7 @@ def checkPaths(logger, verbose):
     logPrint(logger, verbose, "Checking Paths", "info")
 
     dataPath = pp.DATA_PATH
-    logPath  = pp.LOGGER_PATH
+    logPath  = pp.LOGGER_PATH.parent
 
     if dataPath.exists():
         logPrint(logger, verbose, f"{dataPath} exists", "info")

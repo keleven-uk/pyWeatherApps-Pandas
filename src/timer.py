@@ -80,8 +80,8 @@ class Timer():
         hours, minutes   = divmod(minutes, 60)
 
         if hours:
-            return f"{hours}h:{minutes}m:{seconds:0.2f}s"
+            return f"{int(hours)}h:{int(minutes)}m:{seconds:0.2f}s"
         elif minutes:
-            return f"{minutes}m:{seconds:0.2f}s"
+            return f"{int(minutes)}m:{seconds:0.2f}s"
         else:
             return f"{seconds:0.2f}s"

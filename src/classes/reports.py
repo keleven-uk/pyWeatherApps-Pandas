@@ -17,6 +17,7 @@
 #                                                                                                             #
 ###############################################################################################################
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import calendar
 
@@ -100,12 +101,14 @@ class Reports():
 
         rep = mr.monthlyRecords()
 
+        dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
+        dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
+
         for column in pp.columnHeaders[1:]:
 
             if column in ["Rain Yearly"]:
                 continue
 
-            dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
             #  Re-index the dataFrame, if not all the sperate files produces their own index.
             #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
             dfYear.reset_index(drop=True, inplace=True)
@@ -125,6 +128,26 @@ class Reports():
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
         rep.show(self.reportValues, month=reportMonth, year=reportYear)
+
+        self.plotGraph(dfMonth)
+
+    def plotGraph(self, dfMonth):
+        print("plotGraph")
+        fig = plt.figure()
+        fig.canvas.manager.window.wm_geometry("1400x1000+20+20")
+
+        #plt.figure(figsize=(16,9))      #  Width, height
+
+        plt.plot(dfMonth["Date"], dfMonth["Outdoor Temperature"], linewidth="1", linestyle="-", alpha=0.5)
+
+        plt.xlabel("Date")  # add X-axis label
+        plt.ylabel("Outdoor Temperature [DEGREE SIGN]")  # add Y-axis label
+        plt.title("Outdoor Temperature for 2024")  # add title
+
+        # Display grid
+        plt.grid(True)
+
+        plt.show()
 #-------------------------------------------------------------------------------- __load(self) ----------------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.

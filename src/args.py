@@ -57,14 +57,15 @@ def parseArgs(Config, logger):
     parser.add_argument("-l",  "--license",     action="store_true", help="Print the Software License.")
     parser.add_argument("-v",  "--version",     action="store_true", help="Print the version of the application.")
     parser.add_argument("-e",  "--explorer",    action="store_true", help="Load program working directory into file explorer.")
-    parser.add_argument("-c",  "--check",       action="store_true", help="Check database integrity.")
-    parser.add_argument("-cD", "--checkDelete", action="store_true", help="Check database integrity and delete unwanted.")
-    parser.add_argument("-b",  "--build",       action="store_true", help="Build the data - consolidate the spreadsheets.")
-    parser.add_argument("-M",  "--Mreport",     action="store_true", help="Report on the data - finds the monthly highs and lows.")
-    parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data - finds the yearly highs and lows.")
-    parser.add_argument("-A",  "--Areport",     action="store_true", help="Report on the data - finds the all time highs and lows.")
-    parser.add_argument("-y",  "--year",        action="store",      help="Year of data files.")
-    parser.add_argument("-m",  "--month",       action="store",      help="Month of data files.")
+    parser.add_argument("-i",  "--info",        action="store_true",  help="Print info on the data store [Pandas dataFrame].")
+    parser.add_argument("-c",  "--check",       action="store_true", help="Check data store integrity.")
+    parser.add_argument("-cD", "--checkDelete", action="store_true", help="Check data store integrity and delete unwanted.")
+    parser.add_argument("-b",  "--build",       action="store_true", help="Build the data data store - consolidate the spreadsheets.")
+    parser.add_argument("-M",  "--Mreport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows.")
+    parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data data store - finds the yearly highs and lows.")
+    parser.add_argument("-A",  "--Areport",     action="store_true", help="Report on the data data store - finds the all time highs and lows.")
+    parser.add_argument("-y",  "--year",        action="store",      help="Year of data files to report on.")
+    parser.add_argument("-m",  "--month",       action="store",      help="Month of data files to report on.")
     parser.add_argument("-Z",  "--Zap",         action="store_true", help="Delete [Zap] both data and file stores.")
 
     args = parser.parse_args()
@@ -133,7 +134,7 @@ def parseArgs(Config, logger):
             sys.exit(3)
 
 
-    return args.build, checkDB, args.Areport, args.Yreport, args.Mreport, args.year, month, args.Zap
+    return args.build, args.info, checkDB, args.Areport, args.Yreport, args.Mreport, args.year, month, args.Zap
 
 
 
