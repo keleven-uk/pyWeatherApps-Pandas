@@ -38,6 +38,7 @@ import src.projectPaths as pp
 
 import src.classes.dataStore as ds
 import src.classes.reports as rep
+import src.classes.plotting as pl
 
 import src.utils.dataUtils as utils
 
@@ -53,7 +54,7 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    build, info, checkDB, Areport, Yreport, Mreport, reportYear, reportMonth, Zap = args.parseArgs(Config, logger)
+    build, plot, info, checkDB, Areport, Yreport, Mreport, reportYear, reportMonth, Zap = args.parseArgs(Config, logger)
 
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
 
@@ -62,6 +63,7 @@ if __name__ == "__main__":
 
     dataStore = ds.dataStore(logger)
     reports   = rep.Reports()
+    plots     = pl.Plots()
 
     if checkDB:
         dataStore.checkData(checkDB)
@@ -71,10 +73,16 @@ if __name__ == "__main__":
         dataStore.buildData()
     elif Areport:
         reports.allTimeReport()
+        if plot:
+            plots.allTimePlot(plot)
     elif Mreport:
         reports.monthReport(reportYear, reportMonth)
+        if plot:
+            plots.monthPlot(reportYear, reportMonth, plot)
     elif Yreport:
         reports.yearReport(reportYear)
+        if plot:
+            plots.yearPlot(reportYear, plot)
     elif Zap:
         dataStore.zap()
     else:

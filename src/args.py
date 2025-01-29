@@ -37,6 +37,7 @@ import calendar
 from datetime import date
 
 import src.license as License
+import src.projectPaths as pp
 import src.utils.dataUtils as utils
 
 ############################################################################################## parseArgs ######
@@ -64,11 +65,20 @@ def parseArgs(Config, logger):
     parser.add_argument("-M",  "--Mreport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows.")
     parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data data store - finds the yearly highs and lows.")
     parser.add_argument("-A",  "--Areport",     action="store_true", help="Report on the data data store - finds the all time highs and lows.")
+    parser.add_argument("-P",  "--Plot", type = int, required=False, default=0,
+                                                action="store",      help="Plot a line graph of the table, -H for column selection.")
+    parser.add_argument("-H",  "--PlotHelp",    action="store_true", help="Display the column selection for plotting.")
     parser.add_argument("-y",  "--year",        action="store",      help="Year of data files to report on.")
     parser.add_argument("-m",  "--month",       action="store",      help="Month of data files to report on.")
     parser.add_argument("-Z",  "--Zap",         action="store_true", help="Delete [Zap] both data and file stores.")
 
     args = parser.parse_args()
+
+    if args.PlotHelp:
+        """  Display the index numbers of the available column headers - for plotting.
+        """
+        for index, column in enumerate(pp.columnHeaders[1:]):
+            print(f"  {index+1} .. {column}")
 
     if args.version:
         print("")
@@ -134,7 +144,7 @@ def parseArgs(Config, logger):
             sys.exit(3)
 
 
-    return args.build, args.info, checkDB, args.Areport, args.Yreport, args.Mreport, args.year, month, args.Zap
+    return args.build, args.Plot, args.info, checkDB, args.Areport, args.Yreport, args.Mreport, args.year, month, args.Zap
 
 
 
