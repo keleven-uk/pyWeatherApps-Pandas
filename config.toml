@@ -5,12 +5,23 @@
 #   <2025> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2025.12"
+myVERSION = "2025.13"
 myNAME    = "pyWeather"
 
 [DATA]
 reportYears = ["2023", "2024", "2025"]
 year        = "2025"
 month       = "January"
+
+[GRAPH]
+width      = 1600
+height     = 1000
+X_pos      = 30
+Y_pos      = 30
+lineWidth  = 1
+lineStyle  = "-"
+lineColour = "green"
+alpha      = 0.75
+grid       = true
 
 

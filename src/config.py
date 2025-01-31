@@ -82,8 +82,53 @@ class Config():
 
     @property
     def YEAR(self):
-        data_dir = self.config["DATA"]["year"]
-        return f"{data_dir}"
+        year = self.config["DATA"]["year"]
+        return f"{year}"
+
+    @property
+    def GRAPH_WIDTH(self):
+        graph_width = self.config["GRAPH"]["width"]
+        return f"{graph_width}"
+
+    @property
+    def GRAPH_HEIGHT(self):
+        graph_height = self.config["GRAPH"]["height"]
+        return f"{graph_height}"
+
+    @property
+    def GRAPH_X_POS(self):
+        xPos = self.config["GRAPH"]["X_pos"]
+        return f"{xPos}"
+
+    @property
+    def GRAPH_Y_POS(self):
+        yPos = self.config["GRAPH"]["Y_pos"]
+        return f"{yPos}"
+
+    @property
+    def GRAPH_LINE_WIDTH(self):
+        lineWidth = self.config["GRAPH"]["lineWidth"]
+        return f"{lineWidth}"
+
+    @property
+    def GRAPH_LINE_STYLE(self):
+        lineStyle = self.config["GRAPH"]["lineStyle"]
+        return f"{lineStyle}"
+
+    @property
+    def GRAPH_LINE_COLOUR(self):
+        lineStyle = self.config["GRAPH"]["lineColour"]
+        return f"{lineStyle}"
+
+    @property
+    def GRAPH_ALPHA(self):
+        lineColour = self.config["GRAPH"]["alpha"]
+        return f"{lineColour}"
+
+    @property
+    def GRAPH_GRID(self):
+        grid = self.config["GRAPH"]["grid"]
+        return grid                                 #  Return Boolean.
 
 
     def _writeDefaultConfig(self):
@@ -92,13 +137,22 @@ class Config():
         """
         config = dict()
 
-        config["INFO"]    = {
-                             "myVERSION" : "2025.12",
-                             "myNAME"    : "pyWeather"}
+        config["INFO"] = {"myVERSION" : "2025.13",
+                          "myNAME"    : "pyWeather"}
 
-        config["DATA"]    = {"reportYears" : ["2023", "2024", "2025"],
-                             "month"       : "January",
-                             "year"        : "2025"}
+        config["DATA"] = {"reportYears" : ["2023", "2024", "2025"],
+                          "month"       : "January",
+                          "year"        : "2025"}
+
+        config["GRAPH"] = {"width"      : 1400,
+                           "height"     : 1000,
+                           "X_pos"      : 40,
+                           "Y_pos"      : 40,
+                           "linewidth"  : 1,
+                           "linestyle"  : "-",
+                           "lineColour" : "blue",
+                           "alpha"      : 0.75,
+                           "grid"       : True}
 
         st_toml = toml.dumps(config)
 
@@ -107,7 +161,7 @@ class Config():
             configFile.write("#\n")
             configFile.write("#   true and false are lower case \n")
             configFile.write("#\n")
-            configFile.write("#   <2023> (c) Kevin Scott \n")
+            configFile.write("#   <2025> (c) Kevin Scott \n")
             configFile.write("\n")
             configFile.writelines(st_toml)                  # Write configure file.
 

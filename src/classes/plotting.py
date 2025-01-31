@@ -25,9 +25,24 @@ import src.projectPaths as pp
 
 class Plots():
 
-    def __init__(self):
-        self.DataStoreName = pp.DATA_PATH / "dataStore.pickle"
-        self.reportValues  = {}
+    def __init__(self, config):
+        self.DataStoreName     = pp.DATA_PATH / "dataStore.pickle"
+        self.reportValues      = {}
+        self.GRAPH_WIDTH       = config.GRAPH_WIDTH
+        self.GRAPH_HEIGHT      = config.GRAPH_HEIGHT
+        self.X_POS             = config.GRAPH_X_POS
+        self.Y_POS             = config.GRAPH_Y_POS
+        self.GRAPH_LINE_WIDTH  = config.GRAPH_LINE_WIDTH
+        self.GRAPH_LINE_STYLE  = config.GRAPH_LINE_STYLE
+        self.GRAPH_LINE_COLOUR = config.GRAPH_LINE_COLOUR
+        self.GRAPH_ALPHA       = float(config.GRAPH_ALPHA)
+        self.GRAPH_GRID        = config.GRAPH_GRID
+
+        #  Sets up the play size and screen position for all graphs.
+        #  WidthxHeight+X_pos+Y_pos
+        fig = plt.figure()
+        fig.canvas.manager.window.wm_geometry(f"{self.GRAPH_WIDTH}x{self.GRAPH_HEIGHT}+{self.X_POS}+{self.Y_POS}")
+
         self.__load()
     #-------------------------------------------------------------------------------- allTimeReport(self) -----------------------
     def allTimePlot(self, colNumber):
@@ -36,10 +51,10 @@ class Plots():
         """
         colName = self.__getColumnName(colNumber)
 
-        fig = plt.figure()
-        fig.canvas.manager.window.wm_geometry("1400x1000+20+20")
-
-        plt.plot(self.dfData["Date"], self.dfData[f"{colName}"], linewidth="1", linestyle="-", alpha=0.5)
+        plt.plot(self.dfData["Date"], self.dfData[f"{colName}"], linewidth=self.GRAPH_LINE_WIDTH,
+                                                                 linestyle=self.GRAPH_LINE_STYLE,
+                                                                 color=self.GRAPH_LINE_COLOUR,
+                                                                 alpha=self.GRAPH_ALPHA)
 
         plt.xlabel("Date")                              # add X-axis label
         plt.ylabel(colName)                             # add Y-axis label
@@ -58,14 +73,14 @@ class Plots():
 
         dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
 
-        fig = plt.figure()
-        fig.canvas.manager.window.wm_geometry("1400x1000+20+20")
-
-        plt.plot(dfYear["Date"], dfYear[f"{colName}"], linewidth="1", linestyle="-", alpha=0.5)
+        plt.plot(dfYear["Date"], dfYear[f"{colName}"], linewidth=self.GRAPH_LINE_WIDTH,
+                                                       linestyle=self.GRAPH_LINE_STYLE,
+                                                       color=self.GRAPH_LINE_COLOUR,
+                                                       alpha=self.GRAPH_ALPHA)
 
         plt.xlabel("Date")                              # add X-axis label
         plt.ylabel(colName)                             # add Y-axis label
-        plt.title(f"All Time {colName} for {reportYear}")                # add title
+        plt.title(f"Yearly {colName} for {reportYear}")                # add title
 
         # Display grid
         plt.grid(True)
@@ -86,17 +101,18 @@ class Plots():
         dfYear  = self.dfData[self.dfData["Date"].dt.year==reportYear]
         dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
 
-        fig = plt.figure()
-        fig.canvas.manager.window.wm_geometry("1400x1000+20+20")
-
-        plt.plot(dfMonth["Date"], dfMonth[f"{colName}"], linewidth="1", linestyle="-", alpha=0.5)
+        plt.plot(dfMonth["Date"], dfMonth[f"{colName}"], linewidth=self.GRAPH_LINE_WIDTH,
+                                                         linestyle=self.GRAPH_LINE_STYLE,
+                                                         color=self.GRAPH_LINE_COLOUR,
+                                                         alpha=self.GRAPH_ALPHA)
 
         plt.xlabel("Date")                              # add X-axis label
         plt.ylabel(colName)                             # add Y-axis label
-        plt.title(f"All Time {colName} for {reportMonth} {reportYear}")                # add title
+        plt.title(f"Monthly {colName} for {reportMonth} {reportYear}")                # add title
 
-        # Display grid
-        plt.grid(True)
+        if self.GRAPH_GRID:
+            # Display grid
+            plt.grid(True)
 
         plt.show()
     #-------------------------------------------------------------------------------- __load(self) ----------------------------------

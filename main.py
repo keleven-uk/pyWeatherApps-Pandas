@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
     dataStore = ds.dataStore(logger)
     reports   = rep.Reports()
-    plots     = pl.Plots()
+    plots     = pl.Plots(Config)
 
     if checkDB:
         dataStore.checkData(checkDB)

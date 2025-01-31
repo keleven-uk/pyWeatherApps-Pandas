@@ -17,7 +17,6 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import matplotlib.pyplot as plt
 import pandas as pd
 import calendar
 
@@ -67,22 +66,28 @@ class Reports():
 
         rep = yr.yearlyRecords()
 
+        dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
+
         for column in pp.columnHeaders[1:]:
 
             if column in ["Rain Yearly"]:
                 continue
 
-            maxVal  = self.dfData.groupby(self.dfData["Date"].dt.year==reportYear)[column].max()[True]
-            maxPos  = self.dfData.groupby(self.dfData["Date"].dt.year==reportYear)[column].idxmax()[True]
-            maxDate = self.dfData["Date"].iloc[maxPos]
+            #  Re-index the dataFrame, if not all the sperate files produces their own index.
+            #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
+            dfYear.reset_index(drop=True, inplace=True)
+
+            maxVal  = dfYear[column].max()
+            maxPos  = dfYear[column].idxmax()
+            maxDate = dfYear["Date"].iloc[maxPos]
             maxDate = self.__convertDate(maxDate, column)
 
-            minVal  = self.dfData.groupby(self.dfData["Date"].dt.year==reportYear)[column].min()[True]
-            minPos  = self.dfData.groupby(self.dfData["Date"].dt.year==reportYear)[column].idxmin()[True]
-            minDate = self.dfData["Date"].iloc[minPos]
+            minVal  = dfYear[column].min()
+            minPos  = dfYear[column].idxmin()
+            minDate = dfYear["Date"].iloc[minPos]
             minDate = self.__convertDate(minDate, column)
 
-            meanVal  = self.dfData.groupby(self.dfData["Date"].dt.year==reportYear)[column].mean()[True]
+            meanVal  = dfYear[column].mean()
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
@@ -111,19 +116,19 @@ class Reports():
 
             #  Re-index the dataFrame, if not all the sperate files produces their own index.
             #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
-            dfYear.reset_index(drop=True, inplace=True)
+            dfMonth.reset_index(drop=True, inplace=True)
 
-            maxVal  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].max()[True]
-            maxPos  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].idxmax()[True]
-            maxDate = dfYear["Date"].iloc[maxPos]
+            maxVal  = dfMonth[column].max()
+            maxPos  = dfMonth[column].idxmax()
+            maxDate = dfMonth["Date"].iloc[maxPos]
             maxDate = self.__convertDate(maxDate, column)
 
-            minVal  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].min()[True]
-            minPos  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].idxmin()[True]
-            minDate = dfYear["Date"].iloc[minPos]
+            minVal  = dfMonth[column].min()
+            minPos  = dfMonth[column].idxmin()
+            minDate = dfMonth["Date"].iloc[minPos]
             minDate = self.__convertDate(minDate, column)
 
-            meanVal  = dfYear.groupby(dfYear["Date"].dt.month==searchMonth)[column].mean()[True]
+            meanVal = dfMonth[column].mean()
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
