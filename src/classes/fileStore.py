@@ -141,7 +141,7 @@ class FileStore():
             with open(self.fileName, "rb") as pickle_file:
                 self.fileStore = pickle.load(pickle_file)
         except FileNotFoundError:
-            utils.logPrint(self.logger, True, f"ERROR :: Cannot find library file. {self.fileName}.  Will use an empty library", "info")
+            utils.logPrint(self.logger, True, f"ERROR :: Cannot find File Store file. {self.fileName}.  Will use an empty Store", "info")
             self.fileStore = {}
     #-------------------------------------------------------------------------------- check(self, mode, logger=None) -----------------------
     def check(self, mode, logger=None):

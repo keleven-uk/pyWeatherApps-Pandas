@@ -34,11 +34,10 @@ import textwrap
 import argparse
 import calendar
 
-from datetime import date
-
 import src.license as License
 import src.projectPaths as pp
 import src.utils.dataUtils as utils
+import src.classes.periodStore as ps
 
 ############################################################################################## parseArgs ######
 def parseArgs(Config, logger):
@@ -48,6 +47,8 @@ def parseArgs(Config, logger):
 
          Exit code 0 - program has exited normally, after print version, licence or help.
     """
+    pStore    = ps.PeriodStore(logger)          #  Create the period store, holds year and month that contain data.
+
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=textwrap.dedent("""\
@@ -107,8 +108,8 @@ def parseArgs(Config, logger):
         checkDB = 2                    # Run data integrity check in delete mode on library.
 
     if args.year:
-        if args.year not in Config.REPORT_YEARS:
-            utils.logPrint(logger, True, f"ERROR :: {args.year} is not a valid year {Config.REPORT_YEARS}.", "danger")
+        if not pStore.hasYear(args.year):
+            utils.logPrint(logger, True, f"ERROR :: {args.year} is not a valid year {pStore.listYears()}.", "danger")
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
@@ -122,10 +123,7 @@ def parseArgs(Config, logger):
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
-        searchMonth  = list(calendar.month_name).index(month)  #  Converts the month to a number for searching.
-        currentMonth = date.today().month
-        currentYear  = date.today().year
-        if searchMonth > currentMonth and args.year == currentYear:
+        if not pStore.hasMonth(args.year, args.month):
             utils.logPrint(logger, True, f"ERROR :: No data for {args.year} {month} yet.", "danger")
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")

@@ -9,7 +9,6 @@ myVERSION = "2025.13"
 myNAME    = "pyWeather"
 
 [DATA]
-reportYears = ["2023", "2024", "2025"]
 year        = "2025"
 month       = "January"
 

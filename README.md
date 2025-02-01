@@ -37,7 +37,7 @@ options:
                         Month of data files to report on.
   -Z, --Zap             Delete [Zap] both data and file stores.
 
- Kevin Scott (C) 2025 :: pyWeather V2025.12
+ Kevin Scott (C) 2025 :: pyWeather V2025.14
 ```
 
 For changes see history.txt
@@ -76,4 +76,4 @@ For changes see history.txt
           End of pyWeather 2025.13
 ```
 
-![](resources\Tempratures%202023.jpg)
+![](resources\Tempratures_2023.jpg)

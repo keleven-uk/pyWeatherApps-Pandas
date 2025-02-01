@@ -29,6 +29,13 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.14     [1 February 2025]
+
+    Added a Period Store, which holds the (year, month) of valid data.
+        This is compiled as the data files are processed.
+        This makes validating year and month arguments easier.
+
+
 V2025.13     [31 January 2025]
 
     Added the parameters for the graph to the config files.

@@ -71,11 +71,6 @@ class Config():
         return self.config["INFO"]["myVERSION"]
 
     @property
-    def REPORT_YEARS(self):
-        reportYears = self.config["DATA"]["reportYears"]
-        return f"{reportYears}"
-
-    @property
     def MONTH(self):
         month = self.config["DATA"]["month"]
         return f"{month}"
@@ -140,8 +135,7 @@ class Config():
         config["INFO"] = {"myVERSION" : "2025.13",
                           "myNAME"    : "pyWeather"}
 
-        config["DATA"] = {"reportYears" : ["2023", "2024", "2025"],
-                          "month"       : "January",
+        config["DATA"] = {"month"       : "January",
                           "year"        : "2025"}
 
         config["GRAPH"] = {"width"      : 1400,
