@@ -115,6 +115,37 @@ class Plots():
             plt.grid(True)
 
         plt.show()
+    #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------
+    def dayPlot(self, reportYear, reportMonth, reportDay, colNumber):
+        """  Process the data and extract the record values for a given month and year.
+
+             I had problems trying to extract the data between two dates.
+             So, opted the easy option.  First I create a new dataFrame for the given year and
+             then extract the required month from that.
+        """
+        reportYear  = int(reportYear)
+        searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
+        searchDay   = int(reportDay)
+        colName     = self.__getColumnName(colNumber)
+
+        dfYear  = self.dfData[self.dfData["Date"].dt.year==reportYear]
+        dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
+        dfDay   = dfMonth[dfMonth["Date"].dt.day==searchDay]
+
+        plt.plot(dfDay["Date"], dfDay[f"{colName}"], linewidth=self.GRAPH_LINE_WIDTH,
+                                                     linestyle=self.GRAPH_LINE_STYLE,
+                                                     color=self.GRAPH_LINE_COLOUR,
+                                                     alpha=self.GRAPH_ALPHA)
+
+        plt.xlabel("Date")                              # add X-axis label
+        plt.ylabel(colName)                             # add Y-axis label
+        plt.title(f"Daily {colName} for {reportDay} {reportMonth} {reportYear}")                # add title
+
+        if self.GRAPH_GRID:
+            # Display grid
+            plt.grid(True)
+
+        plt.show()
     #-------------------------------------------------------------------------------- __load(self) ----------------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.

@@ -21,6 +21,7 @@ import pandas as pd
 import calendar
 
 import src.projectPaths as pp
+import src.classes.dailyRecords as dr
 import src.classes.monthlyRecords as mr
 import src.classes.yearlyRecords as yr
 import src.classes.allTimeRecords as atr
@@ -93,7 +94,7 @@ class Reports():
 
         rep.show(self.reportValues, year=reportYear)
 
-    #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------
+    #-------------------------------------------------------------------------------- monthReport(self, reportYear, reportMonth) --------------
     def monthReport(self, reportYear, reportMonth):
         """  Process the data and extract the record values for a given month and year.
 
@@ -106,7 +107,7 @@ class Reports():
 
         rep = mr.monthlyRecords()
 
-        dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
+        dfYear  = self.dfData[self.dfData["Date"].dt.year==reportYear]
         dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
 
         for column in pp.columnHeaders[1:]:
@@ -133,6 +134,46 @@ class Reports():
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
         rep.show(self.reportValues, month=reportMonth, year=reportYear)
+    #-------------------------------------------------------------------------------- dayReport(self, reportYear, reportMonth, reportDay) --------------
+    def dayReport(self, reportYear, reportMonth, reportDay):
+
+        reportYear  = int(reportYear)
+        searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
+        searchDay   = reportDay
+
+        rep = dr.dailyRecords()
+
+        dfYear  = self.dfData[self.dfData["Date"].dt.year==reportYear]
+        dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
+        dfDay   = dfMonth[dfMonth["Date"].dt.day==searchDay]
+
+        print(reportYear, reportMonth, reportDay)
+        print(dfDay.info())
+
+        for column in pp.columnHeaders[1:]:
+
+            if column in ["Rain Yearly"]:
+                continue
+
+            #  Re-index the dataFrame, if not all the sperate files produces their own index.
+            #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
+            dfDay.reset_index(drop=True, inplace=True)
+
+            maxVal  = dfDay[column].max()
+            maxPos  = dfDay[column].idxmax()
+            maxDate = dfDay["Date"].iloc[maxPos]
+            maxDate = self.__convertDate(maxDate, column)
+
+            minVal  = dfDay[column].min()
+            minPos  = dfDay[column].idxmin()
+            minDate = dfDay["Date"].iloc[minPos]
+            minDate = self.__convertDate(minDate, column)
+
+            meanVal = dfDay[column].mean()
+
+            self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
+
+        rep.show(self.reportValues, day=reportDay, month=reportMonth, year=reportYear)
 #-------------------------------------------------------------------------------- __load(self) ----------------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.

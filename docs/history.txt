@@ -29,11 +29,20 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.15     [3 February 2025]
+
+    Added a third date option "Day", along side "month" and "year"
+    If the day option is selected, that the values for year, month and date need to be given.
+        the input validation in args has been improved.
+    the max, min table is displayed, along with the line plot if required.
+
+
 V2025.14     [1 February 2025]
 
     Added a Period Store, which holds the (year, month) of valid data.
         This is compiled as the data files are processed.
         This makes validating year and month arguments easier.
+        Removed the year entry from the config file.
 
 
 V2025.13     [31 January 2025]
