@@ -25,6 +25,7 @@ import src.classes.dailyRecords as dr
 import src.classes.monthlyRecords as mr
 import src.classes.yearlyRecords as yr
 import src.classes.allTimeRecords as atr
+import src.utils.weatherUtils as utils
 
 class Reports():
 
@@ -57,6 +58,12 @@ class Reports():
             meanVal  = self.dfData[column].mean()
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
+
+        hourRain, hourDraught = utils.hourStreak(self.dfData)
+        dayRain, dayDraught   = utils.dayStreak(self.dfData)
+
+        self.reportValues["Hour"] = (hourRain, hourDraught)
+        self.reportValues["Days"] = (dayRain, dayDraught)
 
         rep.show(self.reportValues)
     #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------

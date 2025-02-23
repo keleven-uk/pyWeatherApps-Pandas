@@ -19,6 +19,8 @@
 #                                                                                                             #
 ###############################################################################################################
 
+from datetime import datetime
+
 from src.console import console, Table
 
 class Records:
@@ -64,7 +66,7 @@ class Records:
             data      = reportValues[key]
             category  = key
 
-            if category in ["Wind Direction"]:
+            if category in ["Wind Direction", "Hour", "Days"]:
                 continue
 
             maxDate   = data[0]
@@ -86,12 +88,18 @@ class Records:
 
             #  Add horizontal lines to the table to split the categories
             match category:
-                case "DayTimeTemperature" | "Outdoor Humidity" | "Indoor Humidity"| "UVI", "Rain Monthly" | "Wind Gust":
+                case "Outdoor Humidity" | "Indoor Humidity" | "UVI" | "Rain Monthly" | "Wind Gust" | "Pressure Absolute":
                     Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}", end_section=True)
                 case _:
-                    Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}")
+                    Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}",)
 
         console.print(Table)
+
+        print(reportValues["Hour"][0])
+        print(reportValues["Hour"][1])
+        print(reportValues["Days"][0])
+        print(reportValues["Days"][1])
+        print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")
     #-------------------------------------------------------------------------------- formatDate(self, category, amount) ---------------------------
     def formatDate(self, category, amount):
         """  Format values correctly and add imperial equivalents, if appropriate.

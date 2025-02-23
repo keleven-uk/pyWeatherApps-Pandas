@@ -29,12 +29,24 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.16     [23 February 2025]
+
+    Added two new functions in weatherUtils.py
+    The return the longest wet and dry periods, one looks for consecutive hours and the second in days.
+    The info is currently displayed below the table and only for the all time records.
+        Will add to the others when it has been validated.
+
+    The date and time the report is run is also displayed under the table.
+
+    Currently running Python V3.13.2 - updated all requirements
+
+
 V2025.15     [3 February 2025]
 
     Added a third date option "Day", along side "month" and "year"
     If the day option is selected, that the values for year, month and date need to be given.
         the input validation in args has been improved.
-    the max, min table is displayed, along with the line plot if required.
+    The max, min table is displayed, along with the line plot if required.
 
 
 V2025.14     [1 February 2025]

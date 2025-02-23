@@ -5,12 +5,12 @@
 #   <2025> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2025.15"
+myVERSION = "2025.16"
 myNAME    = "pyWeather"
 
 [DATA]
 year        = "2025"
-month       = "January"
+month       = "February"
 
 [GRAPH]
 width      = 1600
