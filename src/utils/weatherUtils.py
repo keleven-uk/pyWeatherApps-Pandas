@@ -40,6 +40,10 @@ def hourStreak(dfData):
     strkRaining = 0
     tmpDrought  = ""
     tmpRaining  = ""
+    strtRaining = dfData["Date"].iloc[0]
+    endRaining  = dfData["Date"].iloc[0]
+    strtDrought = dfData["Date"].iloc[0]
+    endDrought  = dfData["Date"].iloc[0]
 
     for row in dfData.itertuples():
         date = row.Date
@@ -92,13 +96,18 @@ def hourStreak(dfData):
     dtStartDrought = strtDrought.to_pydatetime()
     dtEndDrought   = endDrought.to_pydatetime()
 
+
     diffRaining = (dtEndRaining - dtStartRaining).total_seconds() / 3600
     diffDrought = (dtEndDrought - dtStartDrought).total_seconds() / 3600
 
-    rain    = f" It rained between {strtRaining.strftime("%d-%m-%Y, %H:%M")} and {endRaining.strftime("%d-%m-%Y, %H:%M")} for {diffRaining:0.2f} Hours"
-    draught = f"It was dry between {strtDrought.strftime("%d-%m-%Y, %H:%M")} and {endDrought.strftime("%d-%m-%Y, %H:%M")} for {diffDrought:0.2f} Hours"
+    rain    = f" On {strtRaining.strftime("%d-%m-%Y, %H:%M")} it rained for  {diffRaining:0.2f} Hours"
+    draught = f" On {strtDrought.strftime("%d-%m-%Y, %H:%M")} it was dry for {diffDrought:0.2f} Hours"
+
+    # rain    = f" It rained between {strtRaining.strftime("%d-%m-%Y, %H:%M")} and {endRaining.strftime("%d-%m-%Y, %H:%M")} for {diffRaining:0.2f} Hours"
+    # draught = f"It was dry between {strtDrought.strftime("%d-%m-%Y, %H:%M")} and {endDrought.strftime("%d-%m-%Y, %H:%M")} for {diffDrought:0.2f} Hours"
 
     return (rain, draught)
+
 
 def dayStreak(dfData):
     """  Iterated through the weather data and looks for the longest streak of wet or dry days.
@@ -119,6 +128,10 @@ def dayStreak(dfData):
     strkRaining = 0
     tmpDrought  = ""
     tmpRaining  = ""
+    strtRaining = dfData["Date"].iloc[0]
+    endRaining  = dfData["Date"].iloc[0]
+    strtDrought = dfData["Date"].iloc[0]
+    endDrought  = dfData["Date"].iloc[0]
     newDate     = dfData["Date"].iloc[0]                    #  Initialise to the first row.
     newRain     = dfData["Rain_Daily"].iloc[0]              #  Initialise to the first row.
 
@@ -180,7 +193,9 @@ def dayStreak(dfData):
     diffRaining = (dtEndRaining - dtStartRaining).total_seconds() / 86400
     diffDrought = (dtEndDrought - dtStartDrought).total_seconds() / 86400
 
-    rain    = f" It rained between {strtRaining.strftime("%d-%m-%Y, %H:%M")} and {endRaining.strftime("%d-%m-%Y, %H:%M")} for {diffRaining:0.0f} days"
-    draught = f"It was dry between {strtDrought.strftime("%d-%m-%Y, %H:%M")} and {endDrought.strftime("%d-%m-%Y, %H:%M")} for {diffDrought:0.0f} days"
+    rain    = f" On {strtRaining.strftime("%d-%m-%Y, %H:%M")} it rained for  {diffRaining:0.2f} Days"
+    draught = f" On {strtDrought.strftime("%d-%m-%Y, %H:%M")} it was dry for {diffDrought:0.2f} Days"
+    # rain    = f" It rained between {strtRaining.strftime("%d-%m-%Y, %H:%M")} and {endRaining.strftime("%d-%m-%Y, %H:%M")} for {diffRaining:0.2f} Days"
+    # draught = f"It was dry between {strtDrought.strftime("%d-%m-%Y, %H:%M")} and {endDrought.strftime("%d-%m-%Y, %H:%M")} for {diffDrought:0.2f} Days"
 
     return (rain, draught)

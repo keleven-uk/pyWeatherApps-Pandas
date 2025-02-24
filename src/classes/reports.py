@@ -33,6 +33,7 @@ class Reports():
         self.DataStoreName = pp.DATA_PATH / "dataStore.pickle"
         self.reportValues  = {}
         self.__load()
+        pd.options.mode.copy_on_write = True    # https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
     #-------------------------------------------------------------------------------- allTimeReport(self) -----------------------
     def allTimeReport(self):
         """  Process the data and extract the all time record values.
@@ -99,6 +100,13 @@ class Reports():
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
+        hourRain, hourDraught = utils.hourStreak(dfYear)
+        dayRain, dayDraught   = utils.dayStreak(dfYear)
+
+        self.reportValues["Hour"] = (hourRain, hourDraught)
+        self.reportValues["Days"] = (dayRain, dayDraught)
+
+
         rep.show(self.reportValues, year=reportYear)
 
     #-------------------------------------------------------------------------------- monthReport(self, reportYear, reportMonth) --------------
@@ -140,6 +148,12 @@ class Reports():
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
+        hourRain, hourDraught = utils.hourStreak(dfMonth)
+        dayRain, dayDraught   = utils.dayStreak(dfMonth)
+
+        self.reportValues["Hour"] = (hourRain, hourDraught)
+        self.reportValues["Days"] = (dayRain, dayDraught)
+
         rep.show(self.reportValues, month=reportMonth, year=reportYear)
     #-------------------------------------------------------------------------------- dayReport(self, reportYear, reportMonth, reportDay) --------------
     def dayReport(self, reportYear, reportMonth, reportDay):
@@ -179,6 +193,12 @@ class Reports():
             meanVal = dfDay[column].mean()
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
+
+        hourRain, hourDraught = utils.hourStreak(dfDay)
+        dayRain, dayDraught   = utils.dayStreak(dfDay)
+
+        self.reportValues["Hour"] = (hourRain, hourDraught)
+        self.reportValues["Days"] = (dayRain, dayDraught)
 
         rep.show(self.reportValues, day=reportDay, month=reportMonth, year=reportYear)
 #-------------------------------------------------------------------------------- __load(self) ----------------------------------

@@ -95,8 +95,10 @@ class Records:
 
         console.print(Table)
 
+        print("Dry / Raining streaks by Hour")
         print(reportValues["Hour"][0])
         print(reportValues["Hour"][1])
+        print("Dry / Raining streaks by Day")
         print(reportValues["Days"][0])
         print(reportValues["Days"][1])
         print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")
@@ -107,18 +109,12 @@ class Records:
         match category:
             case category if "Temperature" in category:
                 value  = f"{amount:.2f}\N{DEGREE SIGN}C"
-            case category if "Outdoor" in category:
-                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
-            case category if "Indoor" in category:
-                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
-            case category if "Solar" in category:
-                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
             # case category if "UVI" in category:
             #     value  = f"{amount:.2f}\N{DEGREE SIGN}C"
             case category if "Dew Point" in category:
-                value  = f"{amount}\N{DEGREE SIGN}C"
+                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
             case category if "Feels Like" in category:
-                value  = f"{amount}\N{DEGREE SIGN}C"
+                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
             case category if category.startswith("Rain"):
                 value  = f"{amount:4.0f}mm ({amount*0.0393701:4.2f}in)"
             case category if category.startswith("Wind"):
@@ -128,7 +124,7 @@ class Records:
             case category if category.startswith("Pressure"):
                 value  = f"{amount:4.0f} hPa"
             case category if "Humidity" in category:
-                value  = f"{amount}%"
+                value  = f"{amount:.2f}%"
             case _:
                 value = amount
 

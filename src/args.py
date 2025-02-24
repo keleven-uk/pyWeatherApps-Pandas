@@ -173,7 +173,7 @@ def parseArgs(Config, logger):
     if args.Yreport:
         """  If year[-Y] is given, check there is a year value.
         """
-        if not (args.year and args.month):
+        if not (args.year):
             utils.logPrint(logger, True, "ERROR :: With -Y [year] option a value of year[-y] must be given.", "danger")
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")

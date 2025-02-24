@@ -29,6 +29,14 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.17     [24 February 2025]
+
+    Added the Dry / Raining period check to the Yearly, Monthly and daily reports.
+
+    Corrected a bug in args.pry - it was looking for a month in error.
+    Corrected a bug in the display table, incorrect symbols on some the amounts.
+
+
 V2025.16     [23 February 2025]
 
     Added two new functions in weatherUtils.py
