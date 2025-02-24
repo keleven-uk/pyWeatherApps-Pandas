@@ -139,7 +139,9 @@ class dataStore():
                 #  This forces all entries to be of type float, all errors will be set to NaN.
                 #  We ignore the first header "date", this is not numeric and will be sorted with later.
                 data[pp.columnHeaders[1:]] = data[pp.columnHeaders[1:]].apply(pd.to_numeric, errors = "coerce")
-
+                #  Then swap all NaN with zero.
+                #  Thus makes further reporting easier.
+                data[pp.columnHeaders[1:]] = data[pp.columnHeaders[1:]].fillna(0)
                 # Overwriting date column after changing the Data to be of the format datetime from string.
                 data["Date"] = pd.to_datetime(data["Date"])
 
@@ -168,7 +170,8 @@ class dataStore():
             except FileNotFoundError:
                 utils.logPrint(self.logger, True, f" Error deleting {self.storeName}", "warning")
 
-            self.fStore.zap()
+            self.fStore.zap()       #  does it's own exception catching.'
+            self.pStore.zap()       #  does it's own exception catching.'
 
 
 

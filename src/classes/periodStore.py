@@ -100,3 +100,11 @@ class PeriodStore():
         except FileNotFoundError:
             utils.logPrint(self.logger, True, f"ERROR :: Cannot find Period Store file. {self.fileName}.  Will use an empty Store", "info")
             self.periodStore = {}
+        #-------------------------------------------------------------------------------- zap(self) ------------
+    def zap(self):
+            utils.logPrint(self.logger, True, f" Deleting File Store {self.fileName}", "info")
+
+            try:
+                self.fileName.unlink()
+            except FileNotFoundError:
+                utils.logPrint(self.logger, True, f" Error deleting {self.fileName}", "warning")

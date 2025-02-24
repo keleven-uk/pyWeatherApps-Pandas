@@ -77,14 +77,14 @@ class Reports():
 
         dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
 
+        #  Re-index the dataFrame, if not all the sperate files produces their own index.
+        #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
+        dfYear.reset_index(drop=True, inplace=True)
+
         for column in pp.columnHeaders[1:]:
 
             if column in ["Rain Yearly"]:
                 continue
-
-            #  Re-index the dataFrame, if not all the sperate files produces their own index.
-            #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
-            dfYear.reset_index(drop=True, inplace=True)
 
             maxVal  = dfYear[column].max()
             maxPos  = dfYear[column].idxmax()
@@ -125,14 +125,14 @@ class Reports():
         dfYear  = self.dfData[self.dfData["Date"].dt.year==reportYear]
         dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
 
+        #  Re-index the dataFrame, if not all the sperate files produces their own index.
+        #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
+        dfMonth.reset_index(drop=True, inplace=True)
+
         for column in pp.columnHeaders[1:]:
 
             if column in ["Rain Yearly"]:
                 continue
-
-            #  Re-index the dataFrame, if not all the sperate files produces their own index.
-            #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
-            dfMonth.reset_index(drop=True, inplace=True)
 
             maxVal  = dfMonth[column].max()
             maxPos  = dfMonth[column].idxmax()
@@ -160,7 +160,7 @@ class Reports():
 
         reportYear  = int(reportYear)
         searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
-        searchDay   = reportDay
+        searchDay   = int(reportDay)
 
         rep = dr.dailyRecords()
 
@@ -168,17 +168,14 @@ class Reports():
         dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
         dfDay   = dfMonth[dfMonth["Date"].dt.day==searchDay]
 
-        print(reportYear, reportMonth, reportDay)
-        print(dfDay.info())
+        #  Re-index the dataFrame, if not all the sperate files produces their own index.
+        #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
+        dfDay.reset_index(drop=True, inplace=True)
 
         for column in pp.columnHeaders[1:]:
 
             if column in ["Rain Yearly"]:
                 continue
-
-            #  Re-index the dataFrame, if not all the sperate files produces their own index.
-            #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
-            dfDay.reset_index(drop=True, inplace=True)
 
             maxVal  = dfDay[column].max()
             maxPos  = dfDay[column].idxmax()

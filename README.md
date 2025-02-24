@@ -9,35 +9,36 @@ A report can then be generated of the maximum, minimum and mean values for of al
 To install dependencies pip -r requirements.txt
 
 ```
-┌─────────────────────────────────── pyWeather 2025.12 ───────────────────────────────────┐
+┌─────────────────────────────────── pyWeather 2025.17 ───────────────────────────────────┐
 │ This program comes with ABSOLUTELY NO WARRANTY; for details type `pyWeather -l'.        │
 │ This is free software, and you are welcome to redistribute it under certain conditions. │
 └──────────────────────────── Copyright (C) 2025  Kevin Scott ────────────────────────────┘
 
-usage: main.py [-h] [-l] [-v] [-e] [-i] [-c] [-cD] [-b] [-M] [-Y] [-A] [-P PLOT] [-H] [-y YEAR] [-m MONTH] [-Z]
+usage: main.py [-h] [-l] [-v] [-e] [-i] [-c] [-cD] [-b] [-D] [-M] [-Y] [-A] [-P PLOT] [-H] [-y YEAR] [-m MONTH] [-d DAY] [-Z]
 
 Builds a main data store out of individual weather data spreadsheets.
 
 options:
-  -h, --help            show this help message and exit
-  -l, --license         Print the Software License.
-  -v, --version         Print the version of the application.
-  -e, --explorer        Load program working directory into file explorer.
-  -i, --info            Print info on the data store [Pandas dataFrame].
-  -c, --check           Check data store integrity.
-  -cD, --checkDelete    Check data store integrity and delete unwanted.
-  -b, --build           Build the data data store - consolidate the spreadsheets.
-  -M, --Mreport         Report on the data data store - finds the monthly highs and lows.
-  -Y, --Yreport         Report on the data data store - finds the yearly highs and lows.
-  -A, --Areport         Report on the data data store - finds the all time highs and lows.
-  -P PLOT, --Plot PLOT  Plot a line graph of the table, -H for column selection.
-  -H, --PlotHelp        Display the column selection for plotting.
-  -y YEAR, --year YEAR  Year of data files to report on.
-  -m MONTH, --month MONTH
-                        Month of data files to report on.
-  -Z, --Zap             Delete [Zap] both data and file stores.
+  -h, --help          show this help message and exit
+  -l, --license       Print the Software License.
+  -v, --version       Print the version of the application.
+  -e, --explorer      Load program working directory into file explorer.
+  -i, --info          Print info on the data store [Pandas dataFrame].
+  -c, --check         Check data store integrity.
+  -cD, --checkDelete  Check data store integrity and delete unwanted.
+  -b, --build         Build the data data store - consolidate the spreadsheets.
+  -D, --Dreport       Report on the data data store - finds the Daily highs and lows.
+  -M, --Mreport       Report on the data data store - finds the monthly highs and lows.
+  -Y, --Yreport       Report on the data data store - finds the yearly highs and lows.
+  -A, --Areport       Report on the data data store - finds the all time highs and lows.
+  -P, --Plot PLOT     Plot a line graph of the table, -H for column selection.
+  -H, --PlotHelp      Display the column selection for plotting.
+  -y, --year YEAR     Year of data files to report on.
+  -m, --month MONTH   Month of data files to report on.
+  -d, --day DAY       Day of data files to report on.
+  -Z, --Zap           Delete [Zap] both data and file stores.
 
- Kevin Scott (C) 2025 :: pyWeather V2025.14
+ Kevin Scott (C) 2025 :: pyWeather V2025.17
 ```
 
 For changes see history.txt
@@ -47,7 +48,7 @@ For changes see history.txt
 │ This program comes with ABSOLUTELY NO WARRANTY; for details type `pyWeather -l'.        │                             
 │ This is free software, and you are welcome to redistribute it under certain conditions. │                             
 └──────────────────────────── Copyright (C) 2025  Kevin Scott ────────────────────────────┘                             
-                                                                                                                        
+
 [16:47:35] Start of pyWeather 2025.17                                                                                   
                                                All Time Weather Records                                                 
 ┌─────────────────────┬───────────────────┬───────────────────────┬───────────────────┬───────────┬─────────────────┐   
@@ -84,9 +85,9 @@ Dry / Raining streaks by Day
  On 23-10-2023, 23:55 it rained for  17.00 Days                                                                         
  On 19-06-2024, 23:55 it was dry for 10.00 Days                                                                         
 Table generated 24-02-2025  16:47                                                                                       
-                                                                                                                        
+
 [16:47:37] pyWeather Completed :: 2.59s                                                                                 
            End of pyWeather 2025.17                                                                                     
 ```
 
-![](resources\Tempratures_2023.jpg)
+![](resources/Tempratures_2023.jpg)

@@ -38,8 +38,8 @@ def hourStreak(dfData):
     daysRaining = 0
     strkDrought = 0
     strkRaining = 0
-    tmpDrought  = ""
-    tmpRaining  = ""
+    tmpDrought  = dfData["Date"].iloc[0]
+    tmpRaining  = dfData["Date"].iloc[0]
     strtRaining = dfData["Date"].iloc[0]
     endRaining  = dfData["Date"].iloc[0]
     strtDrought = dfData["Date"].iloc[0]
@@ -126,8 +126,8 @@ def dayStreak(dfData):
     daysRaining = 0
     strkDrought = 0
     strkRaining = 0
-    tmpDrought  = ""
-    tmpRaining  = ""
+    tmpDrought  = dfData["Date"].iloc[0]
+    tmpRaining  = dfData["Date"].iloc[0]
     strtRaining = dfData["Date"].iloc[0]
     endRaining  = dfData["Date"].iloc[0]
     strtDrought = dfData["Date"].iloc[0]

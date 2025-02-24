@@ -37,6 +37,17 @@ V2025.17     [24 February 2025]
     Corrected a bug in the display table, incorrect symbols on some the amounts.
 
 
+V2025.17     [24 February 2025]
+
+    Corrected a but when running the day report for 13 January 2025 - but okay foe many other days.
+        It was found that a NaN value was causing the problem.
+        When the dataStore is built, all non numeric values are forced to NaN.
+        Added the the build, that all NaN are then converted to zero.
+
+    Also, all the reports were re-indexing within a loop, moved re-indexing out of the loop.
+    Added a zap option to the periodStore.
+
+
 V2025.16     [23 February 2025]
 
     Added two new functions in weatherUtils.py
