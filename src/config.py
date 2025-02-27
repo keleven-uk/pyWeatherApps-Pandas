@@ -132,7 +132,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.17",
+        config["INFO"] = {"myVERSION" : "2025.19",
                           "myNAME"    : "pyWeather"}
 
         config["DATA"] = {"month"       : "January",

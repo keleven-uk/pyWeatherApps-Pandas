@@ -66,11 +66,11 @@ class Records:
             data      = reportValues[key]
             category  = key
 
-            if category in ["Wind Direction", "Hour", "Days"]:
+            if category in ["Wind Direction"]:
                 continue
 
             maxDate   = data[0]
-            maxAmount = self.formatDate(category, data[1])
+            maxAmount = self.formatValue(category, data[1])
 
             if category in ["Solar", "UVI", "Rain Rate", "Rain Daily", "Rain Event", "Rain Hourly", "Rain Weekly", "Rain Monthly",
                             "Rain Yearly", "Wind Speed", "Wind Gust"]:
@@ -78,13 +78,27 @@ class Records:
                 minAmount  = ""
             else:
                 minDate    = data[2]
-                minAmount  = self.formatDate(category, data[3])
+                minAmount  = self.formatValue(category, data[3])
 
             if category in ["Solar", "UVI", "Rain Rate", "Rain Daily", "Rain Event", "Rain Hourly",
-                            "Rain Yearly", "Wind Speed", "Wind Gust"]:
+                            "Rain Yearly", "Wind Speed", "Wind Gust", "Days", "Hour", "Sun"]:
                 meanAmount = ""
             else:
-                meanAmount = self.formatDate(category, data[4])
+                meanAmount = self.formatValue(category, data[4])
+
+            if category == "Days":
+                category  = "Consecutive Days of Rain/Drought"
+                maxAmount = maxAmount + " Wet days"
+                minAmount = minAmount + " Dry days"
+                print(maxDate, minDate)
+            if category == "Hour":
+                category  = "Consecutive Hours of Rain/Drought"
+                maxAmount = maxAmount + " Wet hours"
+                minAmount = minAmount + " Dry hours"
+            if category == "Sun":
+                category  = "Consecutive Days of Sun/No Sun"
+                maxAmount = maxAmount + " Sunny days"
+                minAmount = minAmount + " Dull days"
 
             #  Add horizontal lines to the table to split the categories
             match category:
@@ -95,22 +109,14 @@ class Records:
 
         console.print(Table)
 
-        print("Dry / Raining streaks by Hour")
-        print(reportValues["Hour"][0])
-        print(reportValues["Hour"][1])
-        print("Dry / Raining streaks by Day")
-        print(reportValues["Days"][0])
-        print(reportValues["Days"][1])
         print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")
     #-------------------------------------------------------------------------------- formatDate(self, category, amount) ---------------------------
-    def formatDate(self, category, amount):
+    def formatValue(self, category, amount):
         """  Format values correctly and add imperial equivalents, if appropriate.
         """
         match category:
             case category if "Temperature" in category:
                 value  = f"{amount:.2f}\N{DEGREE SIGN}C"
-            # case category if "UVI" in category:
-            #     value  = f"{amount:.2f}\N{DEGREE SIGN}C"
             case category if "Dew Point" in category:
                 value  = f"{amount:.2f}\N{DEGREE SIGN}C"
             case category if "Feels Like" in category:
@@ -125,6 +131,12 @@ class Records:
                 value  = f"{amount:4.0f} hPa"
             case category if "Humidity" in category:
                 value  = f"{amount:.2f}%"
+            case category if "Days" in category:
+                value  = f"{amount:4.0f}"
+            case category if "Hour" in category:
+                value  = f"{amount:4.0f}"
+            case category if "Sun" in category:
+                value  = f"{amount:4.0f}"
             case _:
                 value = amount
 

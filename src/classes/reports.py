@@ -60,11 +60,14 @@ class Reports():
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
-        hourRain, hourDraught = utils.hourStreak(self.dfData)
-        dayRain, dayDraught   = utils.dayStreak(self.dfData)
+        rainDate, rainVal, droughtDate, droughtVal = utils.hourStreak(self.dfData)
+        self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
 
-        self.reportValues["Hour"] = (hourRain, hourDraught)
-        self.reportValues["Days"] = (dayRain, dayDraught)
+        rainDate, rainVal, droughtDate, droughtVal   = utils.dayStreak(self.dfData)
+        self.reportValues["Days"] = (rainDate, rainVal, droughtDate, droughtVal)
+
+        sunDate, sunVal, dullDate, dullVal = utils.daysSunshine(self.dfData)
+        self.reportValues["Sun"] = (sunDate, sunVal, dullDate, dullVal)
 
         rep.show(self.reportValues)
     #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------
@@ -100,12 +103,14 @@ class Reports():
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
-        hourRain, hourDraught = utils.hourStreak(dfYear)
-        dayRain, dayDraught   = utils.dayStreak(dfYear)
+        rainDate, rainVal, droughtDate, droughtVal = utils.hourStreak(dfYear)
+        self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
 
-        self.reportValues["Hour"] = (hourRain, hourDraught)
-        self.reportValues["Days"] = (dayRain, dayDraught)
+        rainDate, rainVal, droughtDate, droughtVal   = utils.dayStreak(dfYear)
+        self.reportValues["Days"] = (rainDate, rainVal, droughtDate, droughtVal)
 
+        sunDate, sunVal, dullDate, dullVal = utils.daysSunshine(dfYear)
+        self.reportValues["Sun"] = (sunDate, sunVal, dullDate, dullVal)
 
         rep.show(self.reportValues, year=reportYear)
 
@@ -148,11 +153,14 @@ class Reports():
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
-        hourRain, hourDraught = utils.hourStreak(dfMonth)
-        dayRain, dayDraught   = utils.dayStreak(dfMonth)
+        rainDate, rainVal, droughtDate, droughtVal = utils.hourStreak(dfMonth)
+        self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
 
-        self.reportValues["Hour"] = (hourRain, hourDraught)
-        self.reportValues["Days"] = (dayRain, dayDraught)
+        rainDate, rainVal, droughtDate, droughtVal   = utils.dayStreak(dfMonth)
+        self.reportValues["Days"] = (rainDate, rainVal, droughtDate, droughtVal)
+
+        sunDate, sunVal, dullDate, dullVal = utils.daysSunshine(dfMonth)
+        self.reportValues["Sun"] = (sunDate, sunVal, dullDate, dullVal)
 
         rep.show(self.reportValues, month=reportMonth, year=reportYear)
     #-------------------------------------------------------------------------------- dayReport(self, reportYear, reportMonth, reportDay) --------------
@@ -191,11 +199,8 @@ class Reports():
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
-        hourRain, hourDraught = utils.hourStreak(dfDay)
-        dayRain, dayDraught   = utils.dayStreak(dfDay)
-
-        self.reportValues["Hour"] = (hourRain, hourDraught)
-        self.reportValues["Days"] = (dayRain, dayDraught)
+        rainDate, rainVal, droughtDate, droughtVal = utils.hourStreak(dfDay)
+        self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
 
         rep.show(self.reportValues, day=reportDay, month=reportMonth, year=reportYear)
 #-------------------------------------------------------------------------------- __load(self) ----------------------------------

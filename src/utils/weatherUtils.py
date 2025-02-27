@@ -20,14 +20,66 @@
 ###############################################################################################################
 
 
-
-def hourStreak(dfData):
-    """  Iterated through the weather data and looks for the longest streak of wet or dry hours.
+def daysSunshine(dfData):
+    """  Iterate through the weather data and looks for the longest streak days with sunshine.
+            Sunshine is defined by a Solar value of over 100000 Lux [1000 Klux].
 
          The input is a Pandas data frame holding the weather data.
            It should contain at least two columns "Date" and "Rain Hourly"
 
-         The output is a string containing the start and end dates of the streak and the length in hours.
+         The output a tuple containing the start dates and length of sun/dull days.
+    """
+    dfData["Solar"] = dfData["Solar"].fillna(0)                     # Just in case any exist.
+
+    solarLevel = 100000
+    oldDate  = ""
+    maxSolar = 0
+    daysSun  = 0
+    daysDull = 0
+    strkSun  = 0
+    strkDull = 0
+    tmpSun   = ""
+    tmpDull  = ""
+
+    for row in dfData.itertuples():
+            date  = row.Date.strftime("%d-%m-%Y")
+            solar = row.Solar
+
+            if solar > maxSolar:
+                maxSolar = solar
+
+            if date != oldDate:
+                oldDate = date
+
+                if maxSolar > solarLevel:
+                    daysSun += 1
+                    daysDull = 0
+                    if daysSun == 1:
+                        tmpSun = date
+                    if daysSun > strkSun:
+                        strkSun = daysSun
+                        dateSun = tmpSun
+                else:
+                    daysDull += 1
+                    daysSun   = 0
+                    if daysDull == 1:
+                        tmpDull = date
+                    if daysDull > strkDull:
+                        strkDull = daysDull
+                        dateDull = tmpDull
+
+                maxSolar  = 0
+
+    return (dateSun, strkSun, dateDull, strkDull)
+
+
+def hourStreak(dfData):
+    """  Iterate through the weather data and looks for the longest streak of wet or dry hours.
+
+         The input is a Pandas data frame holding the weather data.
+           It should contain at least two columns "Date" and "Rain Hourly"
+
+         The output a tuple containing the start dates and length of rain/dry hours.
     """
     dfData.columns = dfData.columns.str.replace(" ","_")        # No spaces in tuple headers.
     dfData["Rain_Hourly"] = dfData["Rain_Hourly"].fillna(0)     # Just in case any exist.
@@ -100,22 +152,16 @@ def hourStreak(dfData):
     diffRaining = (dtEndRaining - dtStartRaining).total_seconds() / 3600
     diffDrought = (dtEndDrought - dtStartDrought).total_seconds() / 3600
 
-    rain    = f" On {strtRaining.strftime("%d-%m-%Y, %H:%M")} it rained for  {diffRaining:0.2f} Hours"
-    draught = f" On {strtDrought.strftime("%d-%m-%Y, %H:%M")} it was dry for {diffDrought:0.2f} Hours"
-
-    # rain    = f" It rained between {strtRaining.strftime("%d-%m-%Y, %H:%M")} and {endRaining.strftime("%d-%m-%Y, %H:%M")} for {diffRaining:0.2f} Hours"
-    # draught = f"It was dry between {strtDrought.strftime("%d-%m-%Y, %H:%M")} and {endDrought.strftime("%d-%m-%Y, %H:%M")} for {diffDrought:0.2f} Hours"
-
-    return (rain, draught)
+    return (strtRaining.strftime("%d-%m-%Y, %H:%M"), diffRaining, strtDrought.strftime("%d-%m-%Y, %H:%M"), diffDrought)
 
 
 def dayStreak(dfData):
-    """  Iterated through the weather data and looks for the longest streak of wet or dry days.
+    """  Iterate through the weather data and looks for the longest streak of wet or dry days.
 
          The input is a Pandas data frame holding the weather data.
            It should contain at least two columns "Date" and "Rain Daily"
 
-         The output is a string containing the start and end dates of the streak and the length in days.
+         The output a tuple containing the start dates and length of rain/dry days.
     """
     dfData.columns = dfData.columns.str.replace(" ","_")    # No spaces in tuple headers.
     dfData["Rain_Daily"] = dfData["Rain_Daily"].fillna(0)   # Just in case any exist.
@@ -193,9 +239,4 @@ def dayStreak(dfData):
     diffRaining = (dtEndRaining - dtStartRaining).total_seconds() / 86400
     diffDrought = (dtEndDrought - dtStartDrought).total_seconds() / 86400
 
-    rain    = f" On {strtRaining.strftime("%d-%m-%Y, %H:%M")} it rained for  {diffRaining:0.2f} Days"
-    draught = f" On {strtDrought.strftime("%d-%m-%Y, %H:%M")} it was dry for {diffDrought:0.2f} Days"
-    # rain    = f" It rained between {strtRaining.strftime("%d-%m-%Y, %H:%M")} and {endRaining.strftime("%d-%m-%Y, %H:%M")} for {diffRaining:0.2f} Days"
-    # draught = f"It was dry between {strtDrought.strftime("%d-%m-%Y, %H:%M")} and {endDrought.strftime("%d-%m-%Y, %H:%M")} for {diffDrought:0.2f} Days"
-
-    return (rain, draught)
+    return (strtRaining.strftime("%d-%m-%Y"), diffRaining, strtDrought.strftime("%d-%m-%Y"), diffDrought)

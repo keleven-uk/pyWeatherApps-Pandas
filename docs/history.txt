@@ -29,23 +29,32 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.19     [27 February 2025]
+
+    Added a new function to check for periods in days for the sun to shine or not.
+        Sunshine is defined by a Solar value of over 100000 Lux [1000 Klux].
+        Added function to all reports.
+
+    Amended the display table to include the extra functions, instead of printing underneath.
+
+
+V2025.18     [24 February 2025]
+
+    Corrected a bug when running the day report for 13 January 2025 - but okay for many other days.
+        It was found that a NaN value was causing the problem.
+        When the dataStore is built, all non numeric values are forced to NaN.
+        Added to the build, that all NaN values are then converted to zero.
+
+    Also, all the reports were re-indexing within a loop, moved re-indexing out of the loop.
+    Added a zap option to the periodStore.
+
+
 V2025.17     [24 February 2025]
 
     Added the Dry / Raining period check to the Yearly, Monthly and daily reports.
 
     Corrected a bug in args.pry - it was looking for a month in error.
     Corrected a bug in the display table, incorrect symbols on some the amounts.
-
-
-V2025.17     [24 February 2025]
-
-    Corrected a but when running the day report for 13 January 2025 - but okay foe many other days.
-        It was found that a NaN value was causing the problem.
-        When the dataStore is built, all non numeric values are forced to NaN.
-        Added the the build, that all NaN are then converted to zero.
-
-    Also, all the reports were re-indexing within a loop, moved re-indexing out of the loop.
-    Added a zap option to the periodStore.
 
 
 V2025.16     [23 February 2025]
