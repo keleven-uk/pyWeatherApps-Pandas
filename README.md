@@ -9,7 +9,7 @@ A report can then be generated of the maximum, minimum and mean values for of al
 To install dependencies pip -r requirements.txt
 
 ```
-┌─────────────────────────────────── pyWeather 2025.19 ───────────────────────────────────┐
+┌─────────────────────────────────── pyWeather 2025.20 ───────────────────────────────────┐
 │ This program comes with ABSOLUTELY NO WARRANTY; for details type `pyWeather -l'.        │
 │ This is free software, and you are welcome to redistribute it under certain conditions. │
 └──────────────────────────── Copyright (C) 2025  Kevin Scott ────────────────────────────┘
@@ -38,7 +38,7 @@ options:
   -d, --day DAY       Day of data files to report on.
   -Z, --Zap           Delete [Zap] both data and file stores.
 
- Kevin Scott (C) 2025 :: pyWeather V2025.19
+ Kevin Scott (C) 2025 :: pyWeather V2025.20
 ```
 
 For changes see history.txt

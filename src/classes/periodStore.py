@@ -1,13 +1,9 @@
 ###############################################################################################################
 #    periodStore.py   Copyright (C) <2025>  <Kevin Scott>                                                     #
 #                                                                                                             #
-#    A class that acts has a wrapper around a dictionary access.                                              #
-#    The items to store are song files,                                                                       #
-#      The key is either made up of {song.artist}:{tag.title}                                                 #
-#        or soundex({song.artist}:{tag.title})                                                                #
-#        or any unique token generated from the song.                                                         #
-#      The data is a list [songFile, songDuration, ignore flag]                                               #
-#                                                                                                             #
+#    A simple class that wraps the period store dictionary.                                                   #
+#    The items to store are years,                                                                            #
+#      The key is either made up of a list of the months                                                      #
 #    Uses pickle or json to load and save the library.                                                        #
 #    The format is specified when the library is created.                                                     #
 #                                                                                                             #
@@ -37,6 +33,8 @@ class PeriodStore():
     """  A simple class that wraps the period store dictionary.
 
          The store holds year and month that contain data.
+
+         Mainly used to check command line arguments for month and year.
 
     """
 

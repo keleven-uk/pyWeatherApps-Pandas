@@ -24,22 +24,27 @@ def daysSunshine(dfData):
     """  Iterate through the weather data and looks for the longest streak days with sunshine.
             Sunshine is defined by a Solar value of over 100000 Lux [1000 Klux].
 
+            Footcandles is the Imperial measurement and Lux is the Metric measurement of the same thing.
+            1 footcandle = 10.764 lux.
+            Both quantify the amount of light falling on a specific point or object.
+
          The input is a Pandas data frame holding the weather data.
-           It should contain at least two columns "Date" and "Rain Hourly"
+           It should contain at least two columns "Date" and "Solar"
 
          The output a tuple containing the start dates and length of sun/dull days.
     """
     dfData["Solar"] = dfData["Solar"].fillna(0)                     # Just in case any exist.
 
-    solarLevel = 100000
-    oldDate  = ""
-    maxSolar = 0
-    daysSun  = 0
-    daysDull = 0
-    strkSun  = 0
-    strkDull = 0
-    tmpSun   = ""
-    tmpDull  = ""
+    solarLevel = 9290.304       #  Light intensity is returned if fc [footcandles]
+    oldDate    = ""
+    maxSolar   = 0
+    daysSun    = 0
+    daysDull   = 0
+    strkSun    = 0
+    strkDull   = 0
+    tmpSun     = ""
+    tmpDull    = ""
+    dateSun    = ""
 
     for row in dfData.itertuples():
             date  = row.Date.strftime("%d-%m-%Y")

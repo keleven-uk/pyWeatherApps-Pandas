@@ -33,6 +33,7 @@ import sys
 import textwrap
 import argparse
 import calendar
+import datetime
 
 import src.license as License
 import src.projectPaths as pp
@@ -152,7 +153,9 @@ def parseArgs(Config, logger):
              If a non-valid day is given, display an error message and exit.
         """
         day         = int(args.day)
-        daysInMonth = calendar.monthrange(2023, 1)[1]
+        year        = int(args.year)
+        intMonth    = list(calendar.month_name).index(args.month)
+        daysInMonth = calendar.monthrange(year, intMonth)[1]
         if not (0 <= day <= daysInMonth):
             utils.logPrint(logger, True, f"ERROR :: Not in day range for {args.year} {month} [0-{daysInMonth}].", "danger")
             utils.logPrint(logger, False, "-" * 100, "info")
@@ -192,15 +195,13 @@ def parseArgs(Config, logger):
         """  If moth[-D] is given, check there is a year, month and day value.
         """
         if not (args.year and args.month and args.day):
-            utils.logPrint(logger, True, "ERROR :: With -D [day] option a value of year[-y] and month[-m]  and day[-d] must be given.", "danger")
+            utils.logPrint(logger, True, "ERROR :: With -D [day] option a value of year[-y] and month[-m] and day[-d] must be given.", "danger")
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
 
 
     return args.build, args.Plot, args.info, checkDB, args.Areport, args.Yreport, args.Mreport, args.Dreport, args.year, month, day, args.Zap
-
-
 
 
 

@@ -27,7 +27,9 @@
 
 #  Data = 3 July 2023 - 22 October 2024 and 4 November - current.
 #  The break is for a faulty temperature sensor.
+
 import sys
+import datetime
 
 import src.args as args
 import src.timer as Timer
@@ -61,7 +63,7 @@ if __name__ == "__main__":
     timer = Timer.Timer()
     timer.Start()
 
-    dataStore = ds.dataStore(logger)
+    dataStore = ds.dataStore(logger, Config)
     reports   = rep.Reports()
     plots     = pl.Plots(Config)
 
@@ -89,6 +91,13 @@ if __name__ == "__main__":
             plots.yearPlot(reportYear, plot)
     elif Zap:
         dataStore.zap()
+
+        strNow  = datetime.datetime.now()
+        written = strNow.strftime("%d-%m-%Y")
+        Config.START_DATE  = f"{written}"                       #  reset to todays date, so an earlier date will be start
+        Config.END_DATE    = ""
+        Config.NO_OF_LINES = 0
+        Config.writeConfig()
     else:
         utils.logPrint(logger, True, f"No arguments, please run {Config.NAME} -h", "danger")
 

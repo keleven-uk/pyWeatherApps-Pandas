@@ -1,26 +1,26 @@
-#   Configure files for pyWeather.py
+#   Configure file for pyWeather.py
+#   (c) 2025 Kevin Scott   Written Monday 03 March 2025  20:44:10
 #
 #   true and false are lower case
 #
-#   <2025> (c) Kevin Scott
-
 [INFO]
-myVERSION = "2025.19"
-myNAME    = "pyWeather"
+myVERSION = "2025.20"
+myNAME = "pyWeather"
 
 [DATA]
-year        = "2025"
-month       = "February"
+year = "2025"
+month = "February"
+startDate = "02-07-2023"
+endDate = "28-02-2025"
+noOfLines = 593
 
 [GRAPH]
-width      = 1600
-height     = 1000
-X_pos      = 30
-Y_pos      = 30
-lineWidth  = 1
-lineStyle  = "-"
+width = 1600
+height = 1000
+X_pos = 30
+Y_pos = 30
+lineWidth = 1
+lineStyle = "-"
 lineColour = "green"
-alpha      = 0.75
-grid       = true
-
-
+alpha = 0.75
+grid = true

@@ -20,6 +20,7 @@
 #                                                                                                             #
 ###############################################################################################################
 
+import datetime
 import toml
 
 from src.console import console
@@ -81,6 +82,33 @@ class Config():
         return f"{year}"
 
     @property
+    def START_DATE(self):
+        startDate = self.config["DATA"]["startDate"]
+        return f"{startDate}"
+
+    @START_DATE.setter
+    def START_DATE(self, value):
+        self.config["DATA"]["startDate"] = value
+
+    @property
+    def END_DATE(self):
+        endDate = self.config["DATA"]["endDate"]
+        return f"{endDate}"
+
+    @END_DATE.setter
+    def END_DATE(self, value):
+        self.config["DATA"]["endDate"] = value
+
+    @property
+    def NO_OF_LINES(self):
+        noOfLines = self.config["DATA"]["noOfLines"]
+        return noOfLines
+
+    @NO_OF_LINES.setter
+    def NO_OF_LINES(self, value):
+        self.config["DATA"]["noOfLines"] = value
+
+    @property
     def GRAPH_WIDTH(self):
         graph_width = self.config["GRAPH"]["width"]
         return f"{graph_width}"
@@ -126,17 +154,38 @@ class Config():
         return grid                                 #  Return Boolean.
 
 
+    def writeConfig(self):
+        """ Write the current config file.
+        """
+        strNow  = datetime.datetime.now()
+        written = strNow.strftime("%A %d %B %Y  %H:%M:%S")
+        st_toml = toml.dumps(self.config)
+
+        with open(self.FILE_NAME, "w") as configFile:       # In context manager.
+            configFile.write("#   Configure file for pyWeather.py \n")
+            configFile.write(f"#   (c) 2025 Kevin Scott   Written {written}\n")
+            configFile.write("#\n")
+            configFile.write("#   true and false are lower case \n")
+            configFile.write("#\n")
+
+            configFile.writelines(st_toml)
+
     def _writeDefaultConfig(self):
         """ Write a default configure file.
             This is hard coded  ** TO KEEP UPDATED **
         """
-        config = dict()
+        strNow  = datetime.datetime.now()
+        written = strNow.strftime("%A %d %B %Y  %H:%M:%S")
+        config  = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.19",
+        config["INFO"] = {"myVERSION" : "2025.20",
                           "myNAME"    : "pyWeather"}
 
         config["DATA"] = {"month"       : "January",
-                          "year"        : "2025"}
+                          "year"        : "2025",
+                          "startDate"   : f"{datetime.datetime.now().strftime("%d-%m-%Y")}",
+                          "EndDate"     : "01-01-1960",
+                          "noOfLines"   : 0}
 
         config["GRAPH"] = {"width"      : 1400,
                            "height"     : 1000,
@@ -151,12 +200,11 @@ class Config():
         st_toml = toml.dumps(config)
 
         with open(self.FILE_NAME, "w") as configFile:       # In context manager.
-            configFile.write("#   Configure files for pyDataBuild.py \n")
+            configFile.write("#   Configure file for pyWeather.py \n")
+            configFile.write(f"#   (c) 2025 Kevin Scott   Written {written}\n")
             configFile.write("#\n")
             configFile.write("#   true and false are lower case \n")
             configFile.write("#\n")
-            configFile.write("#   <2025> (c) Kevin Scott \n")
-            configFile.write("\n")
             configFile.writelines(st_toml)                  # Write configure file.
 
         with open(self.FILE_NAME, "r") as configFile:       # In context manager.

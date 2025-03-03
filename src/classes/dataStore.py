@@ -17,6 +17,8 @@
 #                                                                                                             #
 ###############################################################################################################
 
+import datetime
+
 import pymsgbox
 
 import pandas as pd
@@ -39,8 +41,9 @@ class dataStore():
         TODO - possibly needs error checking [some done, some to go].
     """
 
-    def __init__(self, logger):
+    def __init__(self, logger, config):
         self.logger    = logger
+        self.config    = config
         self.fStore    = fs.FileStore(self.logger)            #  Create the file store.
         self.pStore    = ps.PeriodStore(self.logger)          #  Create the period store, holds year and month that contain data.
         self.storeName = pp.DATA_PATH / "dataStore.pickle"
@@ -86,6 +89,7 @@ class dataStore():
     def info(self):
         """  Print our info about the data store [Pandas dataFrame]
         """
+        print(f"\n Data runs from {self.config.START_DATE} to {self.config.END_DATE} and comprises {self.config.NO_OF_LINES} days \n")
         self.dfData.info(verbose=True)
     #-------------------------------------------------------------------------------- checkData(self, checkDB) ------------------
     def checkData(self, checkDB):
@@ -117,12 +121,19 @@ class dataStore():
 
         currentMonth = ""
         CurrentYear  = ""
+        startDate    = self.strToDate(self.config.START_DATE)
+        endDate      = self.strToDate(self.config.END_DATE)
+        noOfLines    = self.config.NO_OF_LINES
+
+        print(f"{self.config.START_DATE} {self.config.END_DATE} {self.config.NO_OF_LINES} ")
 
         for fileName in self.fStore.storeFiles():
             fileData = self.fStore.getItem(fileName)
             if not fileData[0]:
                 month = fileData[1]
                 year  = fileData[2]
+
+                noOfLines += 1
 
                 if CurrentYear != year:
                     CurrentYear = year
@@ -142,13 +153,27 @@ class dataStore():
                 #  Then swap all NaN with zero.
                 #  Thus makes further reporting easier.
                 data[pp.columnHeaders[1:]] = data[pp.columnHeaders[1:]].fillna(0)
+
                 # Overwriting date column after changing the Data to be of the format datetime from string.
                 data["Date"] = pd.to_datetime(data["Date"])
+
+                currDate  = data["Date"].iloc[0]
+
+                if currDate < startDate:
+                    startDate = currDate
+                if currDate > endDate:
+                    endDate = currDate
 
                 #  Add the new cleaned dataframe to the main dataframe.
                 self.dfData = self.dfData._append(data)
 
                 self.fStore.setProcessed(fileName)                                              #  Mark files as processed.
+
+        self.config.START_DATE  = startDate.strftime("%d-%m-%Y")
+        self.config.END_DATE    = endDate.strftime("%d-%m-%Y")
+        self.config.NO_OF_LINES = noOfLines
+
+        self.config.writeConfig()
     #-------------------------------------------------------------------------------- __load(self) ------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.
@@ -161,7 +186,7 @@ class dataStore():
     def zap(self):
         responce = pymsgbox.confirm(text="""Are you sure you want to clear the Data and File stores \
                                             You will need to build again.""", title="Warning", buttons=["OK", "Cancel"])
-        print(responce)
+
         if responce == "OK":
             utils.logPrint(self.logger, True, f" Deleting Data Store : {self.storeName}", "info")
 
@@ -173,5 +198,14 @@ class dataStore():
             self.fStore.zap()       #  does it's own exception catching.'
             self.pStore.zap()       #  does it's own exception catching.'
 
+    def strToDate(self, strDate):
+        """  Converts a string to a datetime.
+        """
+        try:
+            return datetime.datetime.strptime(strDate, "%d-%m-%Y")
+        except ValueError as e:
+            utils.logPrint(logger, True, f"ERROR :: {strDate} Cannot be converted to datetime {e}.", "danger")
+            print("Goodbye.")
+            sys.exit(3)
 
 

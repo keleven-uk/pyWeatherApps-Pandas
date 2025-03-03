@@ -29,6 +29,19 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.20     [3 March 2025]
+
+    When the dataStore is built, it now keeps track on the start and end dates, plus the number of day files..
+        These are stored in the config file.
+        Mainly used in the display info, at the moment.
+        These are also reset when the stores are zapped.
+
+    Corrected the level of solar for measuring sunshine.
+        The threshold was 1000000 Lux, but the value is returned as fc [foortCandles.].
+        A conversion is made - looks a lot better now.
+    Corrected a bug when the command line arguments return a day and it is tested against the days in the month.
+
+
 V2025.19     [27 February 2025]
 
     Added a new function to check for periods in days for the sun to shine or not.
