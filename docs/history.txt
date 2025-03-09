@@ -29,6 +29,14 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.21     [9 March 2025]
+
+    Added the total number of sunny / dull days in a given period.
+        Added to the all time, yearly and monthly reports.
+
+    Also, simplified the logic when building the displayed table.
+
+
 V2025.20     [3 March 2025]
 
     When the dataStore is built, it now keeps track on the start and end dates, plus the number of day files..

@@ -66,39 +66,58 @@ class Records:
             data      = reportValues[key]
             category  = key
 
-            if category in ["Wind Direction"]:
-                continue
+            match category:
+                case "Outdoor Temperature" | "Outdoor Feels Like" | "Outdoor Dew Point" | "Outdoor Humidity" | "Indoor Temperature" | "Indoor Humidity":
+                    maxDate    = data[0]
+                    maxAmount  = self.formatValue(category, data[1])
+                    minDate    = data[2]
+                    minAmount  = self.formatValue(category, data[3])
+                    meanAmount = self.formatValue(category, data[4])
+                case "Solar" | "UVI" | "Wind Speed" | "Wind Gust":
+                    maxDate    = data[0]
+                    maxAmount  = self.formatValue(category, data[1])
+                    minDate    = ""
+                    minAmount  = ""
+                    meanAmount = ""
+                case "Wind Direction":
+                    continue
+                case "Rain Rate" | "Rain Daily" | "Rain Event" | "Rain Hourly" | "Rain Weekly" | "Rain Monthly" | "Rain Yearly":
+                    maxDate    = data[0]
+                    maxAmount  = self.formatValue(category, data[1])
+                    minDate    = ""
+                    minAmount  = ""
+                    meanAmount = ""
+                case "Pressure Relative" | "Pressure Absolute":
+                    maxDate    = data[0]
+                    maxAmount  = self.formatValue(category, data[1])
+                    minDate    = data[2]
+                    minAmount  = self.formatValue(category, data[3])
+                    meanAmount = self.formatValue(category, data[4])
+                case "Days":
+                    category  = "Consecutive Days of Rain/Drought"
+                    maxDate   = data[0]
+                    maxAmount = f"{self.formatValue("Days", data[1])} Wet days"
+                    minDate   = data[2]
+                    minAmount = f"{self.formatValue("Days", data[3])} Dry days"
+                case "Hour":
+                    category  = "Consecutive Hours of Rain/Drought"
+                    maxDate   = data[0]
+                    maxAmount = f"{self.formatValue("Hour", data[1])} Wet hours"
+                    minDate   = data[2]
+                    minAmount = f"{self.formatValue("Hour", data[3])} Dry hours"
+                case "Sun Consecutive":
+                    category  = "Consecutive Days of Sun/No Sun"
+                    maxDate   = data[0]
+                    maxAmount = f"{self.formatValue("Sun Consecutive", data[1])} Sunny days"
+                    minDate   = data[2]
+                    minAmount = f"{self.formatValue("Sun Consecutive", data[3])} Dull days"
+                case "Sun Total":
+                    category  = "Total Days of Sun/No Sun"
+                    maxDate    = ""
+                    maxAmount = f"{self.formatValue("Sun Total", data[0])} Sunny days"
+                    minDate    = ""
+                    minAmount = f"{self.formatValue("Sun Total", data[1])} Dull days"
 
-            maxDate   = data[0]
-            maxAmount = self.formatValue(category, data[1])
-
-            if category in ["Solar", "UVI", "Rain Rate", "Rain Daily", "Rain Event", "Rain Hourly", "Rain Weekly", "Rain Monthly",
-                            "Rain Yearly", "Wind Speed", "Wind Gust"]:
-                minDate    = ""
-                minAmount  = ""
-            else:
-                minDate    = data[2]
-                minAmount  = self.formatValue(category, data[3])
-
-            if category in ["Solar", "UVI", "Rain Rate", "Rain Daily", "Rain Event", "Rain Hourly",
-                            "Rain Yearly", "Wind Speed", "Wind Gust", "Days", "Hour", "Sun"]:
-                meanAmount = ""
-            else:
-                meanAmount = self.formatValue(category, data[4])
-
-            if category == "Days":
-                category  = "Consecutive Days of Rain/Drought"
-                maxAmount = maxAmount + " Wet days"
-                minAmount = minAmount + " Dry days"
-                print(maxDate, minDate)
-            if category == "Hour":
-                category  = "Consecutive Hours of Rain/Drought"
-                maxAmount = maxAmount + " Wet hours"
-                minAmount = minAmount + " Dry hours"
-            if category == "Sun":
-                category  = "Consecutive Days of Sun/No Sun"
-                maxAmount = maxAmount + " Sunny days"
-                minAmount = minAmount + " Dull days"
 
             #  Add horizontal lines to the table to split the categories
             match category:

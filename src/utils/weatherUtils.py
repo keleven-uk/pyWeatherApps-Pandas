@@ -42,6 +42,8 @@ def daysSunshine(dfData):
     daysDull   = 0
     strkSun    = 0
     strkDull   = 0
+    totalSun   = 0
+    totalDull  = 0
     tmpSun     = ""
     tmpDull    = ""
     dateSun    = ""
@@ -57,16 +59,18 @@ def daysSunshine(dfData):
                 oldDate = date
 
                 if maxSolar > solarLevel:
-                    daysSun += 1
-                    daysDull = 0
+                    totalSun += 1
+                    daysSun  += 1
+                    daysDull  = 0
                     if daysSun == 1:
                         tmpSun = date
                     if daysSun > strkSun:
                         strkSun = daysSun
                         dateSun = tmpSun
                 else:
-                    daysDull += 1
-                    daysSun   = 0
+                    totalDull += 1
+                    daysDull  += 1
+                    daysSun    = 0
                     if daysDull == 1:
                         tmpDull = date
                     if daysDull > strkDull:
@@ -75,10 +79,10 @@ def daysSunshine(dfData):
 
                 maxSolar  = 0
 
-    return (dateSun, strkSun, dateDull, strkDull)
+    return (dateSun, strkSun, dateDull, strkDull, totalSun, totalDull)
 
 
-def hourStreak(dfData):
+def hoursRain(dfData):
     """  Iterate through the weather data and looks for the longest streak of wet or dry hours.
 
          The input is a Pandas data frame holding the weather data.
@@ -160,7 +164,7 @@ def hourStreak(dfData):
     return (strtRaining.strftime("%d-%m-%Y, %H:%M"), diffRaining, strtDrought.strftime("%d-%m-%Y, %H:%M"), diffDrought)
 
 
-def dayStreak(dfData):
+def daysRain(dfData):
     """  Iterate through the weather data and looks for the longest streak of wet or dry days.
 
          The input is a Pandas data frame holding the weather data.
