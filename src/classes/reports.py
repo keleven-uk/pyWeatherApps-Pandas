@@ -40,35 +40,7 @@ class Reports():
         """
         rep = atr.AllTimeRecords()
 
-        #  We ignore the first header "date", this is not numeric and will be sorted with later.
-        for column in pp.columnHeaders[1:]:
-
-            if column in ["Rain Yearly"]:
-                continue
-
-            maxVal  = self.dfData[column].max()
-            maxPos  = self.dfData[column].idxmax()
-            maxDate = self.dfData["Date"].iloc[maxPos]
-            maxDate = self.__convertDate(maxDate, column)
-
-            minVal  = self.dfData[column].min()
-            minPos  = self.dfData[column].idxmin()
-            minDate = self.dfData["Date"].iloc[minPos]
-            minDate = self.__convertDate(minDate, column)
-
-            meanVal  = self.dfData[column].mean()
-
-            self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
-
-        rainDate, rainVal, droughtDate, droughtVal = utils.hoursRain(self.dfData)
-        self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
-
-        rainDate, rainVal, droughtDate, droughtVal  = utils.daysRain(self.dfData)
-        self.reportValues["Days"] = (rainDate, rainVal, droughtDate, droughtVal)
-
-        sunDate, sunVal, dullDate, dullVal, totalSun, totalDull = utils.daysSunshine(self.dfData)
-        self.reportValues["Sun Consecutive"] = (sunDate, sunVal, dullDate, dullVal)
-        self.reportValues["Sun Total"] = (totalSun, totalDull)
+        self.__getValues(self.dfData, "allTime")
 
         rep.show(self.reportValues)
     #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------
@@ -81,38 +53,7 @@ class Reports():
 
         dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
 
-        #  Re-index the dataFrame, if not all the sperate files produces their own index.
-        #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
-        dfYear.reset_index(drop=True, inplace=True)
-
-        for column in pp.columnHeaders[1:]:
-
-            if column in ["Rain Yearly"]:
-                continue
-
-            maxVal  = dfYear[column].max()
-            maxPos  = dfYear[column].idxmax()
-            maxDate = dfYear["Date"].iloc[maxPos]
-            maxDate = self.__convertDate(maxDate, column)
-
-            minVal  = dfYear[column].min()
-            minPos  = dfYear[column].idxmin()
-            minDate = dfYear["Date"].iloc[minPos]
-            minDate = self.__convertDate(minDate, column)
-
-            meanVal  = dfYear[column].mean()
-
-            self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
-
-        rainDate, rainVal, droughtDate, droughtVal = utils.hoursRain(dfYear)
-        self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
-
-        rainDate, rainVal, droughtDate, droughtVal   = utils.daysRain(dfYear)
-        self.reportValues["Days"] = (rainDate, rainVal, droughtDate, droughtVal)
-
-        sunDate, sunVal, dullDate, dullVal, totalSun, totalDull = utils.daysSunshine(dfYear)
-        self.reportValues["Sun Consecutive"] = (sunDate, sunVal, dullDate, dullVal)
-        self.reportValues["Sun Total"] = (totalSun, totalDull)
+        self.__getValues(dfYear, "Year")
 
         rep.show(self.reportValues, year=reportYear)
 
@@ -132,42 +73,27 @@ class Reports():
         dfYear  = self.dfData[self.dfData["Date"].dt.year==reportYear]
         dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
 
-        #  Re-index the dataFrame, if not all the sperate files produces their own index.
-        #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
-        dfMonth.reset_index(drop=True, inplace=True)
-
-        for column in pp.columnHeaders[1:]:
-
-            if column in ["Rain Yearly"]:
-                continue
-
-            maxVal  = dfMonth[column].max()
-            maxPos  = dfMonth[column].idxmax()
-            maxDate = dfMonth["Date"].iloc[maxPos]
-            maxDate = self.__convertDate(maxDate, column)
-
-            minVal  = dfMonth[column].min()
-            minPos  = dfMonth[column].idxmin()
-            minDate = dfMonth["Date"].iloc[minPos]
-            minDate = self.__convertDate(minDate, column)
-
-            meanVal = dfMonth[column].mean()
-
-            self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
-
-        rainDate, rainVal, droughtDate, droughtVal = utils.hoursRain(dfMonth)
-        self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
-
-        rainDate, rainVal, droughtDate, droughtVal   = utils.daysRain(dfMonth)
-        self.reportValues["Days"] = (rainDate, rainVal, droughtDate, droughtVal)
-
-        sunDate, sunVal, dullDate, dullVal, totalSun, totalDull = utils.daysSunshine(dfMonth)
-        self.reportValues["Sun Consecutive"] = (sunDate, sunVal, dullDate, dullVal)
-        self.reportValues["Sun Total"] = (totalSun, totalDull)
+        self.__getValues(dfMonth, "Month")
 
         rep.show(self.reportValues, month=reportMonth, year=reportYear)
+    #-------------------------------------------------------------------------------- MonthlyReport(self, reportMonth) --------------
+    def MonthlyReport(self, reportMonth):
+        """  Process the data and extract the record values for a given month across all years.
+        """
+
+        searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
+
+        rep = mr.monthlyRecords()
+
+        dfMonth = self.dfData[self.dfData["Date"].dt.month==searchMonth]
+
+        self.__getValues(dfMonth, "Monthly")
+
+        rep.show(self.reportValues, month=reportMonth, year=0)
     #-------------------------------------------------------------------------------- dayReport(self, reportYear, reportMonth, reportDay) --------------
     def dayReport(self, reportYear, reportMonth, reportDay):
+        """  Process the data and extract the record values for a given day, month and year.
+        """
 
         reportYear  = int(reportYear)
         searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
@@ -179,34 +105,49 @@ class Reports():
         dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
         dfDay   = dfMonth[dfMonth["Date"].dt.day==searchDay]
 
+        self.__getValues(dfDay, "Day")
+
+        rep.show(self.reportValues, day=reportDay, month=reportMonth, year=reportYear)
+    #-------------------------------------------------------------------------------- __getValues(self, dfdata) ---------------------
+    def __getValues(self, dfData, type):
+        """  Extract the record values from a given dataFrame.
+             The dataFrame should already been filtered for year, period etc.
+        """
         #  Re-index the dataFrame, if not all the sperate files produces their own index.
         #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
-        dfDay.reset_index(drop=True, inplace=True)
+        dfData.reset_index(drop=True, inplace=True)
 
+        #  We ignore the first header "date", this is not numeric and will be sorted with later.
         for column in pp.columnHeaders[1:]:
 
             if column in ["Rain Yearly"]:
                 continue
 
-            maxVal  = dfDay[column].max()
-            maxPos  = dfDay[column].idxmax()
-            maxDate = dfDay["Date"].iloc[maxPos]
+            maxVal  = dfData[column].max()
+            maxPos  = dfData[column].idxmax()
+            maxDate = dfData["Date"].iloc[maxPos]
             maxDate = self.__convertDate(maxDate, column)
 
-            minVal  = dfDay[column].min()
-            minPos  = dfDay[column].idxmin()
-            minDate = dfDay["Date"].iloc[minPos]
+            minVal  = dfData[column].min()
+            minPos  = dfData[column].idxmin()
+            minDate = dfData["Date"].iloc[minPos]
             minDate = self.__convertDate(minDate, column)
 
-            meanVal = dfDay[column].mean()
+            meanVal  = dfData[column].mean()
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
-        rainDate, rainVal, droughtDate, droughtVal = utils.hoursRain(dfDay)
-        self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
+        if type in ["allTime", "Year", "Month"]:
+            rainDate, rainVal, droughtDate, droughtVal = utils.hoursRain(dfData)
+            self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
 
-        rep.show(self.reportValues, day=reportDay, month=reportMonth, year=reportYear)
-#-------------------------------------------------------------------------------- __load(self) ----------------------------------
+            rainDate, rainVal, droughtDate, droughtVal   = utils.daysRain(dfData)
+            self.reportValues["Days"] = (rainDate, rainVal, droughtDate, droughtVal)
+
+            sunDate, sunVal, dullDate, dullVal, totalSun, totalDull = utils.daysSunshine(dfData)
+            self.reportValues["Sun Consecutive"] = (sunDate, sunVal, dullDate, dullVal)
+            self.reportValues["Sun Total"] = (totalSun, totalDull)
+    #-------------------------------------------------------------------------------- __load(self) ----------------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.
         """

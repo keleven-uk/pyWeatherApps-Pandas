@@ -71,9 +71,10 @@ def parseArgs(Config, logger):
     parser.add_argument("-c",  "--check",       action="store_true", help="Check data store integrity.")
     parser.add_argument("-cD", "--checkDelete", action="store_true", help="Check data store integrity and delete unwanted.")
     parser.add_argument("-b",  "--build",       action="store_true", help="Build the data data store - consolidate the spreadsheets.")
-    parser.add_argument("-D",  "--Dreport",     action="store_true", help="Report on the data data store - finds the Daily highs and lows.")
-    parser.add_argument("-M",  "--Mreport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows.")
-    parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data data store - finds the yearly highs and lows.")
+    parser.add_argument("-D",  "--Dreport",     action="store_true", help="Report on the data data store - finds the Daily highs and lows, for a given year, month and day..")
+    parser.add_argument("-M",  "--Mreport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows, for a given month and year.")
+    parser.add_argument("-T",  "--Treport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows, for a given month across all years.")
+    parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data data store - finds the yearly highs and lows, for a given year.")
     parser.add_argument("-A",  "--Areport",     action="store_true", help="Report on the data data store - finds the all time highs and lows.")
     parser.add_argument("-P",  "--Plot", type = int, required=False, default=0,
                                                 action="store",      help="Plot a line graph of the table, -H for column selection.")
@@ -140,7 +141,7 @@ def parseArgs(Config, logger):
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
-        if not pStore.hasMonth(args.year, args.month):
+        if args.Mreport and not pStore.hasMonth(args.year, args.month):
             utils.logPrint(logger, True, f"ERROR :: No data for {args.year} {month} yet.", "danger")
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
@@ -191,6 +192,15 @@ def parseArgs(Config, logger):
             print("Goodbye.")
             sys.exit(3)
 
+    if args.Treport:
+        """  If month[-M] is given, check there is a year and month value.
+        """
+        if not (args.month):
+            utils.logPrint(logger, True, "ERROR :: With -T [month] option a value of month[-m] must be given.", "danger")
+            utils.logPrint(logger, False, "-" * 100, "info")
+            print("Goodbye.")
+            sys.exit(3)
+
     if args.Dreport:
         """  If moth[-D] is given, check there is a year, month and day value.
         """
@@ -201,7 +211,7 @@ def parseArgs(Config, logger):
             sys.exit(3)
 
 
-    return args.build, args.Plot, args.info, checkDB, args.Areport, args.Yreport, args.Mreport, args.Dreport, args.year, month, day, args.Zap
+    return args.build, args.Plot, args.info, checkDB, args.Areport, args.Yreport, args.Mreport, args.Dreport, args.year, month, day, args.Zap, args.Treport
 
 
 

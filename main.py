@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    build, plot, info, checkDB, Areport, Yreport, Mreport, Dreport, reportYear, reportMonth, reportDay, Zap = args.parseArgs(Config, logger)
+    build, plot, info, checkDB, Areport, Yreport, Mreport, Dreport, reportYear, reportMonth, reportDay, Zap, reportMonthly = args.parseArgs(Config, logger)
 
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
 
@@ -89,6 +89,8 @@ if __name__ == "__main__":
         reports.yearReport(reportYear)
         if plot:
             plots.yearPlot(reportYear, plot)
+    elif reportMonthly:
+        reports.MonthlyReport(reportMonth)
     elif Zap:
         dataStore.zap()
 

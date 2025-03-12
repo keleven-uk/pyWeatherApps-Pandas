@@ -29,6 +29,14 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.22     [12 March 2025]
+
+    Added a new report, record values for a given month across all years.
+        Added a command line argument, -T, to display this report.
+
+    Moved some duplicate code form the report generating methods into a seperate function in reports.py.
+
+
 V2025.21     [9 March 2025]
 
     Added the total number of sunny / dull days in a given period.
