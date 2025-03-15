@@ -35,6 +35,7 @@ import src.args as args
 import src.timer as Timer
 import src.config as Config
 import src.logger as Logger
+import src.license as License
 import src.projectPaths as pp
 
 import src.classes.dataStore as ds
@@ -54,7 +55,7 @@ if __name__ == "__main__":
 
     utils.logPrint(logger, False, "=" * 100, "info")
 
-    utils.displayLicense(Config, logger)
+    License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
     arguments = args.parseArgs(Config, logger)
 
@@ -91,8 +92,6 @@ if __name__ == "__main__":
             plots.yearPlot(arguments.year, arguments.plot)
     elif arguments.Treport:
         reports.MonthlyReport(arguments.month)
-    elif arguments.plotHelp:
-        utils.plotHelp()
     elif arguments.Zap:
         dataStore.zap()
 
@@ -102,6 +101,8 @@ if __name__ == "__main__":
         Config.END_DATE    = ""
         Config.NO_OF_LINES = 0
         Config.writeConfig()
+    elif arguments.plotHelp:
+        utils.plotHelp()
     elif arguments.version:
         utils.displayVersion(Config, logger)
     elif arguments.license:

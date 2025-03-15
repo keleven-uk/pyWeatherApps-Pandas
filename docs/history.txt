@@ -29,6 +29,12 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.24     [15 March 2025]
+
+    Corrected a bug, creating in the last version.
+        Calling the wrong licence display on application start.
+
+
 V2025.23     [15 March 2025]
 
     Added a dataclass to hold the command line arguments.
