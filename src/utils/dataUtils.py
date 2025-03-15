@@ -19,11 +19,13 @@
 ###############################################################################################################
 
 import os
+import sys
 import glob
 
 from src.console import console
 
 import src.projectPaths as pp
+import src.license as License
 
 ######################################################################################## loadExplorer() ######
 def loadExplorer(logger):
@@ -85,12 +87,29 @@ def checkPaths(logger, verbose):
     else:
         logPrint(logger, verbose, f"{logPath} doesn't exists, will create", "warning")
         logPath.mkdir(parents=True)
-
-
-
-
-
-
+########################################################################################### displayVersion() #########
+def displayVersion(Config, logger):
+    print("")
+    logPrint(logger, True, f"Running on {sys.version} Python", "info")
+    logPrint(logger, True, f"End of {Config.NAME} V{Config.VERSION}: Printed version", "info")
+    logPrint(logger, False, "-" * 100, "info")
+    print("Goodbye.")
+    sys.exit(0)
+########################################################################################### plotHelp() #########
+def plotHelp():
+    """  Display the index numbers of the available column headers - for plotting.
+    """
+    for index, column in enumerate(pp.columnHeaders[1:]):
+        print(f"  {index+1} .. {column}")
+########################################################################################### displayLicense() #########
+def displayLicense(Config, logger):
+    """  Display the short version of the license.
+    """
+    License.printLongLicense(Config.NAME, Config.VERSION, logger)
+    logPrint(logger, False, f"End of {Config.NAME} V{Config.VERSION} : Printed Licence" * 100, "info")
+    logPrint(logger, False, "-" * 100, "info")
+    print("Goodbye.")
+    sys.exit(0)
 
 
 

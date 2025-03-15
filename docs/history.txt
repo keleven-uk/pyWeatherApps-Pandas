@@ -29,12 +29,47 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.23     [15 March 2025]
+
+    Added a dataclass to hold the command line arguments.
+        This simplifies the passing of arguments to the main script.
+
+---------------------------------------------------------------------------------------------------
+File                                                            blank        comment           code
+---------------------------------------------------------------------------------------------------
+pyWeather - Pandas\src\utils\weatherUtils.py                       38             39            174
+pyWeather - Pandas\src\config.py                                   40             37            134
+pyWeather - Pandas\src\args.py                                     29             63            125
+pyWeather - Pandas\src\classes\dataStore.py                        37             61            113
+pyWeather - Pandas\src\classes\fileStore.py                        23             82            100
+pyWeather - Pandas\src\classes\records.py                          22             42            100
+pyWeather - Pandas\src\classes\plotting.py                         29             47             89
+pyWeather - Pandas\src\classes\reports.py                          39             53             88
+pyWeather - Pandas\main.py                                         21             28             65
+pyWeather - Pandas\src\classes\periodStore.py                      11             53             44
+pyWeather - Pandas\src\utils\dataUtils.py                          25             34             39
+pyWeather - Pandas\src\projectPaths.py                              7             29             32
+pyWeather - Pandas\src\timer.py                                    16             40             31
+pyWeather - Pandas\ruff.toml                                        7              8             30
+pyWeather - Pandas\src\license.py                                   8             35             23
+pyWeather - Pandas\src\Exceptions.py                                6             20             22
+pyWeather - Pandas\config.toml                                      2              5             19
+pyWeather - Pandas\src\logger.py                                   11             28             18
+pyWeather - Pandas\src\console.py                                   9             28             12
+pyWeather - Pandas\src\classes\monthlyRecords.py                   13             30             11
+pyWeather - Pandas\src\classes\yearlyRecords.py                    10             30              9
+pyWeather - Pandas\src\classes\dailyRecords.py                     10             30              7
+pyWeather - Pandas\src\classes\allTimeRecords.py                   11             32              6
+---------------------------------------------------------------------------------------------------
+SUM:                                                              424            854           1291
+---------------------------------------------------------------------------------------------------
+
 V2025.22     [12 March 2025]
 
     Added a new report, record values for a given month across all years.
         Added a command line argument, -T, to display this report.
 
-    Moved some duplicate code form the report generating methods into a seperate function in reports.py.
+    Moved some duplicate code form the report generating methods into a separate function in reports.py.
 
 
 V2025.21     [9 March 2025]

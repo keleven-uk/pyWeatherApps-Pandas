@@ -1,44 +1,54 @@
-#############################################################################################################################
-#    args   Copyright (C) <2025>  <Kevin Scott>                                                                             #
-#                                                                                                                           #
-#    Parse the command line arguments.                                     .                                                #
-#                                                                                                                           #
-#   positional arguments:                                                                                                   #
-#     infile                                                                                                                #
-#                                                                                                                           #
-#   options:                                                                                                                #
-#     -h, --help            show this help message and exit                                                                 #
-#     -l, --license         Print the Software License.                                                                     #
-#     -v, --version         Print the version of the application.                                                           #
-#     -e, --explorer        Load program working directory into file explorer.                                              #
-#                                                                                                                           #
-#     For changes see history.txt                                                                                           #
-#                                                                                                                           #
-#############################################################################################################################
-#                                                                                                                           #
-#    This program is free software: you can redistribute it and/or modify it under the terms of the                         #
-#    GNU General Public License as published by the Free Software Foundation, either Version 3 of the                       #
-#    License, or (at your option) any later Version.                                                                        #
-#                                                                                                                           #
-#    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without                      #
-#    even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                             #
-#    GNU General Public License for more details.                                                                           #
-#                                                                                                                           #
-#    You should have received a copy of the GNU General Public License along with this program.                             #
-#    If not, see <http://www.gnu.org/licenses/>.                                                                            #
-#                                                                                                                           #
-#############################################################################################################################
+#################################################################################################################################
+#    args   Copyright (C) <2025>  <Kevin Scott>                                                                                 #
+#                                                                                                                               #
+#    Parse the command line arguments.                                     .                                                    #
+#                                                                                                                               #
+# options:                                                                                                                      #
+#   -h, --help          show this help message and exit                                                                         #
+#   -l, --license       Print the Software License.                                                                             #
+#   -v, --version       Print the version of the application.                                                                   #
+#   -e, --explorer      Load program working directory into file explorer.                                                      #
+#   -i, --info          Print info on the data store [Pandas dataFrame].                                                        #
+#   -c, --check         Check data store integrity.                                                                             #
+#   -cD, --checkDelete  Check data store integrity and delete unwanted.                                                         #
+#   -b, --build         Build the data data store - consolidate the spreadsheets.                                               #
+#   -D, --Dreport       Report on the data data store - finds the Daily highs and lows, for a given year, month and day.        #
+#   -M, --Mreport       Report on the data data store - finds the monthly highs and lows, for a given month and year.           #
+#   -T, --Treport       Report on the data data store - finds the monthly highs and lows, for a given month across all years.   #
+#   -Y, --Yreport       Report on the data data store - finds the yearly highs and lows, for a given year.                      #
+#   -A, --Areport       Report on the data data store - finds the all time highs and lows.                                      #
+#   -P, --Plot PLOT     Plot a line graph of the table, -H for column selection.                                                #
+#   -H, --PlotHelp      Display the column selection for plotting.                                                              #
+#   -y, --year YEAR     Year of data files to report on.                                                                        #
+#   -m, --month MONTH   Month of data files to report on.                                                                       #
+#   -d, --day DAY       Day of data files to report on.                                                                         #
+#   -Z, --Zap           Delete [Zap] both data and file stores.                                                                 #
+#                                                                                                                               #
+#     For changes see history.txt                                                                                               #
+#                                                                                                                               #
+#################################################################################################################################
+#                                                                                                                               #
+#    This program is free software: you can redistribute it and/or modify it under the terms of the                             #
+#    GNU General Public License as published by the Free Software Foundation, either Version 3 of the                           #
+#    License, or (at your option) any later Version.                                                                            #
+#                                                                                                                               #
+#    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without                          #
+#    even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                                 #
+#    GNU General Public License for more details.                                                                               #
+#                                                                                                                               #
+#    You should have received a copy of the GNU General Public License along with this program.                                 #
+#    If not, see <http://www.gnu.org/licenses/>.                                                                                #
+#                                                                                                                               #
+################################################################################################################################
 
 import sys
 import textwrap
 import argparse
 import calendar
-import datetime
 
-import src.license as License
-import src.projectPaths as pp
 import src.utils.dataUtils as utils
 import src.classes.periodStore as ps
+import src.utils.arguments as ag
 
 ############################################################################################## parseArgs ######
 def parseArgs(Config, logger):
@@ -56,6 +66,7 @@ def parseArgs(Config, logger):
          Maybe the validation shouldn't be here - but kinda works.
     """
     pStore    = ps.PeriodStore(logger)          #  Create the period store, holds year and month that contain data.
+    arguments = ag.Arguments()                  #  Create the class [dataclass], holds the command line arguments.
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
@@ -71,7 +82,7 @@ def parseArgs(Config, logger):
     parser.add_argument("-c",  "--check",       action="store_true", help="Check data store integrity.")
     parser.add_argument("-cD", "--checkDelete", action="store_true", help="Check data store integrity and delete unwanted.")
     parser.add_argument("-b",  "--build",       action="store_true", help="Build the data data store - consolidate the spreadsheets.")
-    parser.add_argument("-D",  "--Dreport",     action="store_true", help="Report on the data data store - finds the Daily highs and lows, for a given year, month and day..")
+    parser.add_argument("-D",  "--Dreport",     action="store_true", help="Report on the data data store - finds the Daily highs and lows, for a given year, month and day.")
     parser.add_argument("-M",  "--Mreport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows, for a given month and year.")
     parser.add_argument("-T",  "--Treport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows, for a given month across all years.")
     parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data data store - finds the yearly highs and lows, for a given year.")
@@ -86,37 +97,28 @@ def parseArgs(Config, logger):
 
     args = parser.parse_args()
 
-    if args.PlotHelp:
-        """  Display the index numbers of the available column headers - for plotting.
-        """
-        for index, column in enumerate(pp.columnHeaders[1:]):
-            print(f"  {index+1} .. {column}")
+    arguments.plot     = True if args.Plot     else False
+    arguments.plotHelp = True if args.PlotHelp else False
+    arguments.version  = True if args.version  else False
+    arguments.license  = True if args.license  else False
+    arguments.explorer = True if args.explorer else False
+    arguments.info     = True if args.info     else False
+    arguments.build    = True if args.build    else False
+    arguments.Areport  = True if args.Areport  else False
+    arguments.Yreport  = True if args.Yreport  else False
+    arguments.Mreport  = True if args.Mreport  else False
+    arguments.Dreport  = True if args.Dreport  else False
+    arguments.Treport  = True if args.Treport  else False
+    arguments.Zap      = True if args.Zap      else False
+    arguments.year     = args.year  if args.year  else 0
+    arguments.month    = args.month if args.month else ""
+    arguments.day      = args.day   if args.day   else 0
 
-    if args.version:
-        print("")
-        utils.logPrint(logger, True, f"Running on {sys.version} Python", "info")
-        utils.logPrint(logger, True, f"End of {Config.NAME} V{Config.VERSION}: Printed version", "info")
-        utils.logPrint(logger, False, "-" * 100, "info")
-        print("Goodbye.")
-        sys.exit(0)
-
-    if args.license:
-        License.printLongLicense(Config.NAME, Config.VERSION, logger)
-        logger.info(f"End of {Config.NAME} V{Config.VERSION} : Printed Licence")
-        utils.logPrint(logger, False, "-" * 100, "info")
-        print("Goodbye.")
-        sys.exit(0)
-
-    if args.explorer:
-        utils.loadExplorer(logger)              # Load program working directory n file explorer.
-        print("Goodbye.")
-        sys.exit(0)
-
-    checkDB = 0
+    arguments.checkDB = 0
     if args.check:
-        checkDB = 1                    # Run data integrity check in test mode on library.
+        arguments.checkDB = 1                    # Run data integrity check in test mode on library.
     elif args.checkDelete:
-        checkDB = 2                    # Run data integrity check in delete mode on library.
+        arguments.checkDB = 2                    # Run data integrity check in delete mode on library.
 
     if args.year:
         """  Checks that the given year has data associated with it.
@@ -127,8 +129,6 @@ def parseArgs(Config, logger):
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
-    else:
-        day = 0
 
     if args.month:
         """  Checks that the given month is a valid month name.
@@ -146,8 +146,6 @@ def parseArgs(Config, logger):
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
-    else:
-        month = 0
 
     if args.day:
         """  Checks that the given day number actually exists for that month.
@@ -162,8 +160,6 @@ def parseArgs(Config, logger):
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(3)
-    else:
-        day = 0
 
     if args.year and args.month:
         """  The weather data starts in July 2023, so display error and exit  if earlier month is given.
@@ -210,8 +206,7 @@ def parseArgs(Config, logger):
             print("Goodbye.")
             sys.exit(3)
 
-
-    return args.build, args.Plot, args.info, checkDB, args.Areport, args.Yreport, args.Mreport, args.Dreport, args.year, month, day, args.Zap, args.Treport
+    return arguments
 
 
 

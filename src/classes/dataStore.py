@@ -17,6 +17,7 @@
 #                                                                                                             #
 ###############################################################################################################
 
+import sys
 import datetime
 
 import pymsgbox
@@ -204,7 +205,7 @@ class dataStore():
         try:
             return datetime.datetime.strptime(strDate, "%d-%m-%Y")
         except ValueError as e:
-            utils.logPrint(logger, True, f"ERROR :: {strDate} Cannot be converted to datetime {e}.", "danger")
+            utils.logPrint(self.logger, True, f"ERROR :: {strDate} Cannot be converted to datetime {e}.", "danger")
             print("Goodbye.")
             sys.exit(3)
 

@@ -47,6 +47,8 @@ class monthlyRecords(Records):
         if year:
             title = f" Weather Records for {month} {year}"
         else:
-            title = f" Weather Records for {month} across all years"
+            title = f" Weather Records for {month} across all years {reportValues["uniqueYears"]}"
+            del reportValues["uniqueYears"]             # not new needed, can upset the displayed table.
+
         super().show(title, reportValues)
 

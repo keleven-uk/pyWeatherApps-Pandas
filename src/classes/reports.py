@@ -87,6 +87,8 @@ class Reports():
 
         dfMonth = self.dfData[self.dfData["Date"].dt.month==searchMonth]
 
+        self.reportValues["uniqueYears"] = (dfMonth["Date"].dt.year.unique())
+
         self.__getValues(dfMonth, "Monthly")
 
         rep.show(self.reportValues, month=reportMonth, year=0)
@@ -137,7 +139,7 @@ class Reports():
 
             self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
-        if type in ["allTime", "Year", "Month"]:
+        if type in ["allTime", "Year", "Month", "Monthly"]:
             rainDate, rainVal, droughtDate, droughtVal = utils.hoursRain(dfData)
             self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
 

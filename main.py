@@ -35,7 +35,6 @@ import src.args as args
 import src.timer as Timer
 import src.config as Config
 import src.logger as Logger
-import src.license as License
 import src.projectPaths as pp
 
 import src.classes.dataStore as ds
@@ -43,6 +42,7 @@ import src.classes.reports as rep
 import src.classes.plotting as pl
 
 import src.utils.dataUtils as utils
+
 
 if __name__ == "__main__":
 
@@ -54,9 +54,9 @@ if __name__ == "__main__":
 
     utils.logPrint(logger, False, "=" * 100, "info")
 
-    License.printShortLicense(Config.NAME, Config.VERSION, logger)
+    utils.displayLicense(Config, logger)
 
-    build, plot, info, checkDB, Areport, Yreport, Mreport, Dreport, reportYear, reportMonth, reportDay, Zap, reportMonthly = args.parseArgs(Config, logger)
+    arguments = args.parseArgs(Config, logger)
 
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
 
@@ -67,31 +67,33 @@ if __name__ == "__main__":
     reports   = rep.Reports()
     plots     = pl.Plots(Config)
 
-    if checkDB:
-        dataStore.checkData(checkDB)
-    elif info:
+    if arguments.checkDB:
+        dataStore.checkData(arguments.checkDB)
+    elif arguments.info:
         dataStore.info()
-    elif build:
+    elif arguments.build:
         dataStore.buildData()
-    elif Areport:
+    elif arguments.Areport:
         reports.allTimeReport()
-        if plot:
-            plots.allTimePlot(plot)
-    elif Dreport:
-        reports.dayReport(reportYear, reportMonth, reportDay)
-        if plot:
-            plots.dayPlot(reportYear, reportMonth, reportDay, plot)
-    elif Mreport:
-        reports.monthReport(reportYear, reportMonth)
-        if plot:
-            plots.monthPlot(reportYear, reportMonth, plot)
-    elif Yreport:
-        reports.yearReport(reportYear)
-        if plot:
-            plots.yearPlot(reportYear, plot)
-    elif reportMonthly:
-        reports.MonthlyReport(reportMonth)
-    elif Zap:
+        if arguments.plot:
+            plots.allTimePlot(arguments.plot)
+    elif arguments.Dreport:
+        reports.dayReport(arguments.year, arguments.month, arguments.day)
+        if arguments.plot:
+            plots.dayPlot(arguments.year, arguments.month, arguments.day, arguments.plot)
+    elif arguments.Mreport:
+        reports.monthReport(arguments.year, arguments.month)
+        if arguments.plot:
+            plots.monthPlot(arguments.year, arguments.month, arguments.plot)
+    elif arguments.Yreport:
+        reports.yearReport(arguments.year)
+        if arguments.plot:
+            plots.yearPlot(arguments.year, arguments.plot)
+    elif arguments.Treport:
+        reports.MonthlyReport(arguments.month)
+    elif arguments.plotHelp:
+        utils.plotHelp()
+    elif arguments.Zap:
         dataStore.zap()
 
         strNow  = datetime.datetime.now()
@@ -100,6 +102,14 @@ if __name__ == "__main__":
         Config.END_DATE    = ""
         Config.NO_OF_LINES = 0
         Config.writeConfig()
+    elif arguments.version:
+        utils.displayVersion(Config, logger)
+    elif arguments.license:
+        utils.displayLicense(Config, logger)
+    elif arguments.explorer:
+        utils.loadExplorer(logger)              # Load program working directory n file explorer.
+        print("Goodbye.")
+        sys.exit(0)
     else:
         utils.logPrint(logger, True, f"No arguments, please run {Config.NAME} -h", "danger")
 
@@ -112,3 +122,5 @@ if __name__ == "__main__":
     utils.logPrint(logger, False, "-" * 100, "info")
 
     sys.exit(0)
+
+

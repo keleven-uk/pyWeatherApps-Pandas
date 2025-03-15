@@ -147,6 +147,7 @@ class FileStore():
     def check(self, mode, logger=None):
         """  Runs a database data integrity check.
 
+             mode is either "test" of "delete"
              If a logger is passed in, then use it - else ignore.
         """
         self.timer.Start()        #  Start timer.
