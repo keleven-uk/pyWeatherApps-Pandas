@@ -19,6 +19,8 @@
 #                                                                                                             #
 ###############################################################################################################
 
+from datetime import datetime
+
 from src.classes.records import Records
 
 
@@ -45,3 +47,5 @@ class dailyRecords(Records):
         """
         title = f" Weather Records for {day} {month} {year}"
         super().show(title, reportValues)
+
+        print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")

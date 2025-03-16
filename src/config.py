@@ -184,7 +184,7 @@ class Config():
         config["DATA"] = {"month"       : "January",
                           "year"        : "2025",
                           "startDate"   : f"{datetime.datetime.now().strftime("%d-%m-%Y")}",
-                          "EndDate"     : "01-01-1960",
+                          "EndDate"     : "01-01-1970",
                           "noOfLines"   : 0}
 
         config["GRAPH"] = {"width"      : 1400,

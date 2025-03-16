@@ -19,6 +19,8 @@
 #                                                                                                             #
 ###############################################################################################################
 
+from datetime import datetime
+
 from src.classes.records import Records
 
 
@@ -30,10 +32,11 @@ class AllTimeRecords(Records):
          Inherits from src.classes.records
     """
 
-    def __init__(self):
+    def __init__(self, config):
         """  Set up class.
         """
         super().__init__()
+        self.myConfig = config
 
 
     def show(self, reportValues):
@@ -46,4 +49,7 @@ class AllTimeRecords(Records):
 
              Supplies the custom title.
         """
-        super().show(" All Time Weather Records", reportValues)
+        super().show(f" All Time Weather Records {self.myConfig.START_DATE} - {self.myConfig.END_DATE}", reportValues)
+
+        print("** No data through 3 July 2024 - 22 October 2024 due to a faulty temprature sensor. **" )
+        print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")

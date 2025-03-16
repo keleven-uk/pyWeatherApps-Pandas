@@ -19,8 +19,6 @@
 #                                                                                                             #
 ###############################################################################################################
 
-from datetime import datetime
-
 from src.console import console, Table
 
 class Records:
@@ -128,7 +126,6 @@ class Records:
 
         console.print(Table)
 
-        print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")
     #-------------------------------------------------------------------------------- formatDate(self, category, amount) ---------------------------
     def formatValue(self, category, amount):
         """  Format values correctly and add imperial equivalents, if appropriate.

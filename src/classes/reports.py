@@ -29,7 +29,8 @@ import src.utils.weatherUtils as utils
 
 class Reports():
 
-    def __init__(self):
+    def __init__(self, config):
+        self.myConfig      = config
         self.DataStoreName = pp.DATA_PATH / "dataStore.pickle"
         self.reportValues  = {}
         self.__load()
@@ -38,7 +39,7 @@ class Reports():
     def allTimeReport(self):
         """  Process the data and extract the all time record values.
         """
-        rep = atr.AllTimeRecords()
+        rep = atr.AllTimeRecords(self.myConfig)
 
         self.__getValues(self.dfData, "allTime")
 

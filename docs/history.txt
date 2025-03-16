@@ -29,6 +29,18 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.25     [16 March 2025]
+
+    Corrected a couple of bugs and a few enhancements.
+
+    Corrected a bug with the start date when zapping the data and file stores.
+    Corrected a bug where supplying a future day was not caught.
+    Corrected a bug where a missing year was not caught correctly with the month report.
+
+    Added the start and end dates to the title of the All Time Records display.
+    Made the displaying of command line errors simpler.
+
+
 V2025.24     [15 March 2025]
 
     Corrected a bug, creating in the last version.

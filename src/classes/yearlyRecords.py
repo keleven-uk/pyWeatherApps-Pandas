@@ -19,6 +19,9 @@
 #                                                                                                             #
 ###############################################################################################################
 
+
+from datetime import datetime
+
 from src.classes.records import Records
 
 
@@ -43,7 +46,8 @@ class yearlyRecords(Records):
 
              Supplies the custom title.
         """
+        super().show(f" Weather Records for {year}", reportValues)
+
         if year == 2023:
-            super().show(f" Weather Records for {year} ** only from July **", reportValues)
-        else:
-            super().show(f" Weather Records for {year}", reportValues)
+            print("** only from July 2023 **")
+        print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")

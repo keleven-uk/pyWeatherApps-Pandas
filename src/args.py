@@ -46,6 +46,8 @@ import textwrap
 import argparse
 import calendar
 
+from datetime import datetime
+
 import src.utils.dataUtils as utils
 import src.classes.periodStore as ps
 import src.utils.arguments as ag
@@ -137,15 +139,7 @@ def parseArgs(Config, logger):
         """
         month = args.month.capitalize()
         if month not in calendar.month_name[1:]:
-            utils.logPrint(logger, True, f"ERROR :: {args.month} is not a valid month.", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
-        if args.Mreport and not pStore.hasMonth(args.year, args.month):
-            utils.logPrint(logger, True, f"ERROR :: No data for {args.year} {month} yet.", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
+            displayError(logger, f"ERROR :: {args.month} is not a valid month.")
 
     if args.day:
         """  Checks that the given day number actually exists for that month.
@@ -156,57 +150,47 @@ def parseArgs(Config, logger):
         intMonth    = list(calendar.month_name).index(args.month)
         daysInMonth = calendar.monthrange(year, intMonth)[1]
         if not (0 <= day <= daysInMonth):
-            utils.logPrint(logger, True, f"ERROR :: Not in day range for {args.year} {month} [0-{daysInMonth}].", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
+            displayError(logger, f"ERROR :: Not in day range for {args.year} {month} [0-{daysInMonth}].")
+        if day > datetime.now().day:
+            displayError(logger, f"ERROR :: Future day : {day} is after today {datetime.now().day}.")
 
     if args.year and args.month:
         """  The weather data starts in July 2023, so display error and exit  if earlier month is given.
         """
         if args.year == "2023" and args.month in ["January", "February", "March", "April", "May", "June"]:
-            utils.logPrint(logger, True, "ERROR :: Data for 2023 starts in July.", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
+            displayError(logger, "ERROR :: Data for 2023 starts in July.", "danger")
 
     if args.Yreport:
         """  If year[-Y] is given, check there is a year value.
         """
         if not (args.year):
-            utils.logPrint(logger, True, "ERROR :: With -Y [year] option a value of year[-y] must be given.", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
+            displayError(logger, "ERROR :: With -Y [year] option a value of year[-y] must be given.")
 
     if args.Mreport:
         """  If month[-M] is given, check there is a year and month value.
         """
         if not (args.year and args.month):
-            utils.logPrint(logger, True, "ERROR :: With -M [month] option a value of year[-y] and month[-m] must be given.", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
+            displayError(logger, "ERROR :: With -M [month] option a value of year[-y] and month[-m] must be given.")
+        if args.Mreport and not pStore.hasMonth(args.year, args.month):
+            displayError(logger, f"ERROR :: No data for {args.year} {month} yet.")
 
     if args.Treport:
         """  If month[-M] is given, check there is a year and month value.
         """
         if not (args.month):
-            utils.logPrint(logger, True, "ERROR :: With -T [month] option a value of month[-m] must be given.", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
+            displayError(logger, "ERROR :: With -T [month] option a value of month[-m] must be given.")
 
     if args.Dreport:
         """  If moth[-D] is given, check there is a year, month and day value.
         """
         if not (args.year and args.month and args.day):
-            utils.logPrint(logger, True, "ERROR :: With -D [day] option a value of year[-y] and month[-m] and day[-d] must be given.", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
+            displayError(logger, "ERROR :: With -D [day] option a value of year[-y] and month[-m] and day[-d] must be given.")
 
     return arguments
 
-
+def displayError(logger, message):
+    utils.logPrint(logger, True, message, "danger")
+    utils.logPrint(logger, False, "-" * 100, "info")
+    print("Goodbye.")
+    sys.exit(3)
 

@@ -126,8 +126,6 @@ class dataStore():
         endDate      = self.strToDate(self.config.END_DATE)
         noOfLines    = self.config.NO_OF_LINES
 
-        print(f"{self.config.START_DATE} {self.config.END_DATE} {self.config.NO_OF_LINES} ")
-
         for fileName in self.fStore.storeFiles():
             fileData = self.fStore.getItem(fileName)
             if not fileData[0]:

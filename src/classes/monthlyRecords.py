@@ -19,6 +19,8 @@
 #                                                                                                             #
 ###############################################################################################################
 
+from datetime import datetime
+
 from src.classes.records import Records
 
 
@@ -51,4 +53,6 @@ class monthlyRecords(Records):
             del reportValues["uniqueYears"]             # not new needed, can upset the displayed table.
 
         super().show(title, reportValues)
+
+        print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")
 
