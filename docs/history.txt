@@ -29,6 +29,14 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.26     [16 March 2025]
+
+    Because of a bug in the Ecowitt software, the yearly rain sum is not reset at new year.
+    Added a new function to calculate the total rain for a given year.
+        The yearly report will display the rain for that year.
+        The all time report will display the year with the greatest rainfall.
+
+
 V2025.25     [16 March 2025]
 
     Corrected a couple of bugs and a few enhancements.

@@ -19,17 +19,47 @@
 #                                                                                                             #
 ###############################################################################################################
 
-
-def daysSunshine(dfData):
-    """  Iterate through the weather data and looks for the longest streak days with sunshine.
-            Sunshine is defined by a Solar value of over 100000 Lux [1000 Klux].
-
-            Footcandles is the Imperial measurement and Lux is the Metric measurement of the same thing.
-            1 footcandle = 10.764 lux.
-            Both quantify the amount of light falling on a specific point or object.
+#-------------------------------------------------------------------------------- rainAmount(dfData) ---------------------------
+def rainAmount(dfData):
+    """  Iterate through the weather data and sums the daily rain totals.
 
          The input is a Pandas data frame holding the weather data.
-           It should contain at least two columns "Date" and "Solar"
+         It should contain at least two columns "Date" and "Daily Rain"
+
+         The output a single integer..
+
+         There is a bug in the Ecowitt softwere, the yearly rain fall is not reset at new year.
+    """
+    dfData.columns = dfData.columns.str.replace(" ","_")                      # No spaces in tuple headers.
+    dfData["Rain_Daily"] = dfData["Rain_Daily"].fillna(0)                     # Just in case any exist.
+
+    oldDate = ""
+    rainSum = 0
+    oldRain = 0
+
+    for row in dfData.itertuples():
+        date = row.Date.strftime("%d-%m-%Y")
+        rain = row.Rain_Daily
+
+        if date != oldDate:
+            rainSum += oldRain
+            oldDate  = date
+        oldRain = rain
+
+
+    rainSum += oldRain
+    return rainSum
+#-------------------------------------------------------------------------------- daysSunshine(dfData) ---------------------------
+def daysSunshine(dfData):
+    """  Iterate through the weather data and looks for the longest streak days with sunshine.
+         Sunshine is defined by a Solar value of over 100000 Lux [1000 Klux].
+
+         Footcandles is the Imperial measurement and Lux is the Metric measurement of the same thing.
+         1 footcandle = 10.764 lux.
+         Both quantify the amount of light falling on a specific point or object.
+
+         The input is a Pandas data frame holding the weather data.
+         It should contain at least two columns "Date" and "Solar"
 
          The output a tuple containing the start dates and length of sun/dull days.
     """
@@ -80,8 +110,7 @@ def daysSunshine(dfData):
                 maxSolar  = 0
 
     return (dateSun, strkSun, dateDull, strkDull, totalSun, totalDull)
-
-
+#-------------------------------------------------------------------------------- hoursRain(dfData) ---------------------------
 def hoursRain(dfData):
     """  Iterate through the weather data and looks for the longest streak of wet or dry hours.
 
@@ -162,8 +191,7 @@ def hoursRain(dfData):
     diffDrought = (dtEndDrought - dtStartDrought).total_seconds() / 3600
 
     return (strtRaining.strftime("%d-%m-%Y, %H:%M"), diffRaining, strtDrought.strftime("%d-%m-%Y, %H:%M"), diffDrought)
-
-
+#-------------------------------------------------------------------------------- daysRain(dfData) ---------------------------
 def daysRain(dfData):
     """  Iterate through the weather data and looks for the longest streak of wet or dry days.
 

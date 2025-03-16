@@ -39,10 +39,26 @@ class Reports():
     def allTimeReport(self):
         """  Process the data and extract the all time record values.
         """
+        maxRain = 0
+
         rep = atr.AllTimeRecords(self.myConfig)
 
-        self.__getValues(self.dfData, "allTime")
+        uniqueYears = (self.dfData["Date"].dt.year.unique())
 
+        #  Loop through each year and sum the rain fall.
+        #  There is a bug in the Ecowitt software, the yearly rain fall is not reset at new year.
+
+        for year in uniqueYears:
+            dfYear = self.dfData[self.dfData["Date"].dt.year==year]
+
+            rainSum = utils.rainAmount(dfYear)
+
+            if rainSum > maxRain:
+                maxRain = rainSum
+                maxYear = year
+
+        self.__getValues(self.dfData, "allTime")
+        self.reportValues["Rain Yearly"] = (maxYear, maxRain)
         rep.show(self.reportValues)
     #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------
     def yearReport(self, reportYear):
@@ -55,7 +71,8 @@ class Reports():
         dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
 
         self.__getValues(dfYear, "Year")
-
+        rainSum = utils.rainAmount(dfYear)                              #  Obtain the yearly rainfall.
+        self.reportValues["Rain Yearly"] = (reportYear, rainSum)
         rep.show(self.reportValues, year=reportYear)
 
     #-------------------------------------------------------------------------------- monthReport(self, reportYear, reportMonth) --------------
@@ -123,7 +140,9 @@ class Reports():
         #  We ignore the first header "date", this is not numeric and will be sorted with later.
         for column in pp.columnHeaders[1:]:
 
-            if column in ["Rain Yearly"]:
+            if column in ["Rain Yearly"]:           #  Yearly rainfall is only used in all time and year reports.
+                if type in ["allTime", "Year"] :
+                    self.reportValues[column] = ()
                 continue
 
             maxVal  = dfData[column].max()

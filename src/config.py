@@ -178,7 +178,7 @@ class Config():
         written = strNow.strftime("%A %d %B %Y  %H:%M:%S")
         config  = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.23",
+        config["INFO"] = {"myVERSION" : "2025.26",
                           "myNAME"    : "pyWeather"}
 
         config["DATA"] = {"month"       : "January",

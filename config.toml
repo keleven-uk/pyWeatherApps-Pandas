@@ -1,10 +1,10 @@
-#   Configure file for pyWeather.py 
+#   Configure file for pyWeather.py
 #   (c) 2025 Kevin Scott   Written Sunday 16 March 2025  15:52:53
 #
-#   true and false are lower case 
+#   true and false are lower case
 #
 [INFO]
-myVERSION = "2025.23"
+myVERSION = "2025.26"
 myNAME = "pyWeather"
 
 [DATA]

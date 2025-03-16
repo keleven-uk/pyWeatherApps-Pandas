@@ -79,7 +79,7 @@ class Records:
                     meanAmount = ""
                 case "Wind Direction":
                     continue
-                case "Rain Rate" | "Rain Daily" | "Rain Event" | "Rain Hourly" | "Rain Weekly" | "Rain Monthly" | "Rain Yearly":
+                case "Rain Rate" | "Rain Daily" | "Rain Event" | "Rain Hourly" | "Rain Weekly" | "Rain Monthly" | "Rain Yearly" | "Rain Yearly":
                     maxDate    = data[0]
                     maxAmount  = self.formatValue(category, data[1])
                     minDate    = ""
@@ -116,13 +116,20 @@ class Records:
                     minDate    = ""
                     minAmount = f"{self.formatValue("Sun Total", data[1])} Dull days"
 
-
-            #  Add horizontal lines to the table to split the categories
-            match category:
-                case "Outdoor Humidity" | "Indoor Humidity" | "UVI" | "Rain Monthly" | "Wind Gust" | "Pressure Absolute":
-                    Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}", end_section=True)
-                case _:
-                    Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}",)
+            #  Add horizontal lines after "Rain Yearly" is present, otherwise after "Rain Monthly"
+            #  "Rain Yearly" is only present on all time and year reports.
+            if "Rain Yearly" in reportValues:
+                match category:
+                    case "Outdoor Humidity" | "Indoor Humidity" | "UVI" | "Rain Yearly" | "Wind Gust" | "Pressure Absolute":
+                        Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}", end_section=True)
+                    case _:
+                        Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}",)
+            else:
+                match category:
+                    case "Outdoor Humidity" | "Indoor Humidity" | "UVI" | "Rain Monthly" | "Wind Gust" | "Pressure Absolute":
+                        Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}", end_section=True)
+                    case _:
+                        Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}",)
 
         console.print(Table)
 
@@ -132,21 +139,21 @@ class Records:
         """
         match category:
             case category if "Temperature" in category:
-                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
+                value  = f"{amount:3.2f}\N{DEGREE SIGN}C"
             case category if "Dew Point" in category:
-                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
+                value  = f"{amount:3.2f}\N{DEGREE SIGN}C"
             case category if "Feels Like" in category:
-                value  = f"{amount:.2f}\N{DEGREE SIGN}C"
+                value  = f"{amount:3.2f}\N{DEGREE SIGN}C"
             case category if category.startswith("Rain"):
-                value  = f"{amount:4.0f}mm ({amount*0.0393701:4.2f}in)"
+                value  = f"{amount:5.1f}mm ({amount*0.0393701:4.2f}in)"
             case category if category.startswith("Wind"):
-                value  = f"{amount:.2f} km/h ({amount*0.6213715277778:.2f}mph)"
+                value  = f"{amount:3.2f} km/h ({amount*0.6213715277778:.2f}mph)"
             case category if category.startswith("Solar"):
                 value  = f"{amount} Klux"
             case category if category.startswith("Pressure"):
                 value  = f"{amount:4.0f} hPa"
             case category if "Humidity" in category:
-                value  = f"{amount:.2f}%"
+                value  = f"{amount:3.2f}%"
             case category if "Days" in category:
                 value  = f"{amount:4.0f}"
             case category if "Hour" in category:
