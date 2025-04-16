@@ -1,18 +1,18 @@
 #   Configure file for pyWeather.py
-#   (c) 2025 Kevin Scott   Written Sunday 16 March 2025  15:52:53
+#   (c) 2025 Kevin Scott   Written Tuesday 15 April 2025  13:02:49
 #
 #   true and false are lower case
 #
 [INFO]
-myVERSION = "2025.26"
+myVERSION = "2025.27"
 myNAME = "pyWeather"
 
 [DATA]
 year = "2025"
-month = "March"
+month = "April"
 startDate = "02-07-2023"
-endDate = "14-03-2025"
-noOfLines = 607
+endDate = "14-04-2025"
+noOfLines = 638
 
 [GRAPH]
 width = 1600

@@ -50,4 +50,6 @@ class yearlyRecords(Records):
 
         if year == 2023:
             print("** only from July 2023 **")
+        elif year == 2024:
+            print("** No data through 3 July 2024 - 22 October 2024 due to a faulty temperature sensor. **" )
         print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")

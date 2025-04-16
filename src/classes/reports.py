@@ -39,11 +39,17 @@ class Reports():
     def allTimeReport(self):
         """  Process the data and extract the all time record values.
         """
-        maxRain = 0
-
         rep = atr.AllTimeRecords(self.myConfig)
 
         uniqueYears = (self.dfData["Date"].dt.year.unique())
+        minYrRain   = 9999
+        maxYrRain   = 0
+        sumYrRain   = 0
+        countYrRain = 0
+        minMnRain   = 9999
+        maxMnRain   = 0
+        sumMnRain   = 0
+        countMnRain = 0
 
         #  Loop through each year and sum the rain fall.
         #  There is a bug in the Ecowitt software, the yearly rain fall is not reset at new year.
@@ -51,27 +57,81 @@ class Reports():
         for year in uniqueYears:
             dfYear = self.dfData[self.dfData["Date"].dt.year==year]
 
-            rainSum = utils.rainAmount(dfYear)
+            rainYrSum = utils.rainAmount(dfYear)
 
-            if rainSum > maxRain:
-                maxRain = rainSum
-                maxYear = year
+            sumYrRain   += rainYrSum
+            countYrRain += 1
+
+            if rainYrSum < minYrRain:
+                minYrRain = rainYrSum
+                minYrYear = year
+            if rainYrSum > maxYrRain:
+                maxYrRain = rainYrSum
+                maxYrYear = year
+
+            uniqueMonths = (dfYear["Date"].dt.month.unique())
+
+            for month in uniqueMonths:
+                dfMonth   = dfYear.loc[dfYear["Date"].dt.month==month]       # .loc is used to stop Boolean Series warnings.
+                lastRow   = dfMonth.iloc[-1]
+                rainDate  = self.__convertDate(lastRow["Date"], "Rain Monthly")
+                rainValue = lastRow["Rain_Monthly"]
+
+                sumMnRain   += rainValue
+                countMnRain += 1
+
+                if rainValue < minMnRain:
+                    minMnRain = rainValue
+                    minMnDate = f"{calendar.month_name[month]} {year}"
+                if rainValue > maxMnRain:
+                    maxMnRain = rainValue
+                    maxMnDate = f"{calendar.month_name[month]} {year}"
+
+        meanYr = sumYrRain / countYrRain
+        meanMn = sumMnRain / countMnRain
 
         self.__getValues(self.dfData, "allTime")
-        self.reportValues["Rain Yearly"] = (maxYear, maxRain)
+        self.reportValues["Rain Monthly"] = (maxMnDate, maxMnRain, minMnDate, minMnRain, meanMn)
+        self.reportValues["Rain Yearly"]  = (maxYrYear, maxYrRain, minYrYear, minYrRain, meanYr)
         rep.show(self.reportValues)
     #-------------------------------------------------------------------------------- yearReport(self, reportYear) --------------
     def yearReport(self, reportYear):
         """  Process the data and extract the record values for a given year.
         """
+        minMnRain   = 9999
+        maxMnRain   = 0
+        sumMnRain   = 0
+        countMnRain = 0
+
         reportYear = int(reportYear)
 
         rep = yr.yearlyRecords()
 
         dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
 
+        uniqueMonths = (dfYear["Date"].dt.month.unique())
+
+        for month in uniqueMonths:
+            dfMonth   = dfYear.loc[dfYear["Date"].dt.month==month]       # .loc is used to stop Boolean Series warnings.
+            lastRow   = dfMonth.iloc[-1]
+            rainDate  = self.__convertDate(lastRow["Date"], "Rain Monthly")
+            rainValue = lastRow["Rain Monthly"]
+
+            sumMnRain   += rainValue
+            countMnRain += 1
+
+            if rainValue < minMnRain:
+                minMnRain = rainValue
+                minMnDate = f"{calendar.month_name[month]} {reportYear}"
+            if rainValue > maxMnRain:
+                maxMnRain = rainValue
+                maxMnDate = f"{calendar.month_name[month]} {reportYear}"
+
+        meanMn = sumMnRain / countMnRain
+
         self.__getValues(dfYear, "Year")
         rainSum = utils.rainAmount(dfYear)                              #  Obtain the yearly rainfall.
+        self.reportValues["Rain Monthly"] = (maxMnDate, maxMnRain, minMnDate, minMnRain, meanMn)
         self.reportValues["Rain Yearly"] = (reportYear, rainSum)
         rep.show(self.reportValues, year=reportYear)
 
@@ -141,7 +201,7 @@ class Reports():
         for column in pp.columnHeaders[1:]:
 
             if column in ["Rain Yearly"]:           #  Yearly rainfall is only used in all time and year reports.
-                if type in ["allTime", "Year"] :
+                if type in ["allTime", "Year"]:
                     self.reportValues[column] = ()
                 continue
 
@@ -157,7 +217,10 @@ class Reports():
 
             meanVal  = dfData[column].mean()
 
-            self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
+            if type in ["Month"] and column in ["Rain Monthly"]:
+                self.reportValues[column] = (maxDate, maxVal)
+            else:
+                self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
         if type in ["allTime", "Year", "Month", "Monthly"]:
             rainDate, rainVal, droughtDate, droughtVal = utils.hoursRain(dfData)

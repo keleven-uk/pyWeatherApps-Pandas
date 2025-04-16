@@ -178,10 +178,10 @@ class Config():
         written = strNow.strftime("%A %d %B %Y  %H:%M:%S")
         config  = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.26",
+        config["INFO"] = {"myVERSION" : "2025.27",
                           "myNAME"    : "pyWeather"}
 
-        config["DATA"] = {"month"       : "January",
+        config["DATA"] = {"month"       : "April",
                           "year"        : "2025",
                           "startDate"   : f"{datetime.datetime.now().strftime("%d-%m-%Y")}",
                           "EndDate"     : "01-01-1970",

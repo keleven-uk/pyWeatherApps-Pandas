@@ -79,12 +79,23 @@ class Records:
                     meanAmount = ""
                 case "Wind Direction":
                     continue
-                case "Rain Rate" | "Rain Daily" | "Rain Event" | "Rain Hourly" | "Rain Weekly" | "Rain Monthly" | "Rain Yearly" | "Rain Yearly":
+                case "Rain Rate" | "Rain Daily" | "Rain Event" | "Rain Hourly" | "Rain Weekly":
                     maxDate    = data[0]
                     maxAmount  = self.formatValue(category, data[1])
                     minDate    = ""
                     minAmount  = ""
                     meanAmount = ""
+                case "Rain Yearly" | "Rain Monthly":
+                    maxDate    = data[0]
+                    maxAmount  = self.formatValue(category, data[1])
+                    if len(data)>2:
+                        minDate    = data[2]
+                        minAmount  = self.formatValue(category, data[3])
+                        meanAmount = self.formatValue(category, data[4])
+                    else:
+                        minDate    = ""
+                        minAmount  = ""
+                        meanAmount = ""
                 case "Pressure Relative" | "Pressure Absolute":
                     maxDate    = data[0]
                     maxAmount  = self.formatValue(category, data[1])
