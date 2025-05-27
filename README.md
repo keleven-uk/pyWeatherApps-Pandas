@@ -41,7 +41,7 @@ options:
   -d, --day DAY       Day of data files to report on.
   -Z, --Zap           Delete [Zap] both data and file stores.
 
- Kevin Scott (C) 2025 :: pyWeather V2025.26
+ Kevin Scott (C) 2025 :: pyWeather V2025.28
 ```
 
 ![](resources/Tempratures_2023.jpg)

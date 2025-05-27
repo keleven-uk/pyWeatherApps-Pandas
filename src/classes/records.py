@@ -108,24 +108,28 @@ class Records:
                     maxAmount = f"{self.formatValue("Days", data[1])} Wet days"
                     minDate   = data[2]
                     minAmount = f"{self.formatValue("Days", data[3])} Dry days"
+                    meanAmount = ""
                 case "Hour":
                     category  = "Consecutive Hours of Rain/Drought"
                     maxDate   = data[0]
                     maxAmount = f"{self.formatValue("Hour", data[1])} Wet hours"
                     minDate   = data[2]
                     minAmount = f"{self.formatValue("Hour", data[3])} Dry hours"
+                    meanAmount = ""
                 case "Sun Consecutive":
                     category  = "Consecutive Days of Sun/No Sun"
                     maxDate   = data[0]
                     maxAmount = f"{self.formatValue("Sun Consecutive", data[1])} Sunny days"
                     minDate   = data[2]
                     minAmount = f"{self.formatValue("Sun Consecutive", data[3])} Dull days"
+                    meanAmount = ""
                 case "Sun Total":
                     category  = "Total Days of Sun/No Sun"
                     maxDate    = ""
                     maxAmount = f"{self.formatValue("Sun Total", data[0])} Sunny days"
                     minDate    = ""
                     minAmount = f"{self.formatValue("Sun Total", data[1])} Dull days"
+                    meanAmount = ""
 
             #  Add horizontal lines after "Rain Yearly" is present, otherwise after "Rain Monthly"
             #  "Rain Yearly" is only present on all time and year reports.
