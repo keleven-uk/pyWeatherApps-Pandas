@@ -72,7 +72,10 @@ class Reports():
             uniqueMonths = (dfYear["Date"].dt.month.unique())
 
             for month in uniqueMonths:
-                dfMonth   = dfYear.loc[dfYear["Date"].dt.month==month]       # .loc is used to stop Boolean Series warnings.
+                if year == int(self.myConfig.YEAR) and month == int(self.myConfig.MONTH):     #  Ignore current month
+                    continue
+
+                dfMonth   = dfYear.loc[dfYear["Date"].dt.month==month]          # .loc is used to stop Boolean Series warnings.
                 lastRow   = dfMonth.iloc[-1]
                 rainDate  = self.__convertDate(lastRow["Date"], "Rain Monthly")
                 rainValue = lastRow["Rain_Monthly"]
@@ -112,6 +115,9 @@ class Reports():
         uniqueMonths = (dfYear["Date"].dt.month.unique())
 
         for month in uniqueMonths:
+            if month == int(self.myConfig.MONTH):     #  Ignore current month
+                continue
+
             dfMonth   = dfYear.loc[dfYear["Date"].dt.month==month]       # .loc is used to stop Boolean Series warnings.
             lastRow   = dfMonth.iloc[-1]
             rainDate  = self.__convertDate(lastRow["Date"], "Rain Monthly")
@@ -134,7 +140,6 @@ class Reports():
         self.reportValues["Rain Monthly"] = (maxMnDate, maxMnRain, minMnDate, minMnRain, meanMn)
         self.reportValues["Rain Yearly"] = (reportYear, rainSum)
         rep.show(self.reportValues, year=reportYear)
-
     #-------------------------------------------------------------------------------- monthReport(self, reportYear, reportMonth) --------------
     def monthReport(self, reportYear, reportMonth):
         """  Process the data and extract the record values for a given month and year.

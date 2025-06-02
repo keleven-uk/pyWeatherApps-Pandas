@@ -29,9 +29,16 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.29     [ 2 June 2025]
+
+    Corrected a bug in args.py, where the plot number was not being passed on correctly.
+    Exclude current month from minimum month rain total in All time and yearly reports.
+        The current year and month are now held in the config file.
+
+
 V2025.28     [27 MAY 2025]
 
-    Corrected a bug where the mean presurre values was being displayed in the consecutive rain/draught section.
+    Corrected a bug where the mean pressure values was being displayed in the consecutive rain/draught section.
     Corrected a bug where the incorrect date format was being used in config.py.
 
 

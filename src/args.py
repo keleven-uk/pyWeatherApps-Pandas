@@ -89,7 +89,7 @@ def parseArgs(Config, logger):
     parser.add_argument("-T",  "--Treport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows, for a given month across all years.")
     parser.add_argument("-Y",  "--Yreport",     action="store_true", help="Report on the data data store - finds the yearly highs and lows, for a given year.")
     parser.add_argument("-A",  "--Areport",     action="store_true", help="Report on the data data store - finds the all time highs and lows.")
-    parser.add_argument("-P",  "--Plot", type = int, required=False, default=0,
+    parser.add_argument("-P",  "--Plot",        type = int, required=False, default=0,
                                                 action="store",      help="Plot a line graph of the table, -H for column selection.")
     parser.add_argument("-H",  "--PlotHelp",    action="store_true", help="Display the column selection for plotting.")
     parser.add_argument("-y",  "--year",        action="store",      help="Year of data files to report on.")
@@ -99,7 +99,7 @@ def parseArgs(Config, logger):
 
     args = parser.parse_args()
 
-    arguments.plot     = True if args.Plot     else False
+    arguments.plot     = args.Plot  if args.Plot  else 0
     arguments.plotHelp = True if args.PlotHelp else False
     arguments.version  = True if args.version  else False
     arguments.license  = True if args.license  else False

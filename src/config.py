@@ -59,6 +59,11 @@ class Config():
             self._writeDefaultConfig()
             console.print("Running program with default configure settings.", "warning")
 
+        todays_date = datetime.date.today()
+        self.config["DATA"]["month"] = todays_date.month
+        self.config["DATA"]["year"]  = todays_date.year
+
+        self.writeConfig()
     @property
     def NAME(self):
         """  Returns application name.
@@ -76,10 +81,18 @@ class Config():
         month = self.config["DATA"]["month"]
         return f"{month}"
 
+    @MONTH.setter
+    def MONTH(self, value):
+        self.config["DATA"]["month"] = value
+
     @property
     def YEAR(self):
         year = self.config["DATA"]["year"]
         return f"{year}"
+
+    @YEAR.setter
+    def YEAR(self, value):
+        self.config["DATA"]["year"] = value
 
     @property
     def START_DATE(self):
@@ -174,25 +187,25 @@ class Config():
         """ Write a default configure file.
             This is hard coded  ** TO KEEP UPDATED **
         """
-        strNow  = datetime.datetime.now()
-        written = strNow.strftime("%A %d %B %Y  %H:%M:%S")
-        config  = dict()
+        todaysDate = datetime.date.today()
+        written    = todaysDate.strftime("%A %d %B %Y  %H:%M:%S")
+        config     = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.28",
+        config["INFO"] = {"myVERSION" : "2025.29",
                           "myNAME"    : "pyWeather"}
 
-        config["DATA"] = {"month"       : "April",
-                          "year"        : "2025",
-                          "startDate"   : f"{strNow.strftime("%d-%m-%Y")}",
-                          "EndDate"     : "01-01-1970",
+        config["DATA"] = {"month"       : todaysDate.month,
+                          "year"        : todaysDate.year,
+                          "startDate"   : f"{todaysDate.strftime("%d-%m-%Y")}",
+                          "endDate"     : "01-01-1970",
                           "noOfLines"   : 0}
 
         config["GRAPH"] = {"width"      : 1400,
                            "height"     : 1000,
                            "X_pos"      : 40,
                            "Y_pos"      : 40,
-                           "linewidth"  : 1,
-                           "linestyle"  : "-",
+                           "lineWidth"  : 1,
+                           "lineStyle"  : "-",
                            "lineColour" : "blue",
                            "alpha"      : 0.75,
                            "grid"       : True}
