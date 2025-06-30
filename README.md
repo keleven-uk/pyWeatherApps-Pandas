@@ -10,8 +10,8 @@ To install dependencies pip -r requirements.txt
 
 For changes see history.txt
 
-!![arguments.jpg](resources\arguments.jpg)
+!![arguments.jpg](resources/arguments.jpg)
 
-![allTimeRecords.jpg](resources\allTimeRecords.jpg)
+![allTimeRecords.jpg](resources/allTimeRecords.jpg)
 
 ![](resources/Tempratures_2023.jpg)

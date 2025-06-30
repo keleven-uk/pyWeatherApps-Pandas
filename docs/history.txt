@@ -28,7 +28,7 @@ NB : The program is run from the command line and display it's results there.
 The pandas version with working yearly, monthly and all time reports weights in about 750 line of code,
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
-V2025.30     [30 June 2025]
+V2025.31     [30 June 2025]
 
     Corrected formatting in README.md [I hope]
 
