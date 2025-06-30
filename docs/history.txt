@@ -29,6 +29,11 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.30     [30 June 2025]
+
+    Added the highest minimum and the lowest maximum temperatures to the report.
+
+
 V2025.29     [ 2 June 2025]
 
     Corrected a bug in args.py, where the plot number was not being passed on correctly.

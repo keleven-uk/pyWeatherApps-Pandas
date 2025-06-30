@@ -20,6 +20,46 @@
 ###############################################################################################################
 
 #-------------------------------------------------------------------------------- rainAmount(dfData) ---------------------------
+def highestMinumumTeprature(dfData):
+    """  Iterate through the weather data and sums the daily rain totals.
+
+         The input is a Pandas data frame holding the weather data.
+         It should contain at least two columns "Date" and "Outdoor Temperature"
+
+         The output if the highest minimum temperature and the date it occurred,
+         plus the lowest maximum temperature and thew date is occurred.
+    """
+    dfData.columns = dfData.columns.str.replace(" ","_")                            # No spaces in tuple headers.
+    dfData["Outdoor_Temperature"] = dfData["Outdoor_Temperature"].fillna(0)         # Just in case any exist.
+
+    oldDate = ""
+    minTemp = 100
+    highMin = 0
+    maxTemp = 0
+    lowMax = 100
+
+    for row in dfData.itertuples():
+        date = row.Date.strftime("%d-%m-%Y")
+        temp = row.Outdoor_Temperature
+
+        if temp < minTemp:
+            minTemp = temp
+        if temp > maxTemp:
+            maxTemp = temp
+
+        if date != oldDate:
+            if minTemp > highMin:
+                highMin  = minTemp
+                highDate = oldDate
+            if maxTemp < lowMax:
+                lowMax  = maxTemp
+                lowDate = oldDate
+            oldDate = date
+            minTemp = 100
+            maxTemp = 0
+
+    return(highDate, highMin, lowDate, lowMax)
+#-------------------------------------------------------------------------------- rainAmount(dfData) ---------------------------
 def rainAmount(dfData):
     """  Iterate through the weather data and sums the daily rain totals.
 

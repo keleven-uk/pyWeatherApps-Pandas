@@ -228,15 +228,15 @@ class Reports():
                 self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
         if type in ["allTime", "Year", "Month", "Monthly"]:
-            rainDate, rainVal, droughtDate, droughtVal = utils.hoursRain(dfData)
-            self.reportValues["Hour"] = (rainDate, rainVal, droughtDate, droughtVal)
+            self.reportValues["Hour"] = utils.hoursRain(dfData)
 
-            rainDate, rainVal, droughtDate, droughtVal   = utils.daysRain(dfData)
-            self.reportValues["Days"] = (rainDate, rainVal, droughtDate, droughtVal)
+            self.reportValues["Days"] = utils.daysRain(dfData)
 
             sunDate, sunVal, dullDate, dullVal, totalSun, totalDull = utils.daysSunshine(dfData)
             self.reportValues["Sun Consecutive"] = (sunDate, sunVal, dullDate, dullVal)
-            self.reportValues["Sun Total"] = (totalSun, totalDull)
+            self.reportValues["Sun Total"]       = (totalSun, totalDull)
+
+            self.reportValues["High Low"] = utils.highestMinumumTeprature(dfData)
     #-------------------------------------------------------------------------------- __load(self) ----------------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.

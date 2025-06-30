@@ -130,18 +130,26 @@ class Records:
                     minDate    = ""
                     minAmount = f"{self.formatValue("Sun Total", data[1])} Dull days"
                     meanAmount = ""
+                case "High Low":
+                    category   = "Highest Minimum/Lowest Maximum Temp"
+                    maxDate    = data[0]
+                    maxAmount  = self.formatValue("Temperature", data[1])
+                    minDate    = data[2]
+                    minAmount  = self.formatValue("Temperature", data[3])
+                    meanAmount = ""
+
 
             #  Add horizontal lines after "Rain Yearly" is present, otherwise after "Rain Monthly"
             #  "Rain Yearly" is only present on all time and year reports.
             if "Rain Yearly" in reportValues:
                 match category:
-                    case "Outdoor Humidity" | "Indoor Humidity" | "UVI" | "Rain Yearly" | "Wind Gust" | "Pressure Absolute":
+                    case "Outdoor Humidity" | "Indoor Humidity" | "UVI" | "Rain Yearly" | "Wind Gust" | "Pressure Absolute" | "Total Days of Sun/No Sun":
                         Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}", end_section=True)
                     case _:
                         Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}",)
             else:
                 match category:
-                    case "Outdoor Humidity" | "Indoor Humidity" | "UVI" | "Rain Monthly" | "Wind Gust" | "Pressure Absolute":
+                    case "Outdoor Humidity" | "Indoor Humidity" | "UVI" | "Rain Monthly" | "Wind Gust" | "Pressure Absolute" | "Total Days of Sun/No Sun":
                         Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}", end_section=True)
                     case _:
                         Table.add_row(f"{category}", f"{maxDate}", f"{maxAmount}", f"{minDate}", f"{minAmount}", f"{meanAmount}",)
