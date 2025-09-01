@@ -77,7 +77,6 @@ class Reports():
 
                 dfMonth   = dfYear.loc[dfYear["Date"].dt.month==month]          # .loc is used to stop Boolean Series warnings.
                 lastRow   = dfMonth.iloc[-1]
-                rainDate  = self.__convertDate(lastRow["Date"], "Rain Monthly")
                 rainValue = lastRow["Rain_Monthly"]
 
                 sumMnRain   += rainValue
@@ -120,7 +119,6 @@ class Reports():
 
             dfMonth   = dfYear.loc[dfYear["Date"].dt.month==month]       # .loc is used to stop Boolean Series warnings.
             lastRow   = dfMonth.iloc[-1]
-            rainDate  = self.__convertDate(lastRow["Date"], "Rain Monthly")
             rainValue = lastRow["Rain Monthly"]
 
             sumMnRain   += rainValue
@@ -163,7 +161,6 @@ class Reports():
     def MonthlyReport(self, reportMonth):
         """  Process the data and extract the record values for a given month across all years.
         """
-
         searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
 
         rep = mr.monthlyRecords()

@@ -52,5 +52,5 @@ class AllTimeRecords(Records):
         super().show(f" All Time Weather Records {self.myConfig.START_DATE} - {self.myConfig.END_DATE}", reportValues)
 
         print(f"\n Data runs from {self.myConfig.START_DATE} to {self.myConfig.END_DATE} and comprises {self.myConfig.NO_OF_LINES} days")
-        print("** No data through 3 July 2024 - 22 October 2024 due to a faulty temprature sensor. **" )
+        print("** No data through 3 July 2024 - 22 October 2024 due to a faulty temperature sensor. **" )
         print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")

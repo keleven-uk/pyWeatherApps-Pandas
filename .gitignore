@@ -142,5 +142,7 @@ test.bat
 
 # data directory containing weather data.
 data/
+data_G/
+data_H/
 
 # End of https://www.gitignore.io/api/python,windows

@@ -27,6 +27,8 @@
 #                                                                                                             #
 ###############################################################################################################
 
+import datetime
+
 import pickle
 
 import src.timer as timer
@@ -86,10 +88,17 @@ class FileStore():
              item1 is set to False, this indicates is has been added but not processed.
              item2 is set to the month of the file.
              item3 is set to the year of the file.
+             item4 is the create date of the date file.
         """
         month = key.parts[8]
         year  = key.parts[7]
-        self.fileStore[key] = [False, month, year]
+
+        startPos = key.parts[9].index("(") + 1
+        endPos   = startPos + 12
+        fileDate = key.parts[9][startPos:endPos]
+        dtDate   = datetime.datetime.strptime(fileDate, "%Y%m%d%H%M")       #  Store the file date as a dateTime.
+
+        self.fileStore[key] = [False, month, year, dtDate]
     #---------------------------------------------------------------------------------------------- getItem(self, key) -----------------
     def getItem(self, key):
         """  Returns items at position key from the fileStore.
@@ -170,7 +179,10 @@ class FileStore():
         utils.logPrint(self.logger, True, f"File Store has {no_files} files", "info")
 
         for filePath in self.fileStore.copy():  # iterate over a copy, gets around the error dictionary changed size during iteration
-            path, month, year = self.getItem(filePath)
+            path, month, year, fileDate = self.getItem(filePath)
+
+            print(f"filePath = {filePath} : month = {month} : year = {year}  fileDate = {fileDate}")
+
             if not filePath.exists():
                 if mode == "delete":
                     self.delItem(filePath)

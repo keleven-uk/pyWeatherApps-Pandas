@@ -28,6 +28,22 @@ NB : The program is run from the command line and display it's results there.
 The pandas version with working yearly, monthly and all time reports weights in about 750 line of code,
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
+
+V2025.32     [1 September 2025]
+
+    Running on python 3.13.7, all libraries up to date.
+
+    Two extra columns was added to the data on the 1ast July 2025.
+    The columns were "Heap" and "Run Time", these were added at the end of the table.
+s
+    Then two extra columns where added on the 13th of July 2025.
+    The columns were "VPD" and "10-minute Average Wind Direction", these were added at columns 5 and 20.
+
+    So, depending upon the file date, different column headers are used when Pandas reads the excel file.
+
+    All code passes ruff
+
+
 V2025.31     [30 June 2025]
 
     Corrected formatting in README.md [I hope]

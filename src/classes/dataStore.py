@@ -85,6 +85,7 @@ class dataStore():
         self.pStore.save()
         utils.logPrint(self.logger, True, " Saving the data store.", "info")
         self.dfData.to_pickle(self.storeName)
+        #print(self.dfData.tail())
         #self.dfData.to_csv("data.csv")
     #-------------------------------------------------------------------------------- checkData(self, checkDB) ------------------
     def info(self):
@@ -129,22 +130,39 @@ class dataStore():
         for fileName in self.fStore.storeFiles():
             fileData = self.fStore.getItem(fileName)
             if not fileData[0]:
-                month = fileData[1]
-                year  = fileData[2]
+                dataMonth = fileData[1]
+                dataYear  = fileData[2]
+                fileDate  = fileData[3]
+
+                """  Two extra columns was added to the data on the 1ast July 2025.
+                     The columns were "Heap" and "Run Time", these were added at the end of the table.
+
+                     Then two extra columns where added on the 13th of July 2025.
+                     The columns were "VPD" and "10-minute Average Wind Direction", these were added at columns 5 and 20.
+                """
+                if fileDate >= datetime.datetime(2025, 7, 1) and fileDate < datetime.datetime(2025, 7, 13):
+                    columnHeaders = pp.columnHeaders_1
+                    rowsToSkip    = [0,23,24]
+                elif fileDate > datetime.datetime(2025, 7, 12):
+                    columnHeaders = pp.columnHeaders_2
+                    rowsToSkip    = [0,5,20,23,24]
+                else:
+                    columnHeaders = pp.columnHeaders
+                    rowsToSkip    = [0]
 
                 noOfLines += 1
 
-                if CurrentYear != year:
-                    CurrentYear = year
+                if CurrentYear != dataYear:
+                    CurrentYear = dataYear
                     if not self.pStore.hasYear(CurrentYear):
-                        self.pStore.addYear(year)
-                if currentMonth != month:
-                    currentMonth = month
-                    if not self.pStore.hasMonth(CurrentYear, month):
-                        self.pStore.addMonth(year, month)
+                        self.pStore.addYear(dataYear)
+                if currentMonth != dataMonth:
+                    currentMonth = dataMonth
+                    if not self.pStore.hasMonth(CurrentYear, dataMonth):
+                        self.pStore.addMonth(dataYear, dataMonth)
                     utils.logPrint(self.logger, True, f" Processing new data files for {currentMonth} {CurrentYear}", "info")
 
-                data = pd.read_excel(fileName, skiprows=[0], na_values=[0.0], names=pp.columnHeaders)
+                data = pd.read_excel(fileName, skiprows=rowsToSkip, na_values=[0.0], names=columnHeaders)
 
                 #  This forces all entries to be of type float, all errors will be set to NaN.
                 #  We ignore the first header "date", this is not numeric and will be sorted with later.

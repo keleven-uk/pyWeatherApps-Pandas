@@ -119,8 +119,12 @@ def daysSunshine(dfData):
     dateSun    = ""
 
     for row in dfData.itertuples():
-            date  = row.Date.strftime("%d-%m-%Y")
-            solar = row.Solar
+
+            try:
+                date  = row.Date.strftime("%d-%m-%Y")
+                solar = row.Solar
+            except ValueError:
+                print(f"{row}  : oldDate = {oldDate}")
 
             if solar > maxSolar:
                 maxSolar = solar
