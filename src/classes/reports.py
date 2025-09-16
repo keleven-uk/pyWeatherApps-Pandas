@@ -107,7 +107,7 @@ class Reports():
 
         reportYear = int(reportYear)
 
-        rep = yr.yearlyRecords()
+        rep = yr.yearlyRecords(self.myConfig)
 
         dfYear = self.dfData[self.dfData["Date"].dt.year==reportYear]
 

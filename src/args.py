@@ -127,10 +127,7 @@ def parseArgs(Config, logger):
              If there is no data for that year, display and error and exit.
         """
         if not pStore.hasYear(args.year):
-            utils.logPrint(logger, True, f"ERROR :: {args.year} is not a valid year {pStore.listYears()}.", "danger")
-            utils.logPrint(logger, False, "-" * 100, "info")
-            print("Goodbye.")
-            sys.exit(3)
+            displayError(logger, f"ERROR :: {args.year} is not a valid year {pStore.listYears()}.")
 
     if args.month:
         """  Checks that the given month is a valid month name.
@@ -144,14 +141,20 @@ def parseArgs(Config, logger):
     if args.day:
         """  Checks that the given day number actually exists for that month.
              If a non-valid day is given, display an error message and exit.
+
+             The weather station was moved location on the 16-07-2025 - so no data.
         """
         day         = int(args.day)
         year        = int(args.year)
         intMonth    = list(calendar.month_name).index(args.month)
         daysInMonth = calendar.monthrange(year, intMonth)[1]
+
+        if year == 2025 and intMonth == 7 and day == 16:
+            displayError(logger, "No data for this day, weather station moveing between Gilberdyke and Hedon.")
+
         if not (0 <= day <= daysInMonth):
             displayError(logger, f"ERROR :: Not in day range for {args.year} {month} [0-{daysInMonth}].")
-        if day > datetime.now().day:
+        if intMonth == datetime.now().month > datetime.now().day:
             displayError(logger, f"ERROR :: Future day : {day} is after today {datetime.now().day}.")
 
     if args.year and args.month:

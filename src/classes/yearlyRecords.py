@@ -32,11 +32,11 @@ class yearlyRecords(Records):
 
          Inherits from src.classes.records
     """
-
-    def __init__(self):
+    def __init__(self, config):
         """  Set up class.
         """
         super().__init__()
+        self.myConfig = config
 
 
     def show(self, reportValues, year):
@@ -52,4 +52,8 @@ class yearlyRecords(Records):
             print("** only from July 2023 **")
         elif year == 2024:
             print("** No data through 3 July 2024 - 22 October 2024 due to a faulty temperature sensor. **" )
+        elif year == 2025:
+            print(f"Data from 01-01-2025 to 15-01-2025 collected at Gilberdyke, East Yorkshire")
+            print(f"Data from 17-07-2025 to {self.myConfig.END_DATE} collected at Hedon, East Yorkshire")
+
         print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")

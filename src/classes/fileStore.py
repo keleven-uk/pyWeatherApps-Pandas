@@ -181,8 +181,6 @@ class FileStore():
         for filePath in self.fileStore.copy():  # iterate over a copy, gets around the error dictionary changed size during iteration
             path, month, year, fileDate = self.getItem(filePath)
 
-            print(f"filePath = {filePath} : month = {month} : year = {year}  fileDate = {fileDate}")
-
             if not filePath.exists():
                 if mode == "delete":
                     self.delItem(filePath)

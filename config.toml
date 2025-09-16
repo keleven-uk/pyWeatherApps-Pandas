@@ -1,5 +1,5 @@
 #   Configure file for pyWeather.py 
-#   (c) 2025 Kevin Scott   Written Monday 01 September 2025  21:33:11
+#   (c) 2025 Kevin Scott   Written Tuesday 16 September 2025  16:20:12
 #
 #   true and false are lower case 
 #
@@ -11,8 +11,8 @@ myNAME = "pyWeather"
 month = 9
 year = 2025
 startDate = "02-07-2023"
-endDate = "22-07-2025"
-noOfLines = 735
+endDate = "15-09-2025"
+noOfLines = 790
 
 [GRAPH]
 width = 1400
