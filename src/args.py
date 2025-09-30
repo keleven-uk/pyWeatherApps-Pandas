@@ -77,13 +77,15 @@ def parseArgs(Config, logger):
         """),
         epilog=f" Kevin Scott (C) 2025 :: {Config.NAME} V{Config.VERSION}")
 
-    parser.add_argument("-l",  "--license",     action="store_true", help="Print the Software License.")
+    parser.add_argument("-x",  "--license",     action="store_true", help="Print the Software License.")
     parser.add_argument("-v",  "--version",     action="store_true", help="Print the version of the application.")
     parser.add_argument("-e",  "--explorer",    action="store_true", help="Load program working directory into file explorer.")
-    parser.add_argument("-i",  "--info",        action="store_true",  help="Print info on the data store [Pandas dataFrame].")
+    parser.add_argument("-i",  "--info",        action="store_true", help="Print info on the data store [Pandas dataFrame].")
     parser.add_argument("-c",  "--check",       action="store_true", help="Check data store integrity.")
     parser.add_argument("-cD", "--checkDelete", action="store_true", help="Check data store integrity and delete unwanted.")
     parser.add_argument("-b",  "--build",       action="store_true", help="Build the data data store - consolidate the spreadsheets.")
+    parser.add_argument("-l",  "--location",    action="store",      help="Specify the location of the weather data -L for options.")
+    parser.add_argument("-L",  "--locations",   action="store_true", help="Displays the available locations of weather data.")
     parser.add_argument("-D",  "--Dreport",     action="store_true", help="Report on the data data store - finds the Daily highs and lows, for a given year, month and day.")
     parser.add_argument("-M",  "--Mreport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows, for a given month and year.")
     parser.add_argument("-T",  "--Treport",     action="store_true", help="Report on the data data store - finds the monthly highs and lows, for a given month across all years.")
@@ -115,6 +117,21 @@ def parseArgs(Config, logger):
     arguments.year     = args.year  if args.year  else 0
     arguments.month    = args.month if args.month else ""
     arguments.day      = args.day   if args.day   else 0
+    arguments.location = args.location if args.location else "All"
+
+    if args.locations:
+        print("Available locations of weather data.")
+        for loc in Config.LOCATIONS:
+            print(f"{loc}", end=" ")
+        print()
+        print("Goodbye.")
+        sys.exit(0)
+
+    if args.location:
+        if args.location in Config.LOCATIONS:
+            location = args.location
+        else:
+            displayError(logger, f"ERROR :: {args.location} is not a valid location.  See -L for options")
 
     arguments.checkDB = 0
     if args.check:

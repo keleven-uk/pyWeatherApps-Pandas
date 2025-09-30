@@ -68,6 +68,9 @@ if __name__ == "__main__":
     reports   = rep.Reports(Config)
     plots     = pl.Plots(Config)
 
+    if arguments.location:
+        print(f" Chosen location : {arguments.location}")
+
     if arguments.checkDB:
         dataStore.checkData(arguments.checkDB)
     elif arguments.info:

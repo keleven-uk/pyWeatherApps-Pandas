@@ -29,7 +29,23 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
-V2025.33     [16 September 2025]
+V2025.35     [30 September 2025]
+
+    Three extra columns were added on the 15th 0f September 2025.
+    The columns were "Indoor Feels Like". "Indoor Dew Point", "Rainfall 24 Hours",
+    These were added at columns 8, 9 & 23 - these moved the above extra columns.
+
+    All the new columns are so far not populated.
+
+    Started work on splitting the data by location.
+        Added two new argument.
+        -L will list the available locations - All, Hedon & Gilberdyke
+        -l will supply a location, defaults to All,
+
+        These are also stored in config.toml.
+
+
+V2025.34     [16 September 2025]
 
     The weather station was moved to Hedon from Gilberdyke on the 16-07-2025
         Added a message to All Time, Yearly and the month[ly] report for July 2025 to this effect.
@@ -38,7 +54,7 @@ V2025.33     [16 September 2025]
     Corrected a bug in args.py - will only error now for a future day for current month.
 
 
-V2025.32     [1 September 2025]
+V2025.33     [1 September 2025]
 
     Running on python 3.13.7, all libraries up to date.
 
@@ -53,6 +69,10 @@ V2025.32     [1 September 2025]
 
     All code passes ruff
 
+
+V2025.32     [30 June 2025]
+
+    Second attempt.
 
 V2025.31     [30 June 2025]
 

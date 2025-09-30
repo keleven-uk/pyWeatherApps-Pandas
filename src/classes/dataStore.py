@@ -110,6 +110,7 @@ class dataStore():
         newData = 0
         for file in self.fStore.storeFiles():
             fileData = self.fStore.getItem(file)
+
             if not fileData[0]:
                 newData += 1
 
@@ -129,6 +130,7 @@ class dataStore():
 
         for fileName in self.fStore.storeFiles():
             fileData = self.fStore.getItem(fileName)
+
             if not fileData[0]:
                 dataMonth = fileData[1]
                 dataYear  = fileData[2]
@@ -137,15 +139,22 @@ class dataStore():
                 """  Two extra columns was added to the data on the 1ast July 2025.
                      The columns were "Heap" and "Run Time", these were added at the end of the table.
 
-                     Then two extra columns where added on the 13th of July 2025.
+                     Then two extra columns were added on the 13th of July 2025.
                      The columns were "VPD" and "10-minute Average Wind Direction", these were added at columns 5 and 20.
+
+                     Then three extra columns were added on the 15th 0f September 2025.
+                     The columns were "Indoor Feels Like". "Indoor Dew Point", "Rainfall 24 Hours",
+                     These were added at columns 8, 9 & 23 - these moved the above extra columns.
                 """
                 if fileDate >= datetime.datetime(2025, 7, 1) and fileDate < datetime.datetime(2025, 7, 13):
                     columnHeaders = pp.columnHeaders_1
                     rowsToSkip    = [0,23,24]
-                elif fileDate > datetime.datetime(2025, 7, 12):
+                elif fileDate > datetime.datetime(2025, 7, 12)and fileDate < datetime.datetime(2025, 9, 16):
                     columnHeaders = pp.columnHeaders_2
                     rowsToSkip    = [0,5,20,23,24]
+                elif fileDate > datetime.datetime(2025, 9, 15):
+                    columnHeaders = pp.columnHeaders_3
+                    rowsToSkip    = [0,5,8,9,16,23,26,27]
                 else:
                     columnHeaders = pp.columnHeaders
                     rowsToSkip    = [0]

@@ -30,6 +30,7 @@ class Arguments:
     info     : bool = False
     checkDB  : int  = 0
     build    : bool = False
+    location : str  = "ALL"
     year     : int  = 0
     month    : str  = ""
     day      : int  = 0

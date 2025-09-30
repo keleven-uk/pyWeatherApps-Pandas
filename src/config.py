@@ -122,6 +122,30 @@ class Config():
         self.config["DATA"]["noOfLines"] = value
 
     @property
+    def LOCATIONS(self):
+        locations = self.config["DATA"]["locations"]
+        return locations
+
+    @property
+    def LOCATION(self):
+        location = self.config["DATA"]["location"]
+        return location
+
+    @NO_OF_LINES.setter
+    def LOCATION(self, value):
+        self.config["DATA"]["location"] = value
+
+    @property
+    def END_GILBERDYKE(self):
+        endGilberdyke = self.config["DATA"]["endGilberdyke"]
+        return f"{endGilberdyke}"
+
+    @property
+    def START_HEDON(self):
+        startHedon = self.config["DATA"]["startHedon"]
+        return f"{startHedon}"
+
+    @property
     def GRAPH_WIDTH(self):
         graph_width = self.config["GRAPH"]["width"]
         return f"{graph_width}"
@@ -191,14 +215,18 @@ class Config():
         written    = todaysDate.strftime("%A %d %B %Y  %H:%M:%S")
         config     = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.30",
+        config["INFO"] = {"myVERSION" : "2025.35",
                           "myNAME"    : "pyWeather"}
 
-        config["DATA"] = {"month"       : todaysDate.month,
-                          "year"        : todaysDate.year,
-                          "startDate"   : f"{todaysDate.strftime("%d-%m-%Y")}",
-                          "endDate"     : "01-01-1970",
-                          "noOfLines"   : 0}
+        config["DATA"] = {"month"         : todaysDate.month,
+                          "year"          : todaysDate.year,
+                          "startDate"     : f"{todaysDate.strftime("%d-%m-%Y")}",
+                          "endDate"       : "01-01-1970",
+                          "noOfLines"     : 0,
+                          "locations"     : ["All", "Hedon", "Gilberdyke"],
+                          "location"      :  "All",
+                          "endGilberdyke" : "15-07-2025",
+                          "startHedon"    : "17-07-2025"}
 
         config["GRAPH"] = {"width"      : 1400,
                            "height"     : 1000,

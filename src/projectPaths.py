@@ -84,3 +84,10 @@ columnHeaders_2 = ["Date", "Outdoor Temperature", "Outdoor Feels Like", "Outdoor
                  "Indoor Temperature", "Indoor Humidity", "Solar", "UVI", "Rain Rate", "Rain Daily","Rain Event",
                  "Rain Hourly", "Rain Weekly", "Rain Monthly", "Rain Yearly","Wind Speed", "Wind Gust",
                  "Wind Direction", "10-Minute", "Pressure Relative", "Pressure Absolute", "Heap", "Run Time"]
+
+columnHeaders_3 = ["Date", "Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity", "VPD",
+                 "Indoor Temperature", "Indoor Humidity", "Indoor Feels Like", "Indoor Dew Point", "Solar", "UVI",
+                 "Rain Rate", "Rain Daily","Rain Event", "Rain Hourly", "Rain 24 Hours","Rain Weekly", "Rain Monthly",
+                 "Rain Yearly","Wind Speed", "Wind Gust", "Wind Direction", "10-Minute", "Pressure Relative",
+                 "Pressure Absolute", "Heap", "Run Time"]
+
