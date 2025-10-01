@@ -17,8 +17,9 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import pandas as pd
+import datetime
 import calendar
+import pandas as pd
 
 import src.projectPaths as pp
 import src.classes.dailyRecords as dr
@@ -41,7 +42,29 @@ class Reports():
         """
         rep = atr.AllTimeRecords(self.myConfig)
 
-        uniqueYears = (self.dfData["Date"].dt.year.unique())
+        print(f"{self.myConfig.LOCATION}")
+
+        #  Split the data according to location.
+        #  This is achieved by date, the start and end dates for each location are held in the config file.
+        #  The locations are hard coded.
+        #
+        #  The data frame becomes local to this method.
+
+        print(f" self.myConfig.START_HEDON : {self.myConfig.START_HEDON}")
+        print(f" self.myConfig.END_DATE    : {self.myConfig.END_DATE}")
+
+        self.dfData['Date'] = pd.to_datetime(self.dfData['Date'])
+        self.dfData = self.dfData.set_index(self.dfData['Date'])
+        self.dfData = self.dfData.sort_index()
+
+        if self.myConfig.LOCATION == "All":
+            dfWeatherData = self.dfData
+        elif self.myConfig.LOCATION == "Hedon":
+            dfWeatherData = self.dfData[self.myConfig.START_HEDON : self.myConfig.END_DATE]
+        elif self.myConfig.LOCATION == "Gilberdyke":
+            dfWeatherData = self.dfData[self.myConfig.START_DATE  : self.myConfig.END_GILBERDYKE]
+
+        uniqueYears = (dfWeatherData["Date"].dt.year.unique())
         minYrRain   = 9999
         maxYrRain   = 0
         sumYrRain   = 0
@@ -55,7 +78,7 @@ class Reports():
         #  There is a bug in the Ecowitt software, the yearly rain fall is not reset at new year.
 
         for year in uniqueYears:
-            dfYear = self.dfData[self.dfData["Date"].dt.year==year]
+            dfYear = dfWeatherData[dfWeatherData["Date"].dt.year==year]
 
             rainYrSum = utils.rainAmount(dfYear)
 
@@ -92,7 +115,7 @@ class Reports():
         meanYr = sumYrRain / countYrRain
         meanMn = sumMnRain / countMnRain
 
-        self.__getValues(self.dfData, "allTime")
+        self.__getValues(dfWeatherData, "allTime")
         self.reportValues["Rain Monthly"] = (maxMnDate, maxMnRain, minMnDate, minMnRain, meanMn)
         self.reportValues["Rain Yearly"]  = (maxYrYear, maxYrRain, minYrYear, minYrRain, meanYr)
         rep.show(self.reportValues)

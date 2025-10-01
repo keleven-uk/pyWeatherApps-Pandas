@@ -1,22 +1,22 @@
 #   Configure file for pyWeather.py 
-#   (c) 2025 Kevin Scott   Written Tuesday 30 September 2025  15:53:20
+#   (c) 2025 Kevin Scott   Written Wednesday 01 October 2025  21:43:51
 #
 #   true and false are lower case 
 #
 [INFO]
-myVERSION = "2025.35"
+myVERSION = "2025.36"
 myNAME = "pyWeather"
 
 [DATA]
-month = 9
+month = 10
 year = 2025
 startDate = "02-07-2023"
-endDate = "29-09-2025"
-noOfLines = 804
+endDate = "30-09-2025"
+noOfLines = 805
 locations = [ "All", "Hedon", "Gilberdyke",]
-location = "All"
 endGilberdyke = "15-07-2025"
 startHedon = "17-07-2025"
+location = "Gilberdyke"
 
 [GRAPH]
 width = 1400

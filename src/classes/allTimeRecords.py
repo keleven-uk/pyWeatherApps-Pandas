@@ -49,7 +49,7 @@ class AllTimeRecords(Records):
 
              Supplies the custom title.
         """
-        super().show(f" All Time Weather Records {self.myConfig.START_DATE} - {self.myConfig.END_DATE}", reportValues)
+        super().show(f" All Time Weather Records {self.myConfig.START_DATE} - {self.myConfig.END_DATE} for {self.myConfig.LOCATION} locations", reportValues)
 
         print(f"\nData runs from {self.myConfig.START_DATE} to {self.myConfig.END_DATE} and comprises {self.myConfig.NO_OF_LINES} days")
         print(f"Data from {self.myConfig.START_DATE} to {self.myConfig.END_GILBERDYKE} collected at Gilberdyke, East Yorkshire")

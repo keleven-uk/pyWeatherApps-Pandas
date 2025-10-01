@@ -131,7 +131,7 @@ class Config():
         location = self.config["DATA"]["location"]
         return location
 
-    @NO_OF_LINES.setter
+    @LOCATION.setter
     def LOCATION(self, value):
         self.config["DATA"]["location"] = value
 
@@ -215,7 +215,7 @@ class Config():
         written    = todaysDate.strftime("%A %d %B %Y  %H:%M:%S")
         config     = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.35",
+        config["INFO"] = {"myVERSION" : "2025.36",
                           "myNAME"    : "pyWeather"}
 
         config["DATA"] = {"month"         : todaysDate.month,

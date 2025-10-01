@@ -46,7 +46,7 @@ class yearlyRecords(Records):
 
              Supplies the custom title.
         """
-        super().show(f" Weather Records for {year}", reportValues)
+        super().show(f" Weather Records for {year} for {self.myConfig.LOCATION} locations", reportValues)
 
         if year == 2023:
             print("** only from July 2023 **")

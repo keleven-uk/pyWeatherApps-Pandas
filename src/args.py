@@ -132,6 +132,11 @@ def parseArgs(Config, logger):
             location = args.location
         else:
             displayError(logger, f"ERROR :: {args.location} is not a valid location.  See -L for options")
+    else:
+        location = "All"                    #  If no location supplied, use default of All.
+
+    Config.LOCATION = location              #  Save location for future use.
+    Config.writeConfig()
 
     arguments.checkDB = 0
     if args.check:

@@ -77,23 +77,23 @@ if __name__ == "__main__":
         dataStore.info()
     elif arguments.build:
         dataStore.buildData()
-    elif arguments.Areport:
+    elif arguments.Areport:                                     #  All time Report.
         reports.allTimeReport()
         if arguments.plot:
             plots.allTimePlot(arguments.plot)
-    elif arguments.Dreport:
+    elif arguments.Dreport:                                     #  Day Report.
         reports.dayReport(arguments.year, arguments.month, arguments.day)
         if arguments.plot:
             plots.dayPlot(arguments.year, arguments.month, arguments.day, arguments.plot)
-    elif arguments.Mreport:
+    elif arguments.Mreport:                                     #  Month Report.
         reports.monthReport(arguments.year, arguments.month)
         if arguments.plot:
             plots.monthPlot(arguments.year, arguments.month, arguments.plot)
-    elif arguments.Yreport:
+    elif arguments.Yreport:                                     #  Year Report.
         reports.yearReport(arguments.year)
         if arguments.plot:
             plots.yearPlot(arguments.year, arguments.plot)
-    elif arguments.Treport:
+    elif arguments.Treport:                                     #  Monthly Report.
         reports.MonthlyReport(arguments.month)
     elif arguments.Zap:
         dataStore.zap()

@@ -29,6 +29,16 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.35     [1 October 2025]
+
+    The date frame containing the weather data cab be split between locations using date.
+        The start and end date of each location is held in the config file.
+        Tested in the All Time report - seems to work.
+            Need to amend the text at the foot of the report.
+
+    The chosen location is saved in the config file for future use.
+
+
 V2025.35     [30 September 2025]
 
     Three extra columns were added on the 15th 0f September 2025.
