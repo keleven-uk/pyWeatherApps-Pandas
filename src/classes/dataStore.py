@@ -78,7 +78,6 @@ class dataStore():
         else:
             utils.logPrint(self.logger, True, " No files to Process.", "info")
 
-
         utils.logPrint(self.logger, True, " Saving the file store.", "info")
         self.fStore.save()
         utils.logPrint(self.logger, True, " Saving the period store.", "info")
@@ -122,11 +121,13 @@ class dataStore():
         """
         utils.logPrint(self.logger, True, " Processing new data files", "info")
 
-        currentMonth = ""
-        CurrentYear  = ""
-        startDate    = self.strToDate(self.config.START_DATE)
-        endDate      = self.strToDate(self.config.END_DATE)
-        noOfLines    = self.config.NO_OF_LINES
+        currentMonth      = ""
+        CurrentYear       = ""
+        startDate         = self.strToDate(self.config.START_DATE)
+        endDate           = self.strToDate(self.config.END_DATE)
+        linesOfAll        = self.config.NO_OF_LINES[0]
+        linesOfGilberdyke = self.config.NO_OF_LINES[1]
+        linesOfHedon      = self.config.NO_OF_LINES[2]
 
         for fileName in self.fStore.storeFiles():
             fileData = self.fStore.getItem(fileName)
@@ -159,7 +160,12 @@ class dataStore():
                     columnHeaders = pp.columnHeaders
                     rowsToSkip    = [0]
 
-                noOfLines += 1
+                if fileDate <= datetime.datetime.strptime(self.config.END_GILBERDYKE, "%d-%m-%Y"):
+                    linesOfGilberdyke += 1
+                if fileDate >= datetime.datetime.strptime(self.config.START_HEDON, "%d-%m-%Y"):
+                    linesOfHedon += 1
+
+                linesOfAll += 1
 
                 if CurrentYear != dataYear:
                     CurrentYear = dataYear
@@ -195,9 +201,11 @@ class dataStore():
 
                 self.fStore.setProcessed(fileName)                                              #  Mark files as processed.
 
-        self.config.START_DATE  = startDate.strftime("%d-%m-%Y")
-        self.config.END_DATE    = endDate.strftime("%d-%m-%Y")
-        self.config.NO_OF_LINES = noOfLines
+        self.config.START_DATE     = startDate.strftime("%d-%m-%Y")
+        self.config.END_DATE       = endDate.strftime("%d-%m-%Y")
+        self.config.NO_OF_LINES[0] = linesOfAll
+        self.config.NO_OF_LINES[1] = linesOfGilberdyke
+        self.config.NO_OF_LINES[2] = linesOfHedon
 
         self.config.writeConfig()
     #-------------------------------------------------------------------------------- __load(self) ------------

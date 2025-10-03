@@ -29,9 +29,17 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
-V2025.35     [1 October 2025]
+V2025.37    [3 October 2025]
 
-    The date frame containing the weather data cab be split between locations using date.
+    The All Time report can now be run for wither All, Gilberdyke or Hedon.
+        When the data is built the number of each location are now counted separately and held in the config file.
+        This is then reported for the appropriate location on the report.
+        The noOfLines config value is now a tuple - [All, Gilberdyke, Hedon].
+
+
+V2025.36     [1 October 2025]
+
+    The date frame containing the weather data can be split between locations using date.
         The start and end date of each location is held in the config file.
         Tested in the All Time report - seems to work.
             Need to amend the text at the foot of the report.

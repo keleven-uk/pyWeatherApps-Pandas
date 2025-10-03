@@ -215,18 +215,18 @@ class Config():
         written    = todaysDate.strftime("%A %d %B %Y  %H:%M:%S")
         config     = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.36",
+        config["INFO"] = {"myVERSION" : "2025.37",
                           "myNAME"    : "pyWeather"}
 
         config["DATA"] = {"month"         : todaysDate.month,
                           "year"          : todaysDate.year,
                           "startDate"     : f"{todaysDate.strftime("%d-%m-%Y")}",
                           "endDate"       : "01-01-1970",
-                          "noOfLines"     : 0,
+                          "noOfLines"     : [0, 0, 0],
                           "locations"     : ["All", "Hedon", "Gilberdyke"],
                           "location"      :  "All",
                           "endGilberdyke" : "15-07-2025",
-                          "startHedon"    : "17-07-2025"}
+                          "startHedon"    : "17-07-2025",}
 
         config["GRAPH"] = {"width"      : 1400,
                            "height"     : 1000,

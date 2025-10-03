@@ -68,9 +68,6 @@ if __name__ == "__main__":
     reports   = rep.Reports(Config)
     plots     = pl.Plots(Config)
 
-    if arguments.location:
-        print(f" Chosen location : {arguments.location}")
-
     if arguments.checkDB:
         dataStore.checkData(arguments.checkDB)
     elif arguments.info:
@@ -102,7 +99,7 @@ if __name__ == "__main__":
         written = strNow.strftime("%d-%m-%Y")
         Config.START_DATE  = f"{written}"                       #  reset to todays date, so an earlier date will be start
         Config.END_DATE    = "01-01-1970"
-        Config.NO_OF_LINES = 0
+        Config.NO_OF_LINES = [0, 0, 0]
         Config.writeConfig()
     elif arguments.plotHelp:
         utils.plotHelp()

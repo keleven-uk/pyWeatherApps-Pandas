@@ -55,12 +55,12 @@ class monthlyRecords(Records):
         super().show(title, reportValues)
 
         if year == 2025 and month == "July":
-            print(f"Data from 01-07-2025 to 15-07-2025 collected at Gilberdyke, East Yorkshire")
-            print(f"Data from 17-07-2025 to 31/07/2025 collected at Hedon, East Yorkshire")
+            print("Data from 01-07-2025 to 15-07-2025 collected at Gilberdyke, East Yorkshire")
+            print("Data from 17-07-2025 to 31/07/2025 collected at Hedon, East Yorkshire")
 
         if not year and month == "July":
-            print(f"Data from 01-07-2025 to 15-07-2025 collected at Gilberdyke, East Yorkshire")
-            print(f"Data from 17-07-2025 to 31/07/2025 collected at Hedon, East Yorkshire")
+            print("Data from 01-07-2025 to 15-07-2025 collected at Gilberdyke, East Yorkshire")
+            print("Data from 17-07-2025 to 31/07/2025 collected at Hedon, East Yorkshire")
 
         print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")
 

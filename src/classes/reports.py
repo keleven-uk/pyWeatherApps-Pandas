@@ -17,7 +17,7 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import datetime
+
 import calendar
 import pandas as pd
 
@@ -42,19 +42,16 @@ class Reports():
         """
         rep = atr.AllTimeRecords(self.myConfig)
 
-        print(f"{self.myConfig.LOCATION}")
-
         #  Split the data according to location.
+        #  To allow the data to split by location, we re-index the data by date.
         #  This is achieved by date, the start and end dates for each location are held in the config file.
         #  The locations are hard coded.
         #
         #  The data frame becomes local to this method.
+        #  The re-indexing is lost when the method is exited.
 
-        print(f" self.myConfig.START_HEDON : {self.myConfig.START_HEDON}")
-        print(f" self.myConfig.END_DATE    : {self.myConfig.END_DATE}")
-
-        self.dfData['Date'] = pd.to_datetime(self.dfData['Date'])
-        self.dfData = self.dfData.set_index(self.dfData['Date'])
+        self.dfData["Date"] = pd.to_datetime(self.dfData["Date"])
+        self.dfData = self.dfData.set_index(self.dfData["Date"])
         self.dfData = self.dfData.sort_index()
 
         if self.myConfig.LOCATION == "All":
