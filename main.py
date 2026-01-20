@@ -65,7 +65,7 @@ if __name__ == "__main__":
     timer.Start()
 
     dataStore = ds.dataStore(logger, Config)
-    reports   = rep.Reports(Config)
+    reports   = rep.Reports(logger,Config)
     plots     = pl.Plots(Config)
 
     if arguments.checkDB:

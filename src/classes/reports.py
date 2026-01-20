@@ -19,6 +19,7 @@
 
 
 import calendar
+import datetime
 import pandas as pd
 
 import src.projectPaths as pp
@@ -26,11 +27,13 @@ import src.classes.dailyRecords as dr
 import src.classes.monthlyRecords as mr
 import src.classes.yearlyRecords as yr
 import src.classes.allTimeRecords as atr
-import src.utils.weatherUtils as utils
+import src.utils.weatherUtils as wUtils
+import src.utils.dataUtils as dUtils
 
 class Reports():
 
-    def __init__(self, config):
+    def __init__(self, logger, config):
+        self.logger        = logger
         self.myConfig      = config
         self.DataStoreName = pp.DATA_PATH / "dataStore.pickle"
         self.reportValues  = {}
@@ -42,26 +45,7 @@ class Reports():
         """
         rep = atr.AllTimeRecords(self.myConfig)
 
-        #  Split the data according to location.
-        #  To allow the data to split by location, we re-index the data by date.
-        #  This is achieved by date, the start and end dates for each location are held in the config file.
-        #  The locations are hard coded.
-        #
-        #  The data frame becomes local to this method.
-        #  The re-indexing is lost when the method is exited.
-
-        self.dfData["Date"] = pd.to_datetime(self.dfData["Date"])
-        self.dfData = self.dfData.set_index(self.dfData["Date"])
-        self.dfData = self.dfData.sort_index()
-
-        if self.myConfig.LOCATION == "All":
-            dfWeatherData = self.dfData
-        elif self.myConfig.LOCATION == "Hedon":
-            dfWeatherData = self.dfData[self.myConfig.START_HEDON : self.myConfig.END_DATE]
-        elif self.myConfig.LOCATION == "Gilberdyke":
-            dfWeatherData = self.dfData[self.myConfig.START_DATE  : self.myConfig.END_GILBERDYKE]
-
-        uniqueYears = (dfWeatherData["Date"].dt.year.unique())
+        uniqueYears = (self.dfData["Date"].dt.year.unique())
         minYrRain   = 9999
         maxYrRain   = 0
         sumYrRain   = 0
@@ -75,9 +59,9 @@ class Reports():
         #  There is a bug in the Ecowitt software, the yearly rain fall is not reset at new year.
 
         for year in uniqueYears:
-            dfYear = dfWeatherData[dfWeatherData["Date"].dt.year==year]
+            dfYear = self.dfData[self.dfData["Date"].dt.year==year]
 
-            rainYrSum = utils.rainAmount(dfYear)
+            rainYrSum = wUtils.rainAmount(dfYear)
 
             sumYrRain   += rainYrSum
             countYrRain += 1
@@ -112,7 +96,7 @@ class Reports():
         meanYr = sumYrRain / countYrRain
         meanMn = sumMnRain / countMnRain
 
-        self.__getValues(dfWeatherData, "allTime")
+        self.__getValues(self.dfData, "allTime")
         self.reportValues["Rain Monthly"] = (maxMnDate, maxMnRain, minMnDate, minMnRain, meanMn)
         self.reportValues["Rain Yearly"]  = (maxYrYear, maxYrRain, minYrYear, minYrRain, meanYr)
         rep.show(self.reportValues)
@@ -120,12 +104,19 @@ class Reports():
     def yearReport(self, reportYear):
         """  Process the data and extract the record values for a given year.
         """
+        reportYear = int(reportYear)
+
+        if self.myConfig.LOCATION == "Hedon" and reportYear < datetime.datetime.strptime(self.myConfig.START_HEDON, "%d-%m-%Y").year:
+            dUtils.logPrint(self.logger, True, f" No data for Hedon for year {reportYear}", "warning")
+            return
+        elif self.myConfig.LOCATION == "Gilberdyke" and reportYear > datetime.datetime.strptime(self.myConfig.END_GILBERDYKE, "%d-%m-%Y").year:
+            dUtils.logPrint(self.logger, True, f" No data for Gilberdyke for year {reportYear}", "warning")
+            return
+
         minMnRain   = 9999
         maxMnRain   = 0
         sumMnRain   = 0
         countMnRain = 0
-
-        reportYear = int(reportYear)
 
         rep = yr.yearlyRecords(self.myConfig)
 
@@ -154,7 +145,7 @@ class Reports():
         meanMn = sumMnRain / countMnRain
 
         self.__getValues(dfYear, "Year")
-        rainSum = utils.rainAmount(dfYear)                              #  Obtain the yearly rainfall.
+        rainSum = wUtils.rainAmount(dfYear)                              #  Obtain the yearly rainfall.
         self.reportValues["Rain Monthly"] = (maxMnDate, maxMnRain, minMnDate, minMnRain, meanMn)
         self.reportValues["Rain Yearly"] = (reportYear, rainSum)
         rep.show(self.reportValues, year=reportYear)
@@ -169,7 +160,14 @@ class Reports():
         reportYear  = int(reportYear)
         searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
 
-        rep = mr.monthlyRecords()
+        if self.myConfig.LOCATION == "Hedon" and reportYear < datetime.datetime.strptime(self.myConfig.START_HEDON, "%d-%m-%Y").year:
+            dUtils.logPrint(self.logger, True, f" No data for Hedon for year {reportYear}", "warning")
+            return
+        elif self.myConfig.LOCATION == "Gilberdyke" and reportYear > datetime.datetime.strptime(self.myConfig.END_GILBERDYKE, "%d-%m-%Y").year:
+            dUtils.logPrint(self.logger, True, f" No data for Gilberdyke for year {reportYear}", "warning")
+            return
+
+        rep = mr.monthlyRecords(self.myConfig)
 
         dfYear  = self.dfData[self.dfData["Date"].dt.year==reportYear]
         dfMonth = dfYear[dfYear["Date"].dt.month==searchMonth]
@@ -183,7 +181,7 @@ class Reports():
         """
         searchMonth = list(calendar.month_name).index(reportMonth)  #  Converts the month to a number for searching.
 
-        rep = mr.monthlyRecords()
+        rep = mr.monthlyRecords(self.myConfig)
 
         dfMonth = self.dfData[self.dfData["Date"].dt.month==searchMonth]
 
@@ -245,23 +243,45 @@ class Reports():
                 self.reportValues[column] = (maxDate, maxVal, minDate, minVal, meanVal)
 
         if type in ["allTime", "Year", "Month", "Monthly"]:
-            self.reportValues["Hour"] = utils.hoursRain(dfData)
+            self.reportValues["Hour"] = wUtils.hoursRain(dfData)
 
-            self.reportValues["Days"] = utils.daysRain(dfData)
+            self.reportValues["Days"] = wUtils.daysRain(dfData)
 
-            sunDate, sunVal, dullDate, dullVal, totalSun, totalDull = utils.daysSunshine(dfData)
+            sunDate, sunVal, dullDate, dullVal, totalSun, totalDull = wUtils.daysSunshine(dfData)
             self.reportValues["Sun Consecutive"] = (sunDate, sunVal, dullDate, dullVal)
             self.reportValues["Sun Total"]       = (totalSun, totalDull)
 
-            self.reportValues["High Low"] = utils.highestMinumumTeprature(dfData)
+            self.reportValues["High Low"] = wUtils.highestMinumumTeprature(dfData)
     #-------------------------------------------------------------------------------- __load(self) ----------------------------------
     def __load(self):
         """  Attempt to load the data store, if not create a new empty one.
         """
         try:
             self.dfData = pd.read_pickle(self.DataStoreName)            #  Load data store, if it exists.
+
+            #  Split the data according to location.
+            #  To allow the data to split by location, we re-index the data by date.
+            #  This is achieved by date, the start and end dates for each location are held in the config file.
+            #  The locations are hard coded.
+            #
+            #  The data frame becomes local to this class.
+            #  The re-indexing is lost when the method is exited.
+
+            #  Not sure why, but after October 2025 the Hedon index needed to date on reverse format.
+            hedonStart = self.myConfig.END_DATE[6:10] + self.myConfig.END_DATE[2:6] + self.myConfig.END_DATE[0:2]
+
+            self.dfData["Date"] = pd.to_datetime(self.dfData["Date"])
+            self.dfData = self.dfData.set_index(self.dfData["Date"])
+            self.dfData = self.dfData.sort_index()
+
+            if self.myConfig.LOCATION == "Hedon":
+                self.dfData = self.dfData[self.myConfig.START_HEDON : hedonStart]
+            elif self.myConfig.LOCATION == "Gilberdyke":
+                self.dfData = self.dfData[self.myConfig.START_DATE  : self.myConfig.END_GILBERDYKE]
+
         except FileNotFoundError:
             self.dfData = pd.DataFrame()                                #  Create the data Pandas Dataframe.
+            dUtils.logPrint(self.logger, True, f" Error loading {self.DataStoreName}", "warning")
     #-------------------------------------------------------------------------------- __convertDate(self, strDate) ------------
     def __convertDate(self, strDate, column):
         """  Convert the date from Y-M-d to d-m-y.
@@ -279,6 +299,8 @@ class Reports():
                 year  = int(newDate[6:10])
                 newDate = f"{calendar.month_name[month]} {year}"
             case "Rain Weekly":
+                newDate = newDate[0:10]
+            case "Yearly":
                 newDate = newDate[0:10]
 
         return newDate

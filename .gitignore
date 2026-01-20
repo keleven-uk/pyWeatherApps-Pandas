@@ -144,5 +144,6 @@ test.bat
 data/
 data_G/
 data_H/
+AllTimeRecords.*
 
 # End of https://www.gitignore.io/api/python,windows

@@ -186,7 +186,7 @@ class dataStore():
                 #  Thus makes further reporting easier.
                 data[pp.columnHeaders[1:]] = data[pp.columnHeaders[1:]].fillna(0)
 
-                # Overwriting date column after changing the Data to be of the format datetime from string.
+                # Overwriting date column after changing the Date to be of the format datetime from string.
                 data["Date"] = pd.to_datetime(data["Date"])
 
                 currDate  = data["Date"].iloc[0]

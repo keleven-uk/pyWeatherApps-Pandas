@@ -1,5 +1,5 @@
 ###############################################################################################################
-#    history.txt   Copyright (C) <2025>  <Kevin Scott>                                                        #
+#    history.txt   Copyright (C) <2025-26>  <Kevin Scott>                                                        #
 #                                                                                                             #
 #    History file for pyWeatherApps                                                                           #
 #                                                                                                             #
@@ -27,6 +27,12 @@ NB : The program is run from the command line and display it's results there.
 
 The pandas version with working yearly, monthly and all time reports weights in about 750 line of code,
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
+
+
+V2025.38    [20 January 2026]
+
+    Running on Python V3.14.2.  Updated all libraries and requirements.txt
+    Amended reports text footer to include more information about branches and missing data.
 
 
 V2025.37    [3 October 2025]

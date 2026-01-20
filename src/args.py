@@ -75,7 +75,7 @@ def parseArgs(Config, logger):
         description=textwrap.dedent("""\
         Builds a main data store out of individual weather data spreadsheets.
         """),
-        epilog=f" Kevin Scott (C) 2025 :: {Config.NAME} V{Config.VERSION}")
+        epilog=f" Kevin Scott (C) 2025-26 :: {Config.NAME} V{Config.VERSION}")
 
     parser.add_argument("-x",  "--license",     action="store_true", help="Print the Software License.")
     parser.add_argument("-v",  "--version",     action="store_true", help="Print the version of the application.")

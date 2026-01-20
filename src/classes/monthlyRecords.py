@@ -32,10 +32,11 @@ class monthlyRecords(Records):
          Inherits from src.classes.records
     """
 
-    def __init__(self):
+    def __init__(self, config):
         """  Set up class.
         """
         super().__init__()
+        self.myConfig = config
 
 
     def show(self, reportValues, month, year):
@@ -47,20 +48,23 @@ class monthlyRecords(Records):
         """
 
         if year:
-            title = f" Weather Records for {month} {year}"
+            title = f" Weather Records for {month} {year} for {self.myConfig.LOCATION}"
         else:
-            title = f" Weather Records for {month} across all years {reportValues["uniqueYears"]}"
-            del reportValues["uniqueYears"]             # not new needed, can upset the displayed table.
+            title = f" Weather Records for {month} across all years {reportValues["uniqueYears"]} for {self.myConfig.LOCATION}"
+            del reportValues["uniqueYears"]             # not now needed, can upset the displayed table.
 
         super().show(title, reportValues)
 
         if year == 2025 and month == "July":
-            print("Data from 01-07-2025 to 15-07-2025 collected at Gilberdyke, East Yorkshire")
-            print("Data from 17-07-2025 to 31/07/2025 collected at Hedon, East Yorkshire")
-
-        if not year and month == "July":
-            print("Data from 01-07-2025 to 15-07-2025 collected at Gilberdyke, East Yorkshire")
-            print("Data from 17-07-2025 to 31/07/2025 collected at Hedon, East Yorkshire")
+            if self.myConfig.LOCATION == "All":
+                print(f"Data from 01-07-2025 to {self.myConfig.END_GILBERDYKE} collected at Gilberdyke, East Yorkshire")
+                print(f"Data from {self.myConfig.START_HEDON} to 31/07/2025 collected at Hedon, East Yorkshire")
+            elif self.myConfig.LOCATION == "Gilberdyke":
+                print(f"Data from 01-07-2025 to {self.myConfig.END_GILBERDYKE} collected at Gilberdyke, East Yorkshire")
+            elif self.myConfig.LOCATION == "Hedon":
+                print(f"Data from {self.myConfig.START_HEDON} to 31/07/2025 collected at Hedon, East Yorkshire")
+        if year == 2023 and month in ["July", "August", "September", "October"]:
+            print("** No data through 3 July 2024 - 22 October 2024 due to a faulty temperature sensor. **" )
 
         print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")
 
