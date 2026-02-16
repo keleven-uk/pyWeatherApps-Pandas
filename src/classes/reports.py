@@ -125,6 +125,7 @@ class Reports():
         uniqueMonths = (dfYear["Date"].dt.month.unique())
 
         for month in uniqueMonths:
+
             if month == int(self.myConfig.MONTH):     #  Ignore current month
                 continue
 

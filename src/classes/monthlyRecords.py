@@ -63,7 +63,7 @@ class monthlyRecords(Records):
                 print(f"Data from 01-07-2025 to {self.myConfig.END_GILBERDYKE} collected at Gilberdyke, East Yorkshire")
             elif self.myConfig.LOCATION == "Hedon":
                 print(f"Data from {self.myConfig.START_HEDON} to 31/07/2025 collected at Hedon, East Yorkshire")
-        if year == 2023 and month in ["July", "August", "September", "October"]:
+        if year == 2024 and month in ["July", "August", "September", "October"]:
             print("** No data through 3 July 2024 - 22 October 2024 due to a faulty temperature sensor. **" )
 
         print(f"Table generated {datetime.now().strftime("%d-%m-%Y  %H:%M")}")

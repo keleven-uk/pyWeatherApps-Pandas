@@ -136,6 +136,7 @@ $RECYCLE.BIN/
 *.pickle.*
 dup.txt
 test.bat
+*.
 
 # PyCharm config
 .idea/
@@ -145,5 +146,6 @@ data/
 data_G/
 data_H/
 AllTimeRecords.*
+pyWeather - Pandas.code-workspace
 
 # End of https://www.gitignore.io/api/python,windows

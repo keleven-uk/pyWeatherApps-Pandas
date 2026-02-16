@@ -71,7 +71,7 @@ class dataStore():
             utils.logPrint(self.logger, True, " Sorting the file data.", "info")
             self.dfData.sort_values(by="Date", ascending=True, inplace=True)
 
-            #  Re-index the dataFrame, if not all the sperate files produces their own index.
+            #  Re-index the dataFrame, if not all the separate files produces their own index.
             #  If you don't "drop" the index, it will add a new index, and save the old index values as a series in your dataframe
             utils.logPrint(self.logger, True, " Re-indexing the data store.", "info")
             self.dfData.reset_index(drop=True, inplace=True)
@@ -197,7 +197,10 @@ class dataStore():
                     endDate = currDate
 
                 #  Add the new cleaned dataframe to the main dataframe.
-                self.dfData = self.dfData._append(data)
+
+                #  Deprecated since version 1.4.0: Use concat() instead.
+                #self.dfData = self.dfData._append(data)
+                self.dfData = pd.concat([self.dfData, data])
 
                 self.fStore.setProcessed(fileName)                                              #  Mark files as processed.
 

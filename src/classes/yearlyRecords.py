@@ -64,10 +64,13 @@ class yearlyRecords(Records):
             elif year == 2025:
                 tmpEnd  = yearEnd
                 yearEnd = self.myConfig.END_GILBERDYKE
-            print(f"Data from {yearStart} to {yearEnd} collected at Gilberdyke, East Yorkshire")
+                print(f"Data from {yearStart} to {yearEnd} collected at Gilberdyke, East Yorkshire")
             if year == 2025:
                 yearStart = self.myConfig.START_HEDON
-            print(f"Data from {yearStart} to {tmpEnd} collected at Hedon, East Yorkshire")
+            if year == 2026:
+                yearStart = self.myConfig.START_HEDON
+                tmpEnd  = yearEnd
+                print(f"Data from {yearStart} to {tmpEnd} collected at Hedon, East Yorkshire")
         elif self.myConfig.LOCATION == "Gilberdyke":
             if year == 2023:
                 print("** only from July 2023 **")
@@ -75,7 +78,7 @@ class yearlyRecords(Records):
                 print("** No data through 3 July 2024 - 22 October 2024 due to a faulty temperature sensor. **" )
             print(f"Data runs from {yearStart} to {yearEnd}")
         elif self.myConfig.LOCATION == "Hedon":
-            if year == 2025:
+            if year == [2025, 2026]:
                 yearStart = self.myConfig.START_HEDON
             print(f"Data runs from {yearStart} to {yearEnd}")
 
