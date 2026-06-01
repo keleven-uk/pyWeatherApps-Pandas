@@ -146,16 +146,21 @@ class dataStore():
                      Then three extra columns were added on the 15th 0f September 2025.
                      The columns were "Indoor Feels Like". "Indoor Dew Point", "Rainfall 24 Hours",
                      These were added at columns 8, 9 & 23 - these moved the above extra columns.
+
+                     Two columns, "Heap" and "Run Time", where then removed 22 March 2026.
                 """
                 if fileDate >= datetime.datetime(2025, 7, 1) and fileDate < datetime.datetime(2025, 7, 13):
                     columnHeaders = pp.columnHeaders_1
                     rowsToSkip    = [0,23,24]
-                elif fileDate > datetime.datetime(2025, 7, 12)and fileDate < datetime.datetime(2025, 9, 16):
+                elif fileDate > datetime.datetime(2025, 7, 12) and fileDate < datetime.datetime(2025, 9, 16):
                     columnHeaders = pp.columnHeaders_2
                     rowsToSkip    = [0,5,20,23,24]
-                elif fileDate > datetime.datetime(2025, 9, 15):
+                elif fileDate > datetime.datetime(2025, 9, 15) and fileDate < datetime.datetime(2026, 3, 22):
                     columnHeaders = pp.columnHeaders_3
                     rowsToSkip    = [0,5,8,9,16,23,26,27]
+                elif fileDate > datetime.datetime(2026, 3, 21):
+                    columnHeaders = pp.columnHeaders_4
+                    rowsToSkip    = [0,5,8,9,16,23]
                 else:
                     columnHeaders = pp.columnHeaders
                     rowsToSkip    = [0]
@@ -221,10 +226,10 @@ class dataStore():
             self.dfData = pd.DataFrame()                                #  Create the data Pandas Dataframe.
     #-------------------------------------------------------------------------------- zap(self) ------------
     def zap(self):
-        responce = pymsgbox.confirm(text="""Are you sure you want to clear the Data and File stores \
+        response = pymsgbox.confirm(text="""Are you sure you want to clear the Data and File stores \
                                             You will need to build again.""", title="Warning", buttons=["OK", "Cancel"])
 
-        if responce == "OK":
+        if response == "OK":
             utils.logPrint(self.logger, True, f" Deleting Data Store : {self.storeName}", "info")
 
             try:

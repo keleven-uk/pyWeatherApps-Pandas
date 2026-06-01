@@ -68,26 +68,38 @@ else:
 
         Then two extra columns where added on the 13th of July 2025.
         The columns were "VPD" and "10-minute Average Wind Direction", these were added at columns 5 and 20.
+
+        Two columns, "Heap" and "Run Time",  where then removed 22 March 2026.
 """
 
+#  21 Headers
 columnHeaders = ["Date", "Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity",
                  "Indoor Temperature", "Indoor Humidity", "Solar", "UVI", "Rain Rate", "Rain Daily",
                  "Rain Event", "Rain Hourly", "Rain Weekly", "Rain Monthly", "Rain Yearly",
                  "Wind Speed", "Wind Gust", "Wind Direction", "Pressure Relative", "Pressure Absolute"]
 
+#  23 Headers
 columnHeaders_1 = ["Date", "Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity",
                  "Indoor Temperature", "Indoor Humidity", "Solar", "UVI", "Rain Rate", "Rain Daily","Rain Event",
                  "Rain Hourly", "Rain Weekly", "Rain Monthly", "Rain Yearly","Wind Speed", "Wind Gust",
                  "Wind Direction", "Pressure Relative", "Pressure Absolute", "Heap", "Run Time"]
 
+#  25 Headers
 columnHeaders_2 = ["Date", "Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity", "VPD",
                  "Indoor Temperature", "Indoor Humidity", "Solar", "UVI", "Rain Rate", "Rain Daily","Rain Event",
                  "Rain Hourly", "Rain Weekly", "Rain Monthly", "Rain Yearly","Wind Speed", "Wind Gust",
                  "Wind Direction", "10-Minute", "Pressure Relative", "Pressure Absolute", "Heap", "Run Time"]
 
+#  28 Headers
 columnHeaders_3 = ["Date", "Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity", "VPD",
                  "Indoor Temperature", "Indoor Humidity", "Indoor Feels Like", "Indoor Dew Point", "Solar", "UVI",
                  "Rain Rate", "Rain Daily","Rain Event", "Rain Hourly", "Rain 24 Hours","Rain Weekly", "Rain Monthly",
                  "Rain Yearly","Wind Speed", "Wind Gust", "Wind Direction", "10-Minute", "Pressure Relative",
                  "Pressure Absolute", "Heap", "Run Time"]
 
+#  26 Headers
+columnHeaders_4 = ["Date", "Outdoor Temperature", "Outdoor Feels Like", "Outdoor Dew Point", "Outdoor Humidity", "VPD",
+                 "Indoor Temperature", "Indoor Humidity", "Indoor Feels Like", "Indoor Dew Point", "Solar", "UVI",
+                 "Rain Rate", "Rain Daily","Rain Event", "Rain Hourly", "Rain 24 Hours","Rain Weekly", "Rain Monthly",
+                 "Rain Yearly","Wind Speed", "Wind Gust", "Wind Direction", "10-Minute", "Pressure Relative",
+                 "Pressure Absolute"]

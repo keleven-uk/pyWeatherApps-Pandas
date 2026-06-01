@@ -29,6 +29,13 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
+V2025.40    [16 February 2026]
+
+    Two columns, "Heap" and "Run Time", where then removed 22 March 2026.
+
+    Running on Python V3.14.4.  Updated all libraries and requirements.txt
+
+
 V2025.39    [16 February 2026]
 
     Running on Python V3.14.3.  Updated all libraries and requirements.txt

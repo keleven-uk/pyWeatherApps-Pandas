@@ -14,3 +14,5 @@ For changes see history.txt
 ![allTimeRecords.jpg](resources/allTimeRecords.jpg)
 
 ![](resources/Tempratures_2023.jpg)
+
+Kevin Scott (C) 2026 :: pyWeather V2026.40

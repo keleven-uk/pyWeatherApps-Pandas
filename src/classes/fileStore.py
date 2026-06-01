@@ -120,7 +120,7 @@ class FileStore():
         """  Deletes item at position key from the library.
         """
         try:
-            del self.library[key]
+            del self.fileStore[key]
         except (KeyError):
             raise myExceptions.LibraryError from None
     #---------------------------------------------------------------------------------------------- storeFiles(self) -----------------
