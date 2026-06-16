@@ -15,4 +15,4 @@ For changes see history.txt
 
 ![](resources/Tempratures_2023.jpg)
 
-Kevin Scott (C) 2026 :: pyWeather V2026.40
+Kevin Scott (C) 2025-26 :: pyWeather V2026.41

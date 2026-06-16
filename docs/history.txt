@@ -29,14 +29,52 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
-V2025.40    [16 February 2026]
+V2025.41    [16 June 2026]
+
+	Corrected a bug in the filestore class.  
+		When the file store is zapped clear the file store as well as deleting the physical file.
+
+
+---------------------------------------------------------------------------------------------------
+File                                                            blank        comment           code
+---------------------------------------------------------------------------------------------------
+pyWeather - Pandas\src\utils\weatherUtils.py                       49             56            218
+pyWeather - Pandas\src\classes\reports.py                          64             63            181
+pyWeather - Pandas\src\config.py                                   48             37            167
+pyWeather - Pandas\src\classes\dataStore.py                        43             73            137
+pyWeather - Pandas\src\classes\records.py                          21             43            127
+pyWeather - Pandas\src\args.py                                     31             74            116
+pyWeather - Pandas\src\classes\fileStore.py                        27             84            105
+pyWeather - Pandas\src\classes\plotting.py                         29             47             89
+pyWeather - Pandas\main.py                                         24             28             75
+pyWeather - Pandas\src\utils\dataUtils.py                          19             41             57
+pyWeather - Pandas\src\projectPaths.py                             15             40             50
+pyWeather - Pandas\src\classes\periodStore.py                      11             53             44
+pyWeather - Pandas\src\classes\yearlyRecords.py                    15             30             40
+pyWeather - Pandas\src\timer.py                                    16             40             31
+pyWeather - Pandas\ruff.toml                                        7              8             30
+pyWeather - Pandas\src\classes\monthlyRecords.py                   16             30             24
+pyWeather - Pandas\config.toml                                      2              5             23
+pyWeather - Pandas\src\license.py                                   8             35             23
+pyWeather - Pandas\src\Exceptions.py                                6             20             22
+pyWeather - Pandas\src\utils\arguments.py                           3             19             21
+pyWeather - Pandas\src\classes\allTimeRecords.py                   14             32             19
+pyWeather - Pandas\src\logger.py                                   11             28             18
+pyWeather - Pandas\src\console.py                                   9             28             12
+pyWeather - Pandas\src\classes\dailyRecords.py                     12             30              9
+pyWeather - Pandas\AllTimeRecords.bat                               2              0              7
+---------------------------------------------------------------------------------------------------
+SUM:                                                              502            944           1645
+---------------------------------------------------------------------------------------------------
+
+V2025.40    [16 June 2026]
 
     Two columns, "Heap" and "Run Time", where then removed 22 March 2026.
 
     Running on Python V3.14.4.  Updated all libraries and requirements.txt
 
 
-V2025.39    [16 February 2026]
+V2025.39    [1 June 2026]
 
     Running on Python V3.14.3.  Updated all libraries and requirements.txt
 
