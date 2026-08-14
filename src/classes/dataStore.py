@@ -148,6 +148,9 @@ class dataStore():
                      These were added at columns 8, 9 & 23 - these moved the above extra columns.
 
                      Two columns, "Heap" and "Run Time", where then removed 22 March 2026.
+
+                     Several new columns where added on the 22 march 2026, but only on that day.
+                        The columns where high and low for temperatures etc.
                 """
                 if fileDate >= datetime.datetime(2025, 7, 1) and fileDate < datetime.datetime(2025, 7, 13):
                     columnHeaders = pp.columnHeaders_1
@@ -158,9 +161,12 @@ class dataStore():
                 elif fileDate > datetime.datetime(2025, 9, 15) and fileDate < datetime.datetime(2026, 3, 22):
                     columnHeaders = pp.columnHeaders_3
                     rowsToSkip    = [0,5,8,9,16,23,26,27]
-                elif fileDate > datetime.datetime(2026, 3, 21):
+                elif fileDate > datetime.datetime(2026, 3, 22):
                     columnHeaders = pp.columnHeaders_4
                     rowsToSkip    = [0,5,8,9,16,23]
+                elif fileDate == datetime.datetime(2026, 3, 22):
+                    columnHeaders = pp.columnHeaders_5
+                    rowsToSkip    = [0,2,3,7,8,9,11,12,14,15,16,17,24,31,33,34]
                 else:
                     columnHeaders = pp.columnHeaders
                     rowsToSkip    = [0]

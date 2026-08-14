@@ -29,10 +29,18 @@ The pandas version with working yearly, monthly and all time reports weights in 
 where the SQL version was 1200 lines of code - and not sure if this worked correctly.
 
 
-V2025.41    [16 June 2026]
+V2025.42    [16 June 2026]
 
 	Corrected a bug in the filestore class.  
 		When the file store is zapped clear the file store as well as deleting the physical file.
+
+    TODO : a better way to handle changing of the column structure.
+
+
+V2025.41    [114 August 2026]
+
+    Several new columns where added on the 22 march 2026, but only on that day.
+        The columns where high and low for temperatures etc.
 
 
 ---------------------------------------------------------------------------------------------------

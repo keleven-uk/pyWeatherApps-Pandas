@@ -215,7 +215,7 @@ class Config():
         written    = todaysDate.strftime("%A %d %B %Y  %H:%M:%S")
         config     = dict()
 
-        config["INFO"] = {"myVERSION" : "2025.41",
+        config["INFO"] = {"myVERSION" : "2025.42",
                           "myNAME"    : "pyWeather"}
 
         config["DATA"] = {"month"         : todaysDate.month,
